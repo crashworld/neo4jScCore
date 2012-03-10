@@ -3,11 +3,10 @@ package net.ostis.sccore.scperformer;
 import java.util.Map;
 import java.util.HashMap;
 import net.ostis.sccore.scelements.ScNode;
-//import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.kernel.AbstractGraphDatabase;
 import org.neo4j.kernel.Config;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
-//import org.neo4j.server.WrappingNeoServerBootstrapper;
+import org.neo4j.server.WrappingNeoServerBootstrapper;
 
 /**
  * User: yaskoam

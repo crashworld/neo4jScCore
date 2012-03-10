@@ -14,10 +14,4 @@ public abstract class ScNode extends ScElement {
      * @return name of sc node
      */
     public abstract String getName();
-
-     /**
-     * Method that get type of sc node.
-     * @return type of sc node
-     */
-    public abstract String getType();
 }
