@@ -1,6 +1,7 @@
 package net.ostis.sccore.scelements;
 
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.graphdb.Relationship;
 
 /**
@@ -54,6 +55,25 @@ public class ScArcImpl extends ScArc {
     public String getType() {
         return (String) connectedNode.getProperty(SC_ARC_TYPE_PROPERTY);
     }
+
+    /**
+     * Method that get end sc node of sc arc.
+     * If end element of sc arc is another sc arc, then return null.
+     * @return founded sc node
+     */
+    @Override
+    public ScNode getEndScNode() {
+        Node endNode = endLink.getEndNode();
+        try {
+            String type = (String) endNode.getProperty(ScNode.SC_NODE_TYPE_PROPERTY);
+            ScNodeImpl scNode = new ScNodeImpl(endNode);
+            return scNode;
+        } catch (NotFoundException ex) {
+            /* if property not found it's not sc node*/
+            return null;
+        }
+    }
+
 
     public Node getConnectedNode() {
         return this.connectedNode;
