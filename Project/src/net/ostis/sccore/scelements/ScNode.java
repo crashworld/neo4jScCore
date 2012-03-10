@@ -1,5 +1,7 @@
 package net.ostis.sccore.scelements;
 
+import java.util.List;
+
 /**
  * User: yaskoam
  * Date: 03.03.12
@@ -14,4 +16,10 @@ public abstract class ScNode extends ScElement {
      * @return name of sc node
      */
     public abstract String getName();
+
+    /**
+     * Method that get all output sc arcs from sc node.
+     * @return list of sc arcs
+     */
+    public abstract List<ScArc> getAllOutputScArcs();
 }

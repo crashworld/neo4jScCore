@@ -144,6 +144,69 @@ public class ScFactoryImpl extends ScFactory {
 
     }
 
+    /**
+     * Method that generate sc constrain ( 0->0 )
+     * @param startNode first node of constrain
+     * @param type type of sc arc 
+     * @param endNode end node of constrain
+     * @return generated sc arc
+     */
+    @Override
+    public ScArc generate_3_f_a_f(ScNode startNode, String type, ScNode endNode) {
+        ScArc generatedScArc = this.createScArc(startNode, endNode, type);
+        return generatedScArc;
+    }
+
+    /**
+     * Method that generate sc constrain ( 0 -> | )
+     * @param startNode first node of constrain
+     * @param type type of sc arc
+     * @param endArc end sc arc of constrain
+     * @return generated sc arc
+     */
+    @Override
+    public ScArc generate_3_f_a_f(ScNode startNode, String type, ScArc endScArc) {
+        ScArc generatedScArc = this.createScArc(startNode, endScArc, type);
+        return generatedScArc;
+    }
+
+
+    /**
+     * Method that generate sc constrain
+     *    0
+     * 0->|
+     *    0
+     * @param firstNode first node of constrain
+     * @param firstType type of first generated sc arc of constrain
+     * @param secondNode second node of constrain
+     * @param secondType type of second generated sc arc of constrain
+     * @param thirdNode third node of constrain
+     */
+    @Override
+    public void generate_5_f_a_f_a_f_1(ScNode firstNode, String firstType, ScNode secondNode,
+        String secondType, ScNode thirdNode) {
+
+        ScArc scArc = this.createScArc(firstNode, secondNode, firstType);
+        this.createScArc(thirdNode, scArc, secondType);
+    }
+
+    /**
+     * Method that generate sc constrain
+     * 0->0->0
+     * @param firstNode first node of constrain
+     * @param firstType type of first generated sc arc of constrain
+     * @param secondNode second node of constrain
+     * @param secondType type of second generated sc arc of constrain
+     * @param thirdNode third node of constrain
+     */
+    @Override
+    public void generate_5_f_a_f_a_f_2(ScNode firstNode, String firstType, ScNode secondNode,
+        String secondType, ScNode thirdNode) {
+
+       this.createScArc(firstNode, secondNode, firstType);
+       this.createScArc(secondNode, thirdNode, secondType);
+    }
+
     public void setDataBase(AbstractGraphDatabase dataBase) {
         this.dataBase = dataBase;
     }

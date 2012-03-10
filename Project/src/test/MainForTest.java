@@ -1,5 +1,6 @@
 package test;
 
+import java.util.List;
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scfactory.ScFactory;
@@ -25,12 +26,14 @@ public class MainForTest {
             ScNode node2 = factory.createScNode("second", ScNodeTypes.CONST);
             ScNode node3 = factory.createScNode("third", ScNodeTypes.CONST);
 
-            ScArc arc1 = factory.createScArc(node1, node2, ScArcTypes.CONST);
-            ScArc arc2 = factory.createScArc(node3, arc1, ScArcTypes.CONST);
+            factory.generate_5_f_a_f_a_f_1(node1, ScArcTypes.CONST, node2, ScArcTypes.CONST, node3);
 
             ScNode find1 = performer.findScNodeByName("first");
             ScNode find2 = performer.findScNodeByName("second");
             ScNode find3 = performer.findScNodeByName("third");
+
+            ScArc arc1 = node1.getAllOutputScArcs().get(0);
+            ScArc arc2 = node3.getAllOutputScArcs().get(0);
 
             System.out.println(find1.getName() + " -> " + arc1.getType() + " -> " + find2.getName());
             System.out.println(find3.getName() + " -> " + arc2.getType() + " -> " + arc1.getType());

@@ -1,7 +1,11 @@
 package net.ostis.sccore.scelements;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.ostis.sccore.contents.Content;
+import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 
 /**
  * User: yaskoam
@@ -24,6 +28,32 @@ public class ScNodeImpl extends ScNode {
     public String getName() {
         return (String) neo4jNode.getProperty(SC_NODE_NAME_PROPERTY);
     }
+
+    /**
+     * Method that get all output sc arcs from sc node.
+     * @return list of sc arcs
+     */
+    @Override
+    public List<ScArc> getAllOutputScArcs() {
+        List<ScArc> allOutputScArcs = new ArrayList<ScArc>();
+
+        /* get all outgoing relationship from neo4j node */
+        Iterable<Relationship> allOutputRelationship = neo4jNode.getRelationships(Direction.OUTGOING);
+
+        for (Relationship currentRelationship : allOutputRelationship) {
+            /* get connected node of sc arc */
+            Node connectedNode = currentRelationship.getEndNode();
+
+            /* get end relationship of sc arc. It can be only one,
+             * becouse sc arc can't go out from another sc arc */
+            Relationship endRelationship = connectedNode.getRelationships(Direction.OUTGOING).iterator().next();
+            ScArcImpl currentScArc = new ScArcImpl(currentRelationship, connectedNode, endRelationship);
+            allOutputScArcs.add(currentScArc);
+        }
+        
+        return allOutputScArcs;
+    }
+
 
     /**
      * Method that returns true if element is arc and false if not.
