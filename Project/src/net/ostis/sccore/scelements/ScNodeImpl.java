@@ -13,6 +13,7 @@ import org.neo4j.graphdb.Relationship;
  * Time: 13:39
  */
 public class ScNodeImpl extends ScNode {
+
     private Node neo4jNode;
     private Content nodeContent;
 
@@ -27,6 +28,41 @@ public class ScNodeImpl extends ScNode {
     @Override
     public String getName() {
         return (String) neo4jNode.getProperty(SC_NODE_NAME_PROPERTY);
+    }
+
+    /**
+     * Method that get all input sc arcs to sc node.
+     * @return list of sc arcs
+     */
+    @Override
+    public List<ScArc> getAllInputScArcs() {
+        List<ScArc> allInputScArcs = new ArrayList<ScArc>();
+
+        /* get all incoming relationship from neo4j node */
+        Iterable<Relationship> allInputRelationship = neo4jNode.getRelationships(Direction.INCOMING);
+
+        for (Relationship firstIncomingRelationship : allInputRelationship) {
+            /* get connector node of sc arc */
+            Node connectorNode = firstIncomingRelationship.getStartNode();
+
+            /* get start relationships of sc arc. Can be MORE than one,
+             * because sc arc can go to another sc arc.
+             * Choose only thoose, whish has property SC_NODE_NAME_PROPERTY*/
+            Iterable<Relationship> allStartRelationships =
+                    connectorNode.getRelationships(Direction.INCOMING);
+
+            for (Relationship secondIncomingRelationship : allStartRelationships) {
+                if (secondIncomingRelationship.getStartNode().hasProperty(ScNode.SC_NODE_NAME_PROPERTY)) {
+
+                    ScArcImpl currentScArc = new ScArcImpl(
+                            secondIncomingRelationship, connectorNode, firstIncomingRelationship);
+
+                    allInputScArcs.add(currentScArc);
+                }
+            }
+        }
+
+        return allInputScArcs;
     }
 
     /**
@@ -50,10 +86,9 @@ public class ScNodeImpl extends ScNode {
             ScArcImpl currentScArc = new ScArcImpl(currentRelationship, connectedNode, endRelationship);
             allOutputScArcs.add(currentScArc);
         }
-        
+
         return allOutputScArcs;
     }
-
 
     /**
      * Method that returns true if element is arc and false if not.
@@ -81,7 +116,6 @@ public class ScNodeImpl extends ScNode {
     public void setType(String type) {
         neo4jNode.setProperty(SC_NODE_TYPE_PROPERTY, type);
     }
-
 
     /**
      * Method that get type of sc node.

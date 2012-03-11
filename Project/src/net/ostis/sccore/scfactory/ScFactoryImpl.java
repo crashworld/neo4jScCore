@@ -128,7 +128,7 @@ public class ScFactoryImpl extends ScFactory {
         connectedNode.setProperty(ScArc.SC_ARC_TYPE_PROPERTY, type);
 
         Node startNode = ((ScNodeImpl) startScNode).getNeo4jNode();
-        Node endNode = ((ScArcImpl) endScArc).getConnectedNode();
+        Node endNode = ((ScArcImpl) endScArc).getArcConnectorNode();
         Relationship beginLink = startNode.createRelationshipTo(connectedNode, RelType.Link);
         Relationship endLink = connectedNode.createRelationshipTo(endNode, RelType.Link);
         ScArcImpl scArc = new ScArcImpl(beginLink, connectedNode, endLink);

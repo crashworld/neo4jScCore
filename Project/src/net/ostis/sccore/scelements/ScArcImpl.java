@@ -10,6 +10,7 @@ import org.neo4j.graphdb.Relationship;
  * Time: 13:40
  */
 public class ScArcImpl extends ScArc {
+
     private Relationship beginLink;
     private Node connectedNode;
     private Relationship endLink;
@@ -57,6 +58,24 @@ public class ScArcImpl extends ScArc {
     }
 
     /**
+     * Gets start sc node of sc arc.
+     * If start element of sc arc is another sc arc, then return null.
+     * @return founded sc node
+     */
+    @Override
+    public ScNode getStartScNode() {
+        Node startNode = beginLink.getStartNode();
+        try {
+            String type = (String) startNode.getProperty(ScNode.SC_NODE_TYPE_PROPERTY);
+            ScNodeImpl scNode = new ScNodeImpl(startNode);
+            return scNode;
+        } catch (NotFoundException ex) {
+            /* if property not found it's not sc node*/
+            return null;
+        }
+    }
+
+    /**
      * Method that get end sc node of sc arc.
      * If end element of sc arc is another sc arc, then return null.
      * @return founded sc node
@@ -74,8 +93,11 @@ public class ScArcImpl extends ScArc {
         }
     }
 
-
-    public Node getConnectedNode() {
+    /**
+     * Gets node that used like arc.
+     * @return node-connector
+     */
+    public Node getArcConnectorNode() {
         return this.connectedNode;
     }
 }

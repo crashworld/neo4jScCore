@@ -8,6 +8,7 @@ import java.util.List;
  * Time: 13:39
  */
 public abstract class ScNode extends ScElement {
+
     public static final String SC_NODE_NAME_PROPERTY = "_scNodeName";
     public static final String SC_NODE_TYPE_PROPERTY = "_scNodeType";
 
@@ -22,4 +23,10 @@ public abstract class ScNode extends ScElement {
      * @return list of sc arcs
      */
     public abstract List<ScArc> getAllOutputScArcs();
+
+    /**
+     * Method that get all input sc arcs to sc node.
+     * @return list of sc arcs
+     */
+    public abstract List<ScArc> getAllInputScArcs();
 }

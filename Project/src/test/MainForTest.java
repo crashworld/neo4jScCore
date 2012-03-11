@@ -1,6 +1,5 @@
 package test;
 
-import java.util.List;
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
@@ -19,6 +18,7 @@ import net.ostis.sccore.types.ScNodeTypes;
  * Time: 16:19
  */
 public class MainForTest {
+
     public static void main(String[] args) {
         String baseLocation = "D:\\data\\sc_core.db";
         ScPerformer performer = new ScPerformer(baseLocation);
@@ -46,11 +46,18 @@ public class MainForTest {
             System.out.println(find1.getName() + " -> " + arc1.getType() + " -> " + find2.getName());
             System.out.println(find3.getName() + " -> " + arc2.getType() + " -> " + arc1.getType());
 
+
+            ScArc arc3 = node2.getAllInputScArcs().get(0);
+
+            System.out.println(arc3.getStartScNode().getName());
+            System.out.println(arc3.getEndScNode().getName());
+            System.out.println(arc3.getArcConnectorNode().getId());
+
             long time = System.currentTimeMillis();
-            System.out.println("execute in: " + ( System.currentTimeMillis() -  time));
-    //        for (int i = 0; i < 50500; i++) {
-    //            factory.createScNode(Integer.toString(i), ScNodeTypes.CONST);
-    //        }
+            System.out.println("execute in: " + (System.currentTimeMillis() - time));
+            //        for (int i = 0; i < 50500; i++) {
+            //            factory.createScNode(Integer.toString(i), ScNodeTypes.CONST);
+            //        }
         } finally {
             //!!! necessarily required (close transaction)
             performer.finishExecution();
