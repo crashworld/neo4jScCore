@@ -3,9 +3,11 @@ package test;
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
-import net.ostis.sccore.scevents.ScActionListner;
+import net.ostis.sccore.scevents.ScActionListener;
 import net.ostis.sccore.scevents.ScEvent;
+import net.ostis.sccore.scevents.ScEventFactory;
 import net.ostis.sccore.scevents.ScEventHandler;
+import net.ostis.sccore.scevents.ScEventListener;
 import net.ostis.sccore.scevents.ScEventTypes;
 import net.ostis.sccore.scfactory.ScFactory;
 import net.ostis.sccore.scperformer.ScPerformer;
@@ -28,7 +30,10 @@ public class MainForTest {
             performer.beginExecution();
             ScFactory factory = performer.getScFactory();
             ScEventHandler eventHandler = ScEventHandler.getInstance();
-            eventHandler.subscribeOnEvent(ScEventTypes.ATTACH_INPUT_TO_NODE, new WhenCreateArcToSecondNode(factory));
+            ScEventListener eventListner = ScEventFactory.createScListner(ScEventTypes.ATTACH_INPUT_TO_NODE,
+                new WhenCreateArcToSecondNode(factory), "second");
+
+            eventHandler.subscribeOnEvent(eventListner);
 
             ScNode node1 = factory.createScNode("first", ScNodeTypes.CONST);
             ScNode node2 = factory.createScNode("second", ScNodeTypes.CONST);
@@ -64,7 +69,7 @@ public class MainForTest {
         }
     }
 
-    private static class WhenCreateArcToSecondNode implements ScActionListner {
+    private static class WhenCreateArcToSecondNode implements ScActionListener {
 
         private ScFactory factory;
 
@@ -79,26 +84,6 @@ public class MainForTest {
             ScNode secondNode = arc.getEndScNode();
             ScNode forthNode = factory.createScNode("forth", ScNodeTypes.CONST);
             factory.generate_3_f_a_f(secondNode, ScArcTypes.CONST, forthNode);
-        }
-
-        @Override
-        public boolean verification(ScEvent event) {
-            ScElement element = event.getSource();
-            if (!element.isScArc()) {
-                return false;
-            }
-
-            ScArc arc = (ScArc) element;
-            ScNode endNode = arc.getEndScNode();
-            if (endNode == null) {
-                return false;
-            }
-
-            if (!endNode.getName().equals("second")) {
-                return false;
-            }
-
-            return true;
         }
     }
 }

@@ -14,29 +14,32 @@ import java.util.Map;
  */
 public class ScEventHandler {
     private static ScEventHandler eventHandler;
-    private Map<String, List<ScActionListner> > subscribersMap;
+    private Map<String, List<ScEventListener> > subscribersMap;
 
     private ScEventHandler() {
-        subscribersMap = new HashMap<String, List<ScActionListner> >();
-        List<ScActionListner> subscribersList = new ArrayList<ScActionListner>();
+        subscribersMap = new HashMap<String, List<ScEventListener> >();
+        List<ScEventListener> subscribersList = new ArrayList<ScEventListener>();
         subscribersMap.put(ScEventTypes.ATTACH_INPUT_TO_ARC, subscribersList);
 
-        subscribersList = new ArrayList<ScActionListner>();
+        subscribersList = new ArrayList<ScEventListener>();
         subscribersMap.put(ScEventTypes.ATTACH_INPUT_TO_NODE, subscribersList);
 
-        subscribersList = new ArrayList<ScActionListner>();
+        subscribersList = new ArrayList<ScEventListener>();
         subscribersMap.put(ScEventTypes.ATTACH_OUTPUT_TO_NODE, subscribersList);
 
-        subscribersList = new ArrayList<ScActionListner>();
-        subscribersMap.put(ScEventTypes.CREATE_SC_ARC, subscribersList);
+        subscribersList = new ArrayList<ScEventListener>();
+        subscribersMap.put(ScEventTypes.DETACH_INPUT_FROM_NODE, subscribersList);
 
-        subscribersList = new ArrayList<ScActionListner>();
+        subscribersList = new ArrayList<ScEventListener>();
+        subscribersMap.put(ScEventTypes.DETACH_OUTPUT_FROM_NODE, subscribersList);
+
+        subscribersList = new ArrayList<ScEventListener>();
+        subscribersMap.put(ScEventTypes.DETACH_INPUT_FROM_ARC, subscribersList);
+
+        subscribersList = new ArrayList<ScEventListener>();
         subscribersMap.put(ScEventTypes.CREATE_SC_NODE, subscribersList);
 
-        subscribersList = new ArrayList<ScActionListner>();
-        subscribersMap.put(ScEventTypes.DELETE_SC_ARC, subscribersList);
-
-        subscribersList = new ArrayList<ScActionListner>();
+        subscribersList = new ArrayList<ScEventListener>();
         subscribersMap.put(ScEventTypes.DELETE_SC_NODE, subscribersList);
     }
 
@@ -57,9 +60,9 @@ public class ScEventHandler {
      * @param eventType type of event
      * @param listner subscriber object
      */
-    public void subscribeOnEvent(String eventType, ScActionListner listner) {
-        List<ScActionListner> subscribersList = subscribersMap.get(eventType);
-        subscribersList.add(listner);
+    public void subscribeOnEvent(ScEventListener eventListner) {
+        List<ScEventListener> subscribersList = subscribersMap.get(eventListner.getEventType());
+        subscribersList.add(eventListner);
     }
 
     /**
@@ -67,8 +70,8 @@ public class ScEventHandler {
      * @param event event object
      */
     public void notify(ScEvent event) {
-        List<ScActionListner> subscribersList = subscribersMap.get(event.getEventType());
-        for (ScActionListner currentListner : subscribersList) {
+        List<ScEventListener> subscribersList = subscribersMap.get(event.getEventType());
+        for (ScEventListener currentListner : subscribersList) {
             boolean isChecked = currentListner.verification(event);
             if (isChecked) {
                 currentListner.perform(event);
