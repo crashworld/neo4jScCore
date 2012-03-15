@@ -8,9 +8,7 @@ import java.util.Map;
 /**
  * Class that provide event mechanism.
  *
- * User: yaskoam
- * Date: 03.03.12
- * Time: 13:52
+ * @author yaskoam
  */
 public class ScEventHandler {
     private static ScEventHandler eventHandler;
@@ -57,8 +55,7 @@ public class ScEventHandler {
 
     /**
      * Method that provide subscription on some type of event.
-     * @param eventType type of event
-     * @param listner subscriber object
+     * @param eventListner subscriber object
      */
     public void subscribeOnEvent(ScEventListener eventListner) {
         List<ScEventListener> subscribersList = subscribersMap.get(eventListner.getEventType());

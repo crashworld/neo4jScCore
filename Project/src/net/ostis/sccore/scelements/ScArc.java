@@ -1,16 +1,14 @@
 package net.ostis.sccore.scelements;
 
-import org.neo4j.graphdb.Node;
-
+import java.util.List;
 
 /**
- * User: yaskoam
- * Date: 03.03.12
- * Time: 13:40
+ * Class for presentation SC arc.
+ * 
+ * @author yaskoam
  */
 public abstract class ScArc extends ScElement {
-
-    public static final String SC_ARC_TYPE_PROPERTY = "_scArcType";
+    //public static final String SC_ARC_TYPE_PROPERTY = "_scArcType";
 
     /**
      * Gets start sc node of sc arc.
@@ -26,5 +24,18 @@ public abstract class ScArc extends ScElement {
      */
     public abstract ScNode getEndScNode();
 
-    public abstract Node getArcConnectorNode();
+    /**
+     * Method that get end sc arc of sc arc.
+     * If end element of sc arc is sc node, then return null.
+     * @return founded sc arc
+     */
+    public abstract ScArc getEndScArc();
+
+    /**
+     * Method that get all input sc arcs.
+     * @return all input sc arcs
+     */
+    public abstract List<ScArc> getAllInputScArcs();
+
+
 }

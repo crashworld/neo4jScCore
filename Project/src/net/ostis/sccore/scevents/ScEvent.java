@@ -3,16 +3,15 @@ package net.ostis.sccore.scevents;
 import net.ostis.sccore.scelements.ScElement;
 
 /**
- * User: yaskoam
- * Date: 03.03.12
- * Time: 13:52
+ * Class for presentation event that can be happened.
+ * @author yaskoam
  */
 public class ScEvent {
     private String eventType;
     private ScElement source;
 
     /**
-     * Construct event object
+     * Construct event object.
      * @param eventType type of event
      * @param source element that caused event
      */

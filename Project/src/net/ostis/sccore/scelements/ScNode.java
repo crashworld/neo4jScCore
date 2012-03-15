@@ -3,14 +3,13 @@ package net.ostis.sccore.scelements;
 import java.util.List;
 
 /**
- * User: yaskoam
- * Date: 03.03.12
- * Time: 13:39
+ * Class for presentation SC node.
+ * @author yaskoam
  */
 public abstract class ScNode extends ScElement {
-
+    /** String constant for name of node attribute. */
     public static final String SC_NODE_NAME_PROPERTY = "_scNodeName";
-    public static final String SC_NODE_TYPE_PROPERTY = "_scNodeType";
+    //public static final String SC_NODE_TYPE_PROPERTY = "_scNodeType";
 
     /**
      * Method that get name of sc node.
@@ -29,4 +28,10 @@ public abstract class ScNode extends ScElement {
      * @return list of sc arcs
      */
     public abstract List<ScArc> getAllInputScArcs();
+
+    /**
+     * Method that get all sc arcs connected with node.
+     * @return list of sc arcs
+     */
+    public abstract List<ScArc> getAllScArc();
 }

@@ -6,52 +6,25 @@
 package net.ostis.sccore.scevents;
 
 import net.ostis.sccore.scelements.ScElement;
+import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScNode;
 
 /**
- * Class for listener, that wait creation sc node.
+ * Class for listener, that wait attach output arc to node.
  * @author yaskoam
  */
-public class ListenerForCreationNode extends ScEventListener {
-    private ScActionListener listner;
+public class ListenerForAttachOutputToNode extends ScEventListener {
     private String nodeName;
+    private ScActionListener listner;
 
     /**
      * Construct listener.
      * @param listner object that implement ScActionListner interface
-     * @param nodeName node name which was created.
+     * @param nodeName node name to which add output sc arc.
      */
-    public ListenerForCreationNode(ScActionListener listner, String nodeName) {
+    public ListenerForAttachOutputToNode(ScActionListener listner, String nodeName) {
         this.listner = listner;
         this.nodeName = nodeName;
-    }
-
-    /**
-     * Method that will be executed in answer for the event.
-     * @param event event object, contain created sc node.
-     */
-    @Override
-    public void perform(ScEvent event) {
-        listner.perform(event);
-    }
-
-    /**
-     * Method that determine, if this listener suitable for happened event.
-     * @param event event object, contain created sc node.
-     * @return return true, if this listener suitable, in other case return false
-     */
-    @Override
-    public boolean verification(ScEvent event) {
-        ScElement element = event.getSource();
-        if (!element.isScNode()) {
-            return false;
-        }
-
-        ScNode node = (ScNode) element;
-        if (!nodeName.equals(node.getName())) {
-            return false;
-        }
-        return true;
     }
 
     /**
@@ -60,7 +33,41 @@ public class ListenerForCreationNode extends ScEventListener {
      */
     @Override
     public String getEventType() {
-        return ScEventTypes.CREATE_SC_NODE;
+        return ScEventTypes.ATTACH_OUTPUT_TO_NODE;
+    }
+
+    /**
+     * Method that will be executed in answer for the event.
+     * @param event event object, contain new arc which was attached to other sc node.
+     */
+    @Override
+    public void perform(ScEvent event) {
+        listner.perform(event);
+    }
+
+    /**
+     * Method that determine, if this listener suitable for happened event.
+     * @param event event object, contain new arc which was attached to other sc node.
+     * @return return true, if this listener suitable, in other case return false
+     */
+    @Override
+    public boolean verification(ScEvent event) {
+        ScElement element = event.getSource();
+        if (!element.isScArc()) {
+            return false;
+        }
+
+        ScArc arc = (ScArc) element;
+        ScNode startNode = arc.getStartScNode();
+        if (startNode == null) {
+            return false;
+        }
+
+        if (!startNode.getName().equals(nodeName)) {
+            return false;
+        }
+
+        return true;
     }
 
 

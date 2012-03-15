@@ -1,9 +1,8 @@
 package net.ostis.sccore.scelements;
 
 /**
- * User: yaskoam
- * Date: 03.03.12
- * Time: 13:39
+ * Class for presentation SC element.
+ * @author yaskoam
  */
 public abstract class ScElement {
     /**
@@ -18,13 +17,13 @@ public abstract class ScElement {
     public abstract boolean isScNode();
 
     /**
-     * Method that sets type of sc element
+     * Method that sets type of sc element.
      * @param type type of element
      */
     public abstract void setType(String type);
 
     /**
-     * Method that get type of sc element
+     * Method that get type of sc element.
      * @return type of element
      */
     public abstract String getType();

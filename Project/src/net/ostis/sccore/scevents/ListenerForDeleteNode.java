@@ -9,26 +9,35 @@ import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
 
 /**
- * Class for listener, that wait creation sc node.
+ * Class for listener, that wait removing sc node.
  * @author yaskoam
  */
-public class ListenerForCreationNode extends ScEventListener {
-    private ScActionListener listner;
+public class ListenerForDeleteNode extends ScEventListener {
     private String nodeName;
+    private ScActionListener listner;
 
     /**
      * Construct listener.
      * @param listner object that implement ScActionListner interface
-     * @param nodeName node name which was created.
+     * @param nodeName node name which will be deleted.
      */
-    public ListenerForCreationNode(ScActionListener listner, String nodeName) {
-        this.listner = listner;
+    public ListenerForDeleteNode(ScActionListener listner, String nodeName) {
         this.nodeName = nodeName;
+        this.listner = listner;
+    }
+
+    /**
+     * Method that get type of event for this listener.
+     * @return type of event
+     */
+    @Override
+    public String getEventType() {
+        return ScEventTypes.DELETE_SC_NODE;
     }
 
     /**
      * Method that will be executed in answer for the event.
-     * @param event event object, contain created sc node.
+     * @param event event object, contain node that will be deleted.
      */
     @Override
     public void perform(ScEvent event) {
@@ -37,7 +46,7 @@ public class ListenerForCreationNode extends ScEventListener {
 
     /**
      * Method that determine, if this listener suitable for happened event.
-     * @param event event object, contain created sc node.
+     * @param event event object, contain node which will be deleted.
      * @return return true, if this listener suitable, in other case return false
      */
     @Override
@@ -53,15 +62,5 @@ public class ListenerForCreationNode extends ScEventListener {
         }
         return true;
     }
-
-    /**
-     * Method that get type of event for this listener.
-     * @return type of event
-     */
-    @Override
-    public String getEventType() {
-        return ScEventTypes.CREATE_SC_NODE;
-    }
-
 
 }

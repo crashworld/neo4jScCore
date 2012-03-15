@@ -9,35 +9,44 @@ import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
 
 /**
- * Class for listener, that wait creation sc node.
+ * Class for listener, that wait detach input arc from sc node.
  * @author yaskoam
  */
-public class ListenerForCreationNode extends ScEventListener {
-    private ScActionListener listner;
+public class ListenerForDetachInputFromNode extends ScEventListener {
+    private ScActionListener listener;
     private String nodeName;
 
     /**
      * Construct listener.
-     * @param listner object that implement ScActionListner interface
-     * @param nodeName node name which was created.
+     * @param listener object that implement ScActionListner interface
+     * @param nodeName name of node from which input arc was detached.
      */
-    public ListenerForCreationNode(ScActionListener listner, String nodeName) {
-        this.listner = listner;
+    public ListenerForDetachInputFromNode(ScActionListener listener, String nodeName) {
+        this.listener = listener;
         this.nodeName = nodeName;
     }
 
     /**
+     * Method that get type of event for this listener.
+     * @return type of event
+     */
+    @Override
+    public String getEventType() {
+        return ScEventTypes.DETACH_INPUT_FROM_NODE;
+    }
+
+    /**
      * Method that will be executed in answer for the event.
-     * @param event event object, contain created sc node.
+     * @param event event object, contain sc node from which sc arc was detach.
      */
     @Override
     public void perform(ScEvent event) {
-        listner.perform(event);
+        listener.perform(event);
     }
 
     /**
      * Method that determine, if this listener suitable for happened event.
-     * @param event event object, contain created sc node.
+     * @param event event object, contain sc node from which sc arc was detach.
      * @return return true, if this listener suitable, in other case return false
      */
     @Override
@@ -53,15 +62,5 @@ public class ListenerForCreationNode extends ScEventListener {
         }
         return true;
     }
-
-    /**
-     * Method that get type of event for this listener.
-     * @return type of event
-     */
-    @Override
-    public String getEventType() {
-        return ScEventTypes.CREATE_SC_NODE;
-    }
-
 
 }

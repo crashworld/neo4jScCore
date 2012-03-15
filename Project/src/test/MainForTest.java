@@ -1,5 +1,6 @@
 package test;
 
+import java.util.List;
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
@@ -30,16 +31,28 @@ public class MainForTest {
             performer.beginExecution();
             ScFactory factory = performer.getScFactory();
             ScEventHandler eventHandler = ScEventHandler.getInstance();
-            ScEventListener eventListner = ScEventFactory.createScListner(ScEventTypes.ATTACH_INPUT_TO_NODE,
+            ScEventListener eventListener = ScEventFactory.createScListner(ScEventTypes.ATTACH_INPUT_TO_NODE,
                 new WhenCreateArcToSecondNode(factory), "second");
 
-            eventHandler.subscribeOnEvent(eventListner);
+            ScEventListener eventListener1 = ScEventFactory.createScListner(ScEventTypes.ATTACH_OUTPUT_TO_NODE,
+                new WhenCreateArcFromSecondNode(factory), "second");
 
+            ScEventListener eventListener2 = ScEventFactory.createScListner(ScEventTypes.DETACH_OUTPUT_FROM_NODE,
+                new WhenDetachFromFirstNode(performer), "first");
+
+            ScEventListener eventListener3 = ScEventFactory.createScListner(ScEventTypes.ATTACH_INPUT_TO_ARC,
+                new WhenAttachToArc(factory), "first");
+
+            eventHandler.subscribeOnEvent(eventListener);
+            eventHandler.subscribeOnEvent(eventListener1);
+            eventHandler.subscribeOnEvent(eventListener2);
+            eventHandler.subscribeOnEvent(eventListener3);
+            
             ScNode node1 = factory.createScNode("first", ScNodeTypes.CONST);
             ScNode node2 = factory.createScNode("second", ScNodeTypes.CONST);
             ScNode node3 = factory.createScNode("third", ScNodeTypes.CONST);
 
-            factory.generate_5_f_a_f_a_f_1(node1, ScArcTypes.CONST, node2, ScArcTypes.CONST, node3);
+            factory.generate_5_f_a_f_a_f(node1, ScArcTypes.CONST, node2, ScArcTypes.CONST, node3);
 
             ScNode find1 = performer.findScNodeByName("first");
             ScNode find2 = performer.findScNodeByName("second");
@@ -56,13 +69,23 @@ public class MainForTest {
 
             System.out.println(arc3.getStartScNode().getName());
             System.out.println(arc3.getEndScNode().getName());
-            System.out.println(arc3.getArcConnectorNode().getId());
+
+            List<ScArc> inputArcs = arc1.getAllInputScArcs();
+
+            System.out.println("input arcs from: ");
+            for (ScArc currentScArc : inputArcs) {
+                System.out.println(currentScArc.getStartScNode().getName());
+            }
 
             long time = System.currentTimeMillis();
             System.out.println("execute in: " + (System.currentTimeMillis() - time));
+
+            //performer.deleteScNode(performer.findScNodeByName("first"));
+            //performer.deleteScArc(arc1);
             //        for (int i = 0; i < 50500; i++) {
             //            factory.createScNode(Integer.toString(i), ScNodeTypes.CONST);
             //        }
+
         } finally {
             //!!! necessarily required (close transaction)
             performer.finishExecution();
@@ -85,5 +108,52 @@ public class MainForTest {
             ScNode forthNode = factory.createScNode("forth", ScNodeTypes.CONST);
             factory.generate_3_f_a_f(secondNode, ScArcTypes.CONST, forthNode);
         }
+    }
+
+    private static class WhenCreateArcFromSecondNode implements ScActionListener {
+        private ScFactory factory;
+
+        public WhenCreateArcFromSecondNode(ScFactory factory) {
+            this.factory = factory;
+        }
+
+        @Override
+        public void perform(ScEvent event) {
+            ScElement element = event.getSource();
+            ScArc arc = (ScArc) element;
+            ScNode secondNode = arc.getStartScNode();
+            ScNode node = factory.createScNode("five", ScNodeTypes.CONST);
+            factory.generate_3_f_a_f(node, ScArcTypes.CONST, secondNode.getAllOutputScArcs().get(0));
+        }
+    }
+
+    private static class WhenDetachFromFirstNode implements ScActionListener {
+
+        private ScPerformer performer;
+
+        public WhenDetachFromFirstNode(ScPerformer performer) {
+            this.performer = performer;
+        }
+
+        public void perform(ScEvent event) {
+            ScNode sixNode = performer.getScFactory().createScNode("six", ScNodeTypes.CONST);
+            performer.getScFactory().generate_3_f_a_f(performer.findScNodeByName("second"), ScArcTypes.CONST, sixNode);
+        }
+
+    }
+
+    private static class WhenAttachToArc implements ScActionListener {
+        private ScFactory factory;
+
+        public WhenAttachToArc(ScFactory factory) {
+            this.factory = factory;
+        }
+
+        public void perform(ScEvent event) {
+            ScArc arc = (ScArc) event.getSource();
+            ScNode node = factory.createScNode("attr", ScNodeTypes.CONST);
+            factory.generate_3_f_a_f(node, ScArcTypes.CONST, arc);
+        }
+
     }
 }

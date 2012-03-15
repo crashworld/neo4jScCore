@@ -2,16 +2,17 @@ package net.ostis.sccore.scperformer;
 
 import java.util.Map;
 import java.util.HashMap;
-import net.ostis.sccore.scelements.ScNode;
+
 import org.neo4j.kernel.AbstractGraphDatabase;
 import org.neo4j.kernel.Config;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
 import org.neo4j.server.WrappingNeoServerBootstrapper;
 
+import net.ostis.sccore.scelements.ScNode;
+
 /**
- * User: yaskoam
- * Date: 03.03.12
- * Time: 14:23
+ * Class that provide getting database object.
+ * @author yaskoam
  */
 public class DataBaseConnector {
 
@@ -45,6 +46,6 @@ public class DataBaseConnector {
             public void run() {
                 db.shutdown();
             }
-        } );
+        });
     }
 }

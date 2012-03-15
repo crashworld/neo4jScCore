@@ -6,7 +6,7 @@
 package net.ostis.sccore.scevents;
 
 /**
- *
+ * Class that present listener for event.
  * @author yaskoam
  */
 public abstract class ScEventListener {

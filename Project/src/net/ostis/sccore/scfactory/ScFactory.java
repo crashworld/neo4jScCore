@@ -4,9 +4,8 @@ import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScNode;
 
 /**
- * User: yaskoam
- * Date: 03.03.12
- * Time: 13:42
+ * Class that provide generation different elements of sc memory.
+ * @author yaskoam
  */
 public abstract class ScFactory {
 
@@ -37,7 +36,7 @@ public abstract class ScFactory {
     public abstract ScArc createScArc(ScNode startScNode, ScArc endScArc, String type);
 
     /**
-     * Method that generate sc constrain ( 0->0 )
+     * Method that generate sc constrain ( 0->0 ).
      * @param startNode first node of constrain
      * @param type type of sc arc
      * @param endNode end node of constrain
@@ -46,10 +45,10 @@ public abstract class ScFactory {
     public abstract ScArc generate_3_f_a_f(ScNode startNode, String type, ScNode endNode);
 
     /**
-     * Method that generate sc constrain ( 0 -> | )
+     * Method that generate sc constrain ( 0 -> | ).
      * @param startNode first node of constrain
      * @param type type of sc arc
-     * @param endArc end sc arc of constrain
+     * @param endScArc end sc arc of constrain
      * @return generated sc arc
      */
     public abstract ScArc generate_3_f_a_f(ScNode startNode, String type, ScArc endScArc);
@@ -59,7 +58,19 @@ public abstract class ScFactory {
      * Method that generate sc constrain
      *    0
      * 0->|
-     *    0
+     *    0 .
+     * @param firstNode first node of constrain
+     * @param firstType type of first generated sc arc of constrain
+     * @param secondNode second node of constrain
+     * @param secondType type of second generated sc arc of constrain
+     * @param thirdNode third node of constrain
+     */
+    public abstract void generate_5_f_a_f_a_f(ScNode firstNode, String firstType,
+        ScNode secondNode, String secondType, ScNode thirdNode);
+
+    /**
+     * Method that generate sc constrain
+     * 0->0->0 .
      * @param firstNode first node of constrain
      * @param firstType type of first generated sc arc of constrain
      * @param secondNode second node of constrain
@@ -67,18 +78,6 @@ public abstract class ScFactory {
      * @param thirdNode third node of constrain
      */
     public abstract void generate_5_f_a_f_a_f_1(ScNode firstNode, String firstType,
-        ScNode secondNode, String secondType, ScNode thirdNode);
-
-    /**
-     * Method that generate sc constrain
-     * 0->0->0
-     * @param firstNode first node of constrain
-     * @param firstType type of first generated sc arc of constrain
-     * @param secondNode second node of constrain
-     * @param secondType type of second generated sc arc of constrain
-     * @param thirdNode third node of constrain
-     */
-    public abstract void generate_5_f_a_f_a_f_2(ScNode firstNode, String firstType,
         ScNode secondNode, String secondType, ScNode thirdNode);
 
 }
