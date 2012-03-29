@@ -90,6 +90,12 @@ public class MainForTest {
             //!!! necessarily required (close transaction)
             performer.finishExecution();
         }
+
+        try {
+            performer.beginExecution();
+        } finally {
+            performer.finishExecution();
+        }
     }
 
     private static class WhenCreateArcToSecondNode implements ScActionListener {
