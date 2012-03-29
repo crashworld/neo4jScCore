@@ -8,6 +8,7 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
 import net.ostis.sccore.contents.Content;
+import net.ostis.sccore.scfactory.RelTypes;
 
 /**
  * Class that implement SC node.
@@ -43,33 +44,17 @@ public class ScNodeImpl extends ScNode {
      */
     @Override
     public List<ScArc> getAllInputScArcs() {
-        List<ScArc> allInputScArcs = new ArrayList<ScArc>();
+        List<ScArc> scArcsList = new ArrayList<ScArc>();
+        Iterable<Relationship> endRelations = neo4jNode.getRelationships(RelTypes.endLink, Direction.INCOMING);
 
-        /* get all incoming relationship from neo4j node */
-        Iterable<Relationship> allInputRelationship = neo4jNode.getRelationships(Direction.INCOMING);
-
-        for (Relationship firstIncomingRelationship : allInputRelationship) {
-            /* get connector node of sc arc */
-            Node connectorNode = firstIncomingRelationship.getStartNode();
-
-            /* get start relationships of sc arc. Can be MORE than one,
-             * because sc arc can go to another sc arc.
-             * Choose only thoose, whish has property SC_NODE_NAME_PROPERTY*/
-            Iterable<Relationship> allStartRelationships =
-                    connectorNode.getRelationships(Direction.INCOMING);
-
-            for (Relationship secondIncomingRelationship : allStartRelationships) {
-                if (secondIncomingRelationship.getStartNode().hasProperty(ScNode.SC_NODE_NAME_PROPERTY)) {
-
-                    ScArcImpl currentScArc = new ScArcImpl(
-                            secondIncomingRelationship, connectorNode, firstIncomingRelationship);
-
-                    allInputScArcs.add(currentScArc);
-                }
-            }
+        for (Relationship endRelationship : endRelations) {
+            Node node = endRelationship.getStartNode();
+            Relationship beginRelationship = node.getSingleRelationship(RelTypes.beginLink, Direction.INCOMING);
+            ScArcImpl newScArc = new ScArcImpl(beginRelationship, node, endRelationship);
+            scArcsList.add(newScArc);
         }
 
-        return allInputScArcs;
+        return scArcsList;
     }
 
     /**
@@ -78,23 +63,17 @@ public class ScNodeImpl extends ScNode {
      */
     @Override
     public List<ScArc> getAllOutputScArcs() {
-        List<ScArc> allOutputScArcs = new ArrayList<ScArc>();
+        List<ScArc> scArcsList = new ArrayList<ScArc>();
+        Iterable<Relationship> beginRelations = neo4jNode.getRelationships(RelTypes.beginLink, Direction.OUTGOING);
 
-        /* get all outgoing relationship from neo4j node */
-        Iterable<Relationship> allOutputRelationship = neo4jNode.getRelationships(Direction.OUTGOING);
-
-        for (Relationship currentRelationship : allOutputRelationship) {
-            /* get connected node of sc arc */
-            Node connectedNode = currentRelationship.getEndNode();
-
-            /* get end relationship of sc arc. It can be only one,
-             * becouse sc arc can't go out from another sc arc */
-            Relationship endRelationship = connectedNode.getRelationships(Direction.OUTGOING).iterator().next();
-            ScArcImpl currentScArc = new ScArcImpl(currentRelationship, connectedNode, endRelationship);
-            allOutputScArcs.add(currentScArc);
+        for (Relationship startRelationship : beginRelations) {
+            Node node = startRelationship.getEndNode();
+            Relationship endRelationship = node.getSingleRelationship(RelTypes.endLink, Direction.OUTGOING);
+            ScArcImpl newScArc = new ScArcImpl(startRelationship, node, endRelationship);
+            scArcsList.add(newScArc);
         }
 
-        return allOutputScArcs;
+        return scArcsList;
     }
 
     /**
@@ -107,7 +86,6 @@ public class ScNodeImpl extends ScNode {
         scArcsList.addAll(this.getAllOutputScArcs());
         return scArcsList;
     }
-
 
     /**
      * Method that returns true if element is arc and false if not.

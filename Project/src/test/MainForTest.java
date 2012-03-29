@@ -47,7 +47,7 @@ public class MainForTest {
             eventHandler.subscribeOnEvent(eventListener1);
             eventHandler.subscribeOnEvent(eventListener2);
             eventHandler.subscribeOnEvent(eventListener3);
-            
+
             ScNode node1 = factory.createScNode("first", ScNodeTypes.CONST);
             ScNode node2 = factory.createScNode("second", ScNodeTypes.CONST);
             ScNode node3 = factory.createScNode("third", ScNodeTypes.CONST);
@@ -61,20 +61,26 @@ public class MainForTest {
             ScArc arc1 = node1.getAllOutputScArcs().get(0);
             ScArc arc2 = node3.getAllOutputScArcs().get(0);
 
-            System.out.println(find1.getName() + " -> " + arc1.getType() + " -> " + find2.getName());
-            System.out.println(find3.getName() + " -> " + arc2.getType() + " -> " + arc1.getType());
+//            System.out.println(find1.getName() + " -> " + arc1.getType() + " -> " + find2.getName());
+//            System.out.println(find3.getName() + " -> " + arc2.getType() + " -> " + arc1.getType());
 
 
-            ScArc arc3 = node2.getAllInputScArcs().get(0);
+//            ScArc arc3 = node2.getAllInputScArcs().get(0);
 
-            System.out.println(arc3.getStartScNode().getName());
-            System.out.println(arc3.getEndScNode().getName());
+//            System.out.println(arc3.getStartScNode().getName());
+//            System.out.println(arc3.getEndScNode().getName());
 
-            List<ScArc> inputArcs = arc1.getAllInputScArcs();
+//            List<ScArc> inputArcs = arc1.getAllInputScArcs();
+//
+//            System.out.println("input arcs from: ");
+//            for (ScArc currentScArc : inputArcs) {
+//                System.out.println(currentScArc.getStartScNode().getName());
+//            }
 
-            System.out.println("input arcs from: ");
+            List<ScArc> inputArcs = node1.getAllOutputScArcs();
             for (ScArc currentScArc : inputArcs) {
-                System.out.println(currentScArc.getStartScNode().getName());
+                System.out.println(currentScArc.getStartScNode().getName()
+                    + " --> " + currentScArc.getEndScNode().getName() + "\n");
             }
 
             long time = System.currentTimeMillis();
@@ -86,7 +92,8 @@ public class MainForTest {
             //            factory.createScNode(Integer.toString(i), ScNodeTypes.CONST);
             //        }
 
-        } finally {
+        }
+        finally {
             //!!! necessarily required (close transaction)
             performer.finishExecution();
         }
@@ -117,6 +124,7 @@ public class MainForTest {
     }
 
     private static class WhenCreateArcFromSecondNode implements ScActionListener {
+
         private ScFactory factory;
 
         public WhenCreateArcFromSecondNode(ScFactory factory) {
@@ -145,10 +153,10 @@ public class MainForTest {
             ScNode sixNode = performer.getScFactory().createScNode("six", ScNodeTypes.CONST);
             performer.getScFactory().generate_3_f_a_f(performer.findScNodeByName("second"), ScArcTypes.CONST, sixNode);
         }
-
     }
 
     private static class WhenAttachToArc implements ScActionListener {
+
         private ScFactory factory;
 
         public WhenAttachToArc(ScFactory factory) {
@@ -160,6 +168,5 @@ public class MainForTest {
             ScNode node = factory.createScNode("attr", ScNodeTypes.CONST);
             factory.generate_3_f_a_f(node, ScArcTypes.CONST, arc);
         }
-
     }
 }
