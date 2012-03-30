@@ -8,6 +8,7 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
 import net.ostis.sccore.scfactory.RelTypes;
+import net.ostis.sccore.types.ScElementTypes;
 
 /**
  * Class that implement sc arc.
@@ -15,25 +16,21 @@ import net.ostis.sccore.scfactory.RelTypes;
  * @author yaskoam
  */
 public class ScArcImpl extends ScArc {
-    
-    private Relationship beginLink;
+
     private Node connectorNode;
-    private Relationship endLink;
 
     /**
      * Constructor for object.
-     * @param beginLink begin relationship of arc
+     *
      * @param connectorNode connector node of arc
-     * @param endLink end relationship of arc
      */
-    public ScArcImpl(Relationship beginLink, Node connectorNode, Relationship endLink) {
-        this.beginLink = beginLink;
+    public ScArcImpl(Node connectorNode) {
         this.connectorNode = connectorNode;
-        this.endLink = endLink;
     }
 
     /**
      * Method that returns true if element is arc and false if not.
+     *
      * @return true if is arc
      */
     @Override
@@ -43,6 +40,7 @@ public class ScArcImpl extends ScArc {
 
     /**
      * Method that returns true if element is connector and false if not.
+     *
      * @return true if is connector
      */
     @Override
@@ -52,70 +50,93 @@ public class ScArcImpl extends ScArc {
 
     /**
      * Method that sets type of sc arc.
+     *
      * @param type type of element
      */
     @Override
-    public void setType(String type) {
-        //connector.setProperty(SC_ARC_TYPE_PROPERTY, type);
+    public void addType(ScElementTypes type) {
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
-     * Method that get type of sc arc.
-     * @return type of element
+     * Method that set types of sc element.
+     *
+     * @param types list of types name
      */
     @Override
-    public String getType() {
-        return "";
-        //return (String) connector.getProperty(SC_ARC_TYPE_PROPERTY);
+    public void addTypes(List<ScElementTypes> types) {
+        //throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Method that get all types of sc elemetn.
+     *
+     * @return list of types
+     */
+    @Override
+    public List<ScElementTypes> getTypes() {
+        return null;
+        //throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+
+    /**
+     * Method that remove type from sc element.
+     *
+     * @param type name of type
+     */
+    @Override
+    public void removeType(ScElementTypes type) {
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
      * Gets start sc connector of sc arc.
      * If start element of sc arc is another sc arc, then return null.
+     *
      * @return founded sc connector
      */
     @Override
     public ScNode getStartScNode() {
-        Node startNode = beginLink.getStartNode();
-        ScNodeImpl scNode = new ScNodeImpl(startNode);
-        return scNode;
+        Node startNode = getBeginLink().getStartNode();
+        return new ScNodeImpl(startNode);
     }
 
     /**
      * Method that get end sc connector of sc arc.
      * If end element of sc arc is another sc arc, then return null.
+     *
      * @return founded sc node
      */
     @Override
     public ScNode getEndScNode() {
-        Node endNode = endLink.getEndNode();
+        Node endNode = getEndLink().getEndNode();
         if (endNode.hasProperty(ScNodeImpl.CONNECTORNODE)) {
             return null;
         }
-        ScNodeImpl scNode = new ScNodeImpl(endNode);
-        return scNode;
+
+        return new ScNodeImpl(endNode);
     }
 
     /**
      * Method that get end sc arc of sc arc.
-     * If end element of sc arc is sc connector, then return null.
+     * If end element of sc arc isn't sc arc, then return null.
+     *
      * @return founded sc arc
      */
     @Override
     public ScArc getEndScArc() {
-        Node connector = endLink.getEndNode();
+        Node connector = getEndLink().getEndNode();
         if (!connector.hasProperty(ScNodeImpl.CONNECTORNODE)) {
             return null;
         }
 
-        Relationship begin = connector.getSingleRelationship(RelTypes.beginLink, Direction.INCOMING);
-        Relationship end = connector.getSingleRelationship(RelTypes.endLink, Direction.OUTGOING);
-        ScArcImpl arc = new ScArcImpl(begin, this.connectorNode, end);
-        return arc;
+        return new ScArcImpl(connector);
     }
 
     /**
      * Method that get all input sc arcs.
+     *
      * @return all input sc arcs
      */
     @Override
@@ -124,10 +145,8 @@ public class ScArcImpl extends ScArc {
         Iterable<Relationship> endRelations = connectorNode.getRelationships(RelTypes.endLink, Direction.INCOMING);
 
         for (Relationship currentRelationship : endRelations) {
-            Node node = currentRelationship.getStartNode();
-            Relationship beginRelationship = node.getSingleRelationship(RelTypes.beginLink, Direction.INCOMING);
-            ScArcImpl newScArc = new ScArcImpl(beginRelationship, node, currentRelationship);
-            scArcsList.add(newScArc);
+            Node connector = currentRelationship.getStartNode();
+            scArcsList.add(new ScArcImpl(connector));
         }
         
         return scArcsList;
@@ -135,9 +154,18 @@ public class ScArcImpl extends ScArc {
     
     /**
      * Gets connector that used like arc.
+     * 
      * @return connector-connector
      */
     public Node getArcConnectorNode() {
         return this.connectorNode;
+    }
+
+    public Relationship getBeginLink() {
+        return connectorNode.getSingleRelationship(RelTypes.beginLink, Direction.INCOMING);
+    }
+
+    public Relationship getEndLink() {
+        return connectorNode.getSingleRelationship(RelTypes.endLink, Direction.OUTGOING);
     }
 }

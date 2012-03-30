@@ -1,11 +1,13 @@
 package net.ostis.sccore.unittests;
 
-import net.ostis.sccore.scfactory.ScFactory;
-import net.ostis.sccore.scperformer.ScPerformer;
-import net.ostis.sccore.types.ScNodeTypes;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import net.ostis.sccore.scfactory.ScFactory;
+import net.ostis.sccore.scperformer.ScPerformer;
+import net.ostis.sccore.scperformer.ScPerformerImpl;
+import net.ostis.sccore.types.ScElementTypes;
 
 /**
  *
@@ -16,9 +18,9 @@ public class HighSpeedPerformance {
 
     @BeforeClass
     public static void beforeClass() {
-        ScPerformer newPerformer = new ScPerformer("D:\\data\\sc_core.db");
+        ScPerformer newPerformer = new ScPerformerImpl("D:\\data\\sc_core.db");
         performer = newPerformer;
-        performer.beginExecution();
+        performer.startExecution();
     }
 
     @AfterClass
@@ -30,7 +32,7 @@ public class HighSpeedPerformance {
     public void addScNodes50000() {
         ScFactory factory = performer.getScFactory();
         for (int i = 0; i < 50000; i++) {
-            factory.createScNode(Integer.toString(i), ScNodeTypes.CONST);
+            factory.createScNode(Integer.toString(i), ScElementTypes.NODE_CONST);
         }
     }
 }

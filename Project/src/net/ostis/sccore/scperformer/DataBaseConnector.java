@@ -33,8 +33,8 @@ public class DataBaseConnector {
 
 
         /* start server */
-//        WrappingNeoServerBootstrapper server = new WrappingNeoServerBootstrapper(dataBase);
-//        server.start();
+        //WrappingNeoServerBootstrapper server = new WrappingNeoServerBootstrapper(dataBase);
+        //server.start();
 
         return dataBase;
     }

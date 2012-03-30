@@ -1,5 +1,6 @@
 package test;
 
+import java.util.ArrayList;
 import java.util.List;
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScElement;
@@ -12,8 +13,8 @@ import net.ostis.sccore.scevents.ScEventListener;
 import net.ostis.sccore.scevents.ScEventTypes;
 import net.ostis.sccore.scfactory.ScFactory;
 import net.ostis.sccore.scperformer.ScPerformer;
-import net.ostis.sccore.types.ScArcTypes;
-import net.ostis.sccore.types.ScNodeTypes;
+import net.ostis.sccore.scperformer.ScPerformerImpl;
+import net.ostis.sccore.types.ScElementTypes;
 
 /**
  * User: yaskoam
@@ -24,11 +25,11 @@ public class MainForTest {
 
     public static void main(String[] args) {
         String baseLocation = "D:\\data\\sc_core.db";
-        ScPerformer performer = new ScPerformer(baseLocation);
+        ScPerformer performer = new ScPerformerImpl(baseLocation);
 
         try {
             //!!! necessarily required (open transaction)
-            performer.beginExecution();
+            performer.startExecution();
             ScFactory factory = performer.getScFactory();
             ScEventHandler eventHandler = ScEventHandler.getInstance();
             ScEventListener eventListener = ScEventFactory.createScListner(ScEventTypes.ATTACH_INPUT_TO_NODE,
@@ -48,11 +49,13 @@ public class MainForTest {
             eventHandler.subscribeOnEvent(eventListener2);
             eventHandler.subscribeOnEvent(eventListener3);
 
-            ScNode node1 = factory.createScNode("first", ScNodeTypes.CONST);
-            ScNode node2 = factory.createScNode("second", ScNodeTypes.CONST);
-            ScNode node3 = factory.createScNode("third", ScNodeTypes.CONST);
+            ScNode node1 = factory.createScNode("first", ScElementTypes.NODE_CONST);
+            ScNode node2 = factory.createScNode("second", ScElementTypes.NODE_CONST);
+            ScNode node3 = factory.createScNode("third", ScElementTypes.NODE_CONST);
 
-            factory.generate_5_f_a_f_a_f(node1, ScArcTypes.CONST, node2, ScArcTypes.CONST, node3);
+            List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
+            typeList.add(ScElementTypes.ARC_CONST);
+            factory.generate_5_f_a_f_a_f(node1, typeList, node2, typeList, node3);
 
             ScNode find1 = performer.findScNodeByName("first");
             ScNode find2 = performer.findScNodeByName("second");
@@ -99,7 +102,7 @@ public class MainForTest {
         }
 
         try {
-            performer.beginExecution();
+            performer.startExecution();
         } finally {
             performer.finishExecution();
         }
@@ -118,8 +121,10 @@ public class MainForTest {
             ScElement element = event.getSource();
             ScArc arc = (ScArc) element;
             ScNode secondNode = arc.getEndScNode();
-            ScNode forthNode = factory.createScNode("forth", ScNodeTypes.CONST);
-            factory.generate_3_f_a_f(secondNode, ScArcTypes.CONST, forthNode);
+            ScNode forthNode = factory.createScNode("forth", ScElementTypes.NODE_CONST);
+            List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
+            typeList.add(ScElementTypes.ARC_CONST);
+            factory.generate_3_f_a_f(secondNode, typeList, forthNode);
         }
     }
 
@@ -136,8 +141,10 @@ public class MainForTest {
             ScElement element = event.getSource();
             ScArc arc = (ScArc) element;
             ScNode secondNode = arc.getStartScNode();
-            ScNode node = factory.createScNode("five", ScNodeTypes.CONST);
-            factory.generate_3_f_a_f(node, ScArcTypes.CONST, secondNode.getAllOutputScArcs().get(0));
+            ScNode node = factory.createScNode("five", ScElementTypes.NODE_CONST);
+            List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
+            typeList.add(ScElementTypes.ARC_CONST);
+            factory.generate_3_f_a_f(node, typeList, secondNode.getAllOutputScArcs().get(0));
         }
     }
 
@@ -150,8 +157,10 @@ public class MainForTest {
         }
 
         public void perform(ScEvent event) {
-            ScNode sixNode = performer.getScFactory().createScNode("six", ScNodeTypes.CONST);
-            performer.getScFactory().generate_3_f_a_f(performer.findScNodeByName("second"), ScArcTypes.CONST, sixNode);
+            ScNode sixNode = performer.getScFactory().createScNode("six", ScElementTypes.NODE_CONST);
+            List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
+            typeList.add(ScElementTypes.ARC_CONST);
+            performer.getScFactory().generate_3_f_a_f(performer.findScNodeByName("second"), typeList, sixNode);
         }
     }
 
@@ -165,8 +174,10 @@ public class MainForTest {
 
         public void perform(ScEvent event) {
             ScArc arc = (ScArc) event.getSource();
-            ScNode node = factory.createScNode("attr", ScNodeTypes.CONST);
-            factory.generate_3_f_a_f(node, ScArcTypes.CONST, arc);
+            ScNode node = factory.createScNode("attr", ScElementTypes.NODE_CONST);
+            List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
+            typeList.add(ScElementTypes.ARC_CONST);
+            factory.generate_3_f_a_f(node, typeList, arc);
         }
     }
 }
