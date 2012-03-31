@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.ostis.sccore.scevents;
 
 import net.ostis.sccore.scelements.ScElement;
@@ -11,33 +6,38 @@ import net.ostis.sccore.scelements.ScNode;
 
 /**
  * Class for listener, that wait attach output arc to node.
+ *
  * @author yaskoam
  */
 public class ListenerForAttachOutputToNode extends ScEventListener {
-    private String nodeName;
     private ScActionListener listner;
+    private ScElement scElement;
+
 
     /**
      * Construct listener.
+     *
      * @param listner object that implement ScActionListner interface
-     * @param nodeName node name to which add output sc arc.
+     * @param scElement node to which add output sc arc.
      */
-    public ListenerForAttachOutputToNode(ScActionListener listner, String nodeName) {
+    public ListenerForAttachOutputToNode(ScActionListener listner, ScElement scElement) {
         this.listner = listner;
-        this.nodeName = nodeName;
+        this.scElement = scElement;
     }
 
     /**
      * Method that get type of event for this listener.
+     *
      * @return type of event
      */
     @Override
-    public String getEventType() {
+    public ScEventTypes getEventType() {
         return ScEventTypes.ATTACH_OUTPUT_TO_NODE;
     }
 
     /**
      * Method that will be executed in answer for the event.
+     *
      * @param event event object, contain new arc which was attached to other sc node.
      */
     @Override
@@ -47,6 +47,7 @@ public class ListenerForAttachOutputToNode extends ScEventListener {
 
     /**
      * Method that determine, if this listener suitable for happened event.
+     *
      * @param event event object, contain new arc which was attached to other sc node.
      * @return return true, if this listener suitable, in other case return false
      */
@@ -63,10 +64,10 @@ public class ListenerForAttachOutputToNode extends ScEventListener {
             return false;
         }
 
-        if (!startNode.getName().equals(nodeName)) {
+        if (startNode.getAddress() != scElement.getAddress()) {
             return false;
         }
-
+        
         return true;
     }
 

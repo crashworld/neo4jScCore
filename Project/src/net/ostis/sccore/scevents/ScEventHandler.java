@@ -1,7 +1,7 @@
 package net.ostis.sccore.scevents;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,10 +12,13 @@ import java.util.Map;
  */
 public class ScEventHandler {
     private static ScEventHandler eventHandler;
-    private Map<String, List<ScEventListener> > subscribersMap;
+    private Map<ScEventTypes, List<ScEventListener> > subscribersMap;
 
     private ScEventHandler() {
-        subscribersMap = new HashMap<String, List<ScEventListener> >();
+
+
+        subscribersMap = new EnumMap<ScEventTypes, List<ScEventListener> >(ScEventTypes.class);
+        
         List<ScEventListener> subscribersList = new ArrayList<ScEventListener>();
         subscribersMap.put(ScEventTypes.ATTACH_INPUT_TO_ARC, subscribersList);
 
@@ -43,6 +46,7 @@ public class ScEventHandler {
 
     /**
      * Method that get event handler object.
+     * 
      * @return event handler object
      */
     public static ScEventHandler getInstance() {
@@ -55,6 +59,7 @@ public class ScEventHandler {
 
     /**
      * Method that provide subscription on some type of event.
+     * 
      * @param eventListner subscriber object
      */
     public void subscribeOnEvent(ScEventListener eventListner) {
@@ -64,10 +69,12 @@ public class ScEventHandler {
 
     /**
      * Method that notify all suitable subscriber about happened event.
+     * 
      * @param event event object
      */
     public void notify(ScEvent event) {
         List<ScEventListener> subscribersList = subscribersMap.get(event.getEventType());
+        
         for (ScEventListener currentListner : subscribersList) {
             boolean isChecked = currentListner.verification(event);
             if (isChecked) {

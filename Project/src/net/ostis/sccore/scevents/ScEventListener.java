@@ -26,5 +26,5 @@ public abstract class ScEventListener {
      * Method that return type of event that listener wait.
      * @return event type constant
      */
-    public abstract String getEventType();
+    public abstract ScEventTypes getEventType();
 }

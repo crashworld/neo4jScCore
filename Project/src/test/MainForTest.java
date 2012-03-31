@@ -31,27 +31,27 @@ public class MainForTest {
             //!!! necessarily required (open transaction)
             performer.startExecution();
             ScFactory factory = performer.getScFactory();
+            ScNode node1 = factory.createScNode("first", ScElementTypes.NODE_CONST);
+            ScNode node2 = factory.createScNode("second", ScElementTypes.NODE_CONST);
+            ScNode node3 = factory.createScNode("third", ScElementTypes.NODE_CONST);
+            
             ScEventHandler eventHandler = ScEventHandler.getInstance();
             ScEventListener eventListener = ScEventFactory.createScListner(ScEventTypes.ATTACH_INPUT_TO_NODE,
-                new WhenCreateArcToSecondNode(factory), "second");
+                new WhenCreateArcToSecondNode(factory), node2);
 
             ScEventListener eventListener1 = ScEventFactory.createScListner(ScEventTypes.ATTACH_OUTPUT_TO_NODE,
-                new WhenCreateArcFromSecondNode(factory), "second");
+                new WhenCreateArcFromSecondNode(factory), node3);
 
             ScEventListener eventListener2 = ScEventFactory.createScListner(ScEventTypes.DETACH_OUTPUT_FROM_NODE,
-                new WhenDetachFromFirstNode(performer), "first");
+                new WhenDetachFromFirstNode(performer), node1);
 
             ScEventListener eventListener3 = ScEventFactory.createScListner(ScEventTypes.ATTACH_INPUT_TO_ARC,
-                new WhenAttachToArc(factory), "first");
+                new WhenAttachToArc(factory), node1);
 
             eventHandler.subscribeOnEvent(eventListener);
             eventHandler.subscribeOnEvent(eventListener1);
             eventHandler.subscribeOnEvent(eventListener2);
             eventHandler.subscribeOnEvent(eventListener3);
-
-            ScNode node1 = factory.createScNode("first", ScElementTypes.NODE_CONST);
-            ScNode node2 = factory.createScNode("second", ScElementTypes.NODE_CONST);
-            ScNode node3 = factory.createScNode("third", ScElementTypes.NODE_CONST);
 
             List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
             typeList.add(ScElementTypes.ARC_CONST);

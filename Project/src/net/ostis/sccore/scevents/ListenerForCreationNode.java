@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package net.ostis.sccore.scevents;
 
 import net.ostis.sccore.scelements.ScElement;
@@ -10,6 +5,7 @@ import net.ostis.sccore.scelements.ScNode;
 
 /**
  * Class for listener, that wait creation sc node.
+ *
  * @author yaskoam
  */
 public class ListenerForCreationNode extends ScEventListener {
@@ -18,6 +14,7 @@ public class ListenerForCreationNode extends ScEventListener {
 
     /**
      * Construct listener.
+     *
      * @param listner object that implement ScActionListner interface
      * @param nodeName node name which was created.
      */
@@ -27,7 +24,19 @@ public class ListenerForCreationNode extends ScEventListener {
     }
 
     /**
+     * Method that get type of event for this listener.
+     *
+     * @return type of event
+     */
+    @Override
+    public ScEventTypes getEventType() {
+        return ScEventTypes.CREATE_SC_NODE;
+    }
+
+    
+    /**
      * Method that will be executed in answer for the event.
+     *
      * @param event event object, contain created sc node.
      */
     @Override
@@ -37,6 +46,7 @@ public class ListenerForCreationNode extends ScEventListener {
 
     /**
      * Method that determine, if this listener suitable for happened event.
+     *
      * @param event event object, contain created sc node.
      * @return return true, if this listener suitable, in other case return false
      */
@@ -53,15 +63,4 @@ public class ListenerForCreationNode extends ScEventListener {
         }
         return true;
     }
-
-    /**
-     * Method that get type of event for this listener.
-     * @return type of event
-     */
-    @Override
-    public String getEventType() {
-        return ScEventTypes.CREATE_SC_NODE;
-    }
-
-
 }

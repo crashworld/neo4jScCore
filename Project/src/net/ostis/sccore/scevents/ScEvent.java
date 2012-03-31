@@ -4,18 +4,20 @@ import net.ostis.sccore.scelements.ScElement;
 
 /**
  * Class for presentation event that can be happened.
+ * 
  * @author yaskoam
  */
 public class ScEvent {
-    private String eventType;
+    private ScEventTypes eventType;
     private ScElement source;
 
     /**
      * Construct event object.
+     *
      * @param eventType type of event
      * @param source element that caused event
      */
-    public ScEvent(String eventType, ScElement source) {
+    public ScEvent(ScEventTypes eventType, ScElement source) {
         this.eventType = eventType;
         this.source = source;
     }
@@ -24,7 +26,7 @@ public class ScEvent {
         return source;
     }
 
-    public String getEventType() {
+    public ScEventTypes getEventType() {
         return eventType;
     }
 }
