@@ -54,6 +54,36 @@ public class ScNodeImpl extends ScNode {
         return true;
     }
 
+    /**
+     * Method that get address of sc element in memory.
+     *
+     * @return address of element
+     */
+    @Override
+    public long getAddress() {
+        return neo4jNode.getId();
+    }
+
+    /**
+     * Method that get name of sc node.
+     *
+     * @return name of sc node
+     */
+    @Override
+    public String getName() {
+        return (String) neo4jNode.getProperty(SC_NODE_NAME_PROPERTY);
+    }
+
+    /**
+     * Method that set name for sc node.
+     *
+     * @param name node name
+     */
+    @Override
+    public void setName(String name) {
+        neo4jNode.setProperty(ScNode.SC_NODE_NAME_PROPERTY, name);
+    }
+
      /**
      * Method that sets type of sc arc.
      *
@@ -93,26 +123,6 @@ public class ScNodeImpl extends ScNode {
     @Override
     public void removeType(ScElementTypes type) {
         //throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * Method that get name of sc node.
-     *
-     * @return name of sc node
-     */
-    @Override
-    public String getName() {
-        return (String) neo4jNode.getProperty(SC_NODE_NAME_PROPERTY);
-    }
-
-    /**
-     * Method that set name for sc node.
-     *
-     * @param name node name
-     */
-    @Override
-    public void setName(String name) {
-        neo4jNode.setProperty(ScNode.SC_NODE_NAME_PROPERTY, name);
     }
 
     /**

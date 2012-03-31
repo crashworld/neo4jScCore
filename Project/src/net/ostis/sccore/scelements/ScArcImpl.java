@@ -49,6 +49,16 @@ public class ScArcImpl extends ScArc {
     }
 
     /**
+     * Method that get address of sc element in memory.
+     *
+     * @return address of element
+     */
+    @Override
+    public long getAddress() {
+        return connectorNode.getId();
+    }
+
+    /**
      * Method that sets type of sc arc.
      *
      * @param type type of element
