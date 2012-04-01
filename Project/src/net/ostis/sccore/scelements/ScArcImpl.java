@@ -19,6 +19,7 @@ public class ScArcImpl extends ScArc {
 
     private Node connectorNode;
 
+    private List<ScElementTypes> arcTypes;
     /**
      * Constructor for object.
      *
@@ -26,6 +27,7 @@ public class ScArcImpl extends ScArc {
      */
     public ScArcImpl(Node connectorNode) {
         this.connectorNode = connectorNode;
+        this.arcTypes = new ArrayList<ScElementTypes>();
     }
 
     /**
@@ -66,6 +68,8 @@ public class ScArcImpl extends ScArc {
     @Override
     public void addType(ScElementTypes type) {
         //throw new UnsupportedOperationException("Not supported yet.");
+        if(arcTypes.isEmpty() && !arcTypes.contains(type))
+            arcTypes.add(type);
     }
 
     /**
@@ -76,6 +80,14 @@ public class ScArcImpl extends ScArc {
     @Override
     public void addTypes(List<ScElementTypes> types) {
         //throw new UnsupportedOperationException("Not supported yet.");
+        if(arcTypes.isEmpty())
+            arcTypes = types;
+        else
+            for(ScElementTypes type : types )
+            {
+             if(!arcTypes.contains(type))
+                arcTypes.add(type);                  
+            }
     }
 
     /**
@@ -85,7 +97,7 @@ public class ScArcImpl extends ScArc {
      */
     @Override
     public List<ScElementTypes> getTypes() {
-        return null;
+        return arcTypes;
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -97,6 +109,8 @@ public class ScArcImpl extends ScArc {
      */
     @Override
     public void removeType(ScElementTypes type) {
+        if(arcTypes.contains(type))
+                arcTypes.remove(type);
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 

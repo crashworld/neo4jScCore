@@ -24,6 +24,8 @@ public class ScNodeImpl extends ScNode {
     private Node neo4jNode;
 
     private Content nodeContent;
+    
+    private List<ScElementTypes>  nodeTypes;
 
     /**
      * Construct object.
@@ -31,7 +33,8 @@ public class ScNodeImpl extends ScNode {
      * @param node neo4jNode
      */
     public ScNodeImpl(Node node) {
-        this.neo4jNode = node;
+        this.neo4jNode = node;  
+        this.nodeTypes = new ArrayList<ScElementTypes>();
     }
 
     /**
@@ -92,6 +95,9 @@ public class ScNodeImpl extends ScNode {
     @Override
     public void addType(ScElementTypes type) {
         //throw new UnsupportedOperationException("Not supported yet.");
+        if(nodeTypes.isEmpty() && !nodeTypes.contains(type))
+            nodeTypes.add(type);        
+//        neo4jNode.setProperty(ScNode.SC_NODE_TYPE_PROPERTY, "type");
     }
 
     /**
@@ -101,6 +107,14 @@ public class ScNodeImpl extends ScNode {
      */
     @Override
     public void addTypes(List<ScElementTypes> types) {
+        if(nodeTypes.isEmpty())
+            nodeTypes = types;
+        else
+            for(ScElementTypes type : types )
+            {
+             if(!nodeTypes.contains(type))
+                nodeTypes.add(type);                  
+            }
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -110,8 +124,9 @@ public class ScNodeImpl extends ScNode {
      * @return list of types
      */
     @Override
-    public List<ScElementTypes> getTypes() {
-        return null;
+    public List<ScElementTypes> getTypes() {        
+        return nodeTypes; 
+//        return (List<ScElementTypes>) neo4jNode.getProperty(SC_NODE_TYPE_PROPERTY);
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -122,6 +137,8 @@ public class ScNodeImpl extends ScNode {
      */
     @Override
     public void removeType(ScElementTypes type) {
+        if(nodeTypes.contains(type))
+                nodeTypes.remove(type); 
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
