@@ -14,6 +14,7 @@ import net.ostis.sccore.types.ScElementTypes;
  * @author yaskoam
  */
 public class HighSpeedPerformance {
+
     private static ScPerformer performer;
 
     @BeforeClass
@@ -31,7 +32,7 @@ public class HighSpeedPerformance {
     @Test
     public void addScNodes50000() {
         ScFactory factory = performer.getScFactory();
-        for (int i = 0; i < 50000; i++) {
+        for (int i = 0; i < 5000; i++) {
             factory.createScNode(Integer.toString(i), ScElementTypes.NODE_CONST);
         }
     }

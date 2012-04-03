@@ -1,6 +1,7 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScElement;
@@ -34,7 +35,7 @@ public class MainForTest {
             ScNode node1 = factory.createScNode("first", ScElementTypes.NODE_CONST);
             ScNode node2 = factory.createScNode("second", ScElementTypes.NODE_CONST);
             ScNode node3 = factory.createScNode("third", ScElementTypes.NODE_CONST);
-            
+
             ScEventHandler eventHandler = ScEventHandler.getInstance();
             ScEventListener eventListener = ScEventFactory.createScListner(ScEventTypes.ATTACH_INPUT_TO_NODE,
                 new WhenCreateArcToSecondNode(factory), node2);
@@ -80,10 +81,25 @@ public class MainForTest {
 //                System.out.println(currentScArc.getStartScNode().getName());
 //            }
 
-            List<ScArc> inputArcs = node1.getAllOutputScArcs();
-            for (ScArc currentScArc : inputArcs) {
-                System.out.println(currentScArc.getStartScNode().getName()
-                    + " --> " + currentScArc.getEndScNode().getName() + "\n");
+//            List<ScArc> inputArcs = node1.getAllOutputScArcs();
+//            for (ScArc currentScArc : inputArcs) {
+//                System.out.println(currentScArc.getStartScNode().getName()
+//                    + " --> " + currentScArc.getEndScNode().getName() + "\n");
+//            }
+            System.out.println("\n------------f_a_a-----------------\n");
+            Iterator i = performer.createIterator_3_f_a_a(node1, "CONST", "sd");
+            while (i.hasNext()) {
+                i.next();
+            }
+            System.out.println("\n-------------a_a_f----------------\n");
+            i = performer.createIterator_3_a_a_f("s", "CONST", arc1);
+            while (i.hasNext()) {
+                i.next();
+            }
+            System.out.println("\n-------------f_a_f----------------\n");
+            i = performer.createIterator_3_f_a_f(arc1, "CONST", find3);
+            while (i.hasNext()) {
+                i.next();
             }
 
             long time = System.currentTimeMillis();
@@ -103,7 +119,8 @@ public class MainForTest {
 
         try {
             performer.startExecution();
-        } finally {
+        }
+        finally {
             performer.finishExecution();
         }
     }

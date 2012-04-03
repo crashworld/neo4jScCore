@@ -1,6 +1,10 @@
 package net.ostis.sccore.scperformer;
 
+import java.util.Iterator;
 import java.util.List;
+import net.ostis.sccore.iterators.ScIterator_3_a_a_f;
+import net.ostis.sccore.iterators.ScIterator_3_f_a_a;
+import net.ostis.sccore.iterators.ScIterator_3_f_a_f;
 
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
@@ -13,6 +17,7 @@ import org.neo4j.kernel.AbstractGraphDatabase;
 
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScArcImpl;
+import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scelements.ScNodeImpl;
 import net.ostis.sccore.scevents.ScEvent;
@@ -30,7 +35,6 @@ import net.ostis.sccore.scfactory.ScFactoryImpl;
 public class ScPerformerImpl extends ScPerformer {
 
     private AbstractGraphDatabase dataBase;
-
     private Transaction transaction;
 
     /**
@@ -95,7 +99,7 @@ public class ScPerformerImpl extends ScPerformer {
      */
     @Override
     public void deleteScArc(ScArc arc) {
-        ScArcImpl arcImpl = (ScArcImpl)arc;
+        ScArcImpl arcImpl = (ScArcImpl) arc;
         List<ScArc> inputArcsList = arcImpl.getAllInputScArcs();
 
         for (ScArc currentArc : inputArcsList) {
@@ -136,7 +140,7 @@ public class ScPerformerImpl extends ScPerformer {
      */
     @Override
     public void deleteScNode(ScNode scNode) {
-        ScNodeImpl scNodeImpl = (ScNodeImpl)scNode;
+        ScNodeImpl scNodeImpl = (ScNodeImpl) scNode;
         List<ScArc> scArcsList = scNodeImpl.getAllScArc();
 
         for (ScArc currentArc : scArcsList) {
@@ -151,5 +155,44 @@ public class ScPerformerImpl extends ScPerformer {
         node.delete();
 
         scNode = null;
+    }
+
+    /**
+     * Creates f_a_f iterator.
+     *
+     * @param first first element in constraint
+     * @param secondType type of second element in constraint
+     * @param third element in constraint
+     * @return java.util.Iterator for iterate over ScConstraints
+     */
+    @Override
+    public Iterator createIterator_3_f_a_f(ScElement first, String secondType, ScElement third) {
+        return new ScIterator_3_f_a_f(dataBase, first, secondType, third);
+    }
+
+    /**
+     * Creates f_a_a iterator.
+     *
+     * @param first first element in constraint
+     * @param secondType type of second element in constraint
+     * @param thirdType type of third element in constraint
+     * @return java.util.Iterator for iterate over ScConstraints
+     */
+    @Override
+    public Iterator createIterator_3_f_a_a(ScElement first, String secondType, String thirdType) {
+        return new ScIterator_3_f_a_a(dataBase, first, secondType, thirdType);
+    }
+
+    /**
+     * Creates a_a_f iterator.
+     *
+     * @param firstType type of first element in constraint
+     * @param secondType type of second element in constraint
+     * @param third element in constraint
+     * @return java.util.Iterator for iterate over ScConstraints
+     */
+    @Override
+    public Iterator createIterator_3_a_a_f(String firstType, String secondType, ScElement third) {
+        return new ScIterator_3_a_a_f(dataBase, firstType, secondType, third);
     }
 }
