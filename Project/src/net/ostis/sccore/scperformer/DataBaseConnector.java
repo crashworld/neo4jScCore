@@ -33,8 +33,8 @@ public class DataBaseConnector {
 
 
         /* start server */
-        //WrappingNeoServerBootstrapper server = new WrappingNeoServerBootstrapper(dataBase);
-        //server.start();
+        WrappingNeoServerBootstrapper server = new WrappingNeoServerBootstrapper(dataBase);
+        server.start();
 
         return dataBase;
     }
@@ -42,6 +42,7 @@ public class DataBaseConnector {
     private static void registerShutDownHook(final AbstractGraphDatabase db) {
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
+
             @Override
             public void run() {
                 db.shutdown();

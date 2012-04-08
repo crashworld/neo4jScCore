@@ -1,6 +1,8 @@
 package net.ostis.sccore.scperformer;
 
+import java.util.Iterator;
 import net.ostis.sccore.scelements.ScArc;
+import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scfactory.ScFactory;
 import net.ostis.sccore.scfactory.ScFactoryImpl;
@@ -56,4 +58,34 @@ public abstract class ScPerformer {
      * @param scNode deleted sc node
      */
     public abstract void deleteScNode(ScNode scNode);
+
+    /**
+     * Creates f_a_f iterator.
+     *
+     * @param first first element in constraint
+     * @param secondType type of second element in constraint
+     * @param third element in constraint
+     * @return java.util.Iterator for iterate over ScConstraints
+     */
+    public abstract Iterator createIterator_3_f_a_f(ScElement first, String secondType, ScElement third);
+
+    /**
+     * Creates f_a_a iterator.
+     *
+     * @param first first element in constraint
+     * @param secondType type of second element in constraint
+     * @param thirdType type of third element in constraint
+     * @return java.util.Iterator for iterate over ScConstraints
+     */
+    public abstract Iterator createIterator_3_f_a_a(ScElement first, String secondType, String thirdType);
+
+    /**
+     * Creates a_a_f iterator.
+     *
+     * @param firstType type of first element in constraint
+     * @param secondType type of second element in constraint
+     * @param third element in constraint
+     * @return java.util.Iterator for iterate over ScConstraints
+     */
+    public abstract Iterator createIterator_3_a_a_f(String firstType, String secondType, ScElement third);
 }
