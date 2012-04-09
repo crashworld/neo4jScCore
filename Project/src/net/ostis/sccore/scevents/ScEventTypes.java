@@ -7,6 +7,7 @@ package net.ostis.sccore.scevents;
  * @author yaskoam
  */
 public enum ScEventTypes {
+    CREATE_SC_ELEMENT_TYPES("CREATE_SC_ELEMENT_TYPES"),
     CREATE_SC_NODE("CREATE_SC_NODE"),
     DELETE_SC_NODE("DELETE_SC_NODE"),
     ATTACH_INPUT_TO_NODE("ATTACH_INPUT_TO_NODE"),
@@ -15,6 +16,7 @@ public enum ScEventTypes {
     DETACH_INPUT_FROM_NODE("DETACH_INPUT_FROM_NODE"),
     DETACH_OUTPUT_FROM_NODE("DETACH_OUTPUT_FROM_NODE"),
     DETACH_INPUT_FROM_ARC("DETACH_INPUT_FROM_ARC");
+    
 
     private String typeName = "";
     

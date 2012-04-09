@@ -9,6 +9,9 @@ import java.util.List;
 public abstract class ScNode extends ScElement {
     /** String constant for name of node attribute. */
     public static final String SC_NODE_NAME_PROPERTY = "_scNodeName";
+    /** String constant for type of element         */
+    public static final String Sc_ELEMENT_TYPE = "_scElementType";
+   
 
     /**
      * Method that get name of sc node.

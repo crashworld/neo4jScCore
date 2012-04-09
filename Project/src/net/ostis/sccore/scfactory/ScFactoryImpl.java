@@ -18,6 +18,8 @@ import net.ostis.sccore.scevents.ScEventHandler;
 import net.ostis.sccore.scevents.ScEventTypes;
 
 import net.ostis.sccore.types.ScElementTypes;
+import org.neo4j.graphdb.index.Index;
+import org.neo4j.graphdb.index.IndexManager;
 
 /**
  * Class that implement sc factory.
@@ -28,7 +30,7 @@ public class ScFactoryImpl extends ScFactory {
 
     private AbstractGraphDatabase dataBase = null;
 
-    private static ScFactoryImpl factory = null;
+    private static ScFactoryImpl factory = null;    
 
     /**
      * Private constructor
@@ -51,6 +53,7 @@ public class ScFactoryImpl extends ScFactory {
         return factory;
     }
 
+    
     /**
      * Method that create sc node.
      *
@@ -344,5 +347,10 @@ public class ScFactoryImpl extends ScFactory {
 
     public void setDataBase(AbstractGraphDatabase dataBase) {
         this.dataBase = dataBase;
+    }
+    
+    public AbstractGraphDatabase getDataBase()
+    {
+        return this.dataBase;
     }
 }

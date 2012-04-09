@@ -26,6 +26,8 @@ import net.ostis.sccore.scevents.ScEventTypes;
 import net.ostis.sccore.scfactory.RelTypes;
 import net.ostis.sccore.scfactory.ScFactory;
 import net.ostis.sccore.scfactory.ScFactoryImpl;
+import net.ostis.sccore.types.ScElementTypes;
+import org.neo4j.graphdb.index.IndexManager;
 
 /**
  * Class that provide all general actions with sc memory.
@@ -44,6 +46,7 @@ public class ScPerformerImpl extends ScPerformer {
      */
     public ScPerformerImpl(String basePath) {
         dataBase = DataBaseConnector.getDataBaseInstance(basePath);
+        
         ScFactoryImpl factory = ScFactoryImpl.getInstance();
         factory.setDataBase(dataBase);
     }
@@ -59,15 +62,16 @@ public class ScPerformerImpl extends ScPerformer {
     }
 
     /**
-     * Method that start data base transaction
+     * Method that start data base transaction and start create Index for types
      * for execute different operation.
      */
     @Override
     public void startExecution() {
         transaction = dataBase.beginTx();
+        DataBaseConnector.createIndex(dataBase);
     }
-
-    /**
+    
+     /**
      * Method that finish transaction.
      *
      */

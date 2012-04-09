@@ -9,7 +9,11 @@ import org.neo4j.graphdb.Relationship;
 
 import net.ostis.sccore.contents.Content;
 import net.ostis.sccore.scfactory.RelTypes;
+import net.ostis.sccore.scfactory.ScFactory;
+import net.ostis.sccore.scfactory.ScFactoryImpl;
 import net.ostis.sccore.types.ScElementTypes;
+import org.neo4j.graphdb.index.IndexManager;
+import org.neo4j.kernel.AbstractGraphDatabase;
 
 /**
  * Class that implement SC node.
@@ -91,6 +95,13 @@ public class ScNodeImpl extends ScNode {
      */
     @Override
     public void addType(ScElementTypes type) {
+        ScFactoryImpl factory = ScFactoryImpl.getInstance();
+        AbstractGraphDatabase dataBase = factory.getDataBase();
+        IndexManager index = dataBase.index();   
+            Node node = index.forNodes( ScNode.Sc_ELEMENT_TYPE ).get(ScNode.Sc_ELEMENT_TYPE, type.toString()).getSingle();            
+            if(node!=null)         
+                factory.createScArc(this, new ScNodeImpl(node));
+       
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -100,7 +111,11 @@ public class ScNodeImpl extends ScNode {
      * @param types list of types name
      */
     @Override
-    public void addTypes(List<ScElementTypes> types) {
+    public void addTypes(List<ScElementTypes> types) {        
+       for(ScElementTypes type : types)           
+       {    
+           this.addType(type);            
+       }
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -110,8 +125,23 @@ public class ScNodeImpl extends ScNode {
      * @return list of types
      */
     @Override
-    public List<ScElementTypes> getTypes() {
-        return null;
+    public List<ScElementTypes> getTypes() {        
+        ScElementTypes[] scTypes = ScElementTypes.values();
+        List<ScElementTypes> scCurrentTypes = new ArrayList<ScElementTypes>();               
+        List<ScArc> scArcsList = this.getAllInputScArcs();
+        ScFactoryImpl factory = ScFactoryImpl.getInstance();
+        AbstractGraphDatabase dataBase = factory.getDataBase();
+        IndexManager index = dataBase.index();   
+        
+        for(ScArc arc : scArcsList)
+        {
+            ScNode node = arc.getEndScNode();            
+                       
+            if(index.forNodes( ScNode.Sc_ELEMENT_TYPE ).get(ScNode.Sc_ELEMENT_TYPE, node.getName()).getSingle()!=null)         
+                 scCurrentTypes.add(ScElementTypes.valueOf(node.getName()));
+        }
+       
+        return scCurrentTypes;
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -122,6 +152,11 @@ public class ScNodeImpl extends ScNode {
      */
     @Override
     public void removeType(ScElementTypes type) {
+        ScFactory factory = ScFactoryImpl.getInstance();
+        
+       ////////////////////////////////////////////////////////////////////////////
+       ScNode node = new ScNodeImpl(neo4jNode);
+       factory.createScArc(this, node, type);
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 

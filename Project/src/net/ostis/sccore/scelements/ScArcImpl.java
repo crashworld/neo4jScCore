@@ -8,7 +8,10 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
 import net.ostis.sccore.scfactory.RelTypes;
+import net.ostis.sccore.scfactory.ScFactoryImpl;
 import net.ostis.sccore.types.ScElementTypes;
+import org.neo4j.graphdb.index.IndexManager;
+import org.neo4j.kernel.AbstractGraphDatabase;
 
 /**
  * Class that implement sc arc.
@@ -65,6 +68,13 @@ public class ScArcImpl extends ScArc {
      */
     @Override
     public void addType(ScElementTypes type) {
+        ScFactoryImpl factory = ScFactoryImpl.getInstance();
+        AbstractGraphDatabase dataBase = factory.getDataBase();
+        IndexManager index = dataBase.index();   
+            Node node = index.forNodes( ScNode.Sc_ELEMENT_TYPE ).get(ScNode.Sc_ELEMENT_TYPE, type.toString()).getSingle();            
+            //фак май мозг!!!!
+//            if(node!=null)         
+//                factory.createScArc(this, new ScNodeImpl(node));
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -75,6 +85,10 @@ public class ScArcImpl extends ScArc {
      */
     @Override
     public void addTypes(List<ScElementTypes> types) {
+       for(ScElementTypes type : types)           
+       {    
+           this.addType(type);            
+       }
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -85,7 +99,22 @@ public class ScArcImpl extends ScArc {
      */
     @Override
     public List<ScElementTypes> getTypes() {
-        return null;
+        ScElementTypes[] scTypes = ScElementTypes.values();
+        List<ScElementTypes> scCurrentTypes = new ArrayList<ScElementTypes>();               
+        List<ScArc> scArcsList = this.getAllInputScArcs();
+        ScFactoryImpl factory = ScFactoryImpl.getInstance();
+        AbstractGraphDatabase dataBase = factory.getDataBase();
+        IndexManager index = dataBase.index();   
+        
+        for(ScArc arc : scArcsList)
+        {
+            ScNode node = arc.getEndScNode();            
+                       
+            if(index.forNodes( ScNode.Sc_ELEMENT_TYPE ).get(ScNode.Sc_ELEMENT_TYPE, node.getName()).getSingle()!=null)         
+                 scCurrentTypes.add(ScElementTypes.valueOf(node.getName()));
+        }
+       
+        return scCurrentTypes;
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 

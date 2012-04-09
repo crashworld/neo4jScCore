@@ -12,6 +12,22 @@ package net.ostis.sccore.types;
  */
 public enum ScElementTypes {
 
+    NODE("NODE"),
+    
+    ARC("ARC"),
+    
+    CONST("CONST"),
+    
+    VAR("VAR"),
+    
+    META("META"),
+    
+    POS("POS"),
+    
+    NEG("NEG"),
+    
+    FUZ("FUZ"),
+    
     ARC_CONST("ARC_CONST"),
     
     NODE_CONST("NODE_CONST");
@@ -26,4 +42,6 @@ public enum ScElementTypes {
     public String toString() {
         return this.typeName;
     }
+    
+    
 }
