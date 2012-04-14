@@ -1,11 +1,13 @@
 package net.ostis.sccore.scperformer;
 
 import java.util.Iterator;
+import java.util.List;
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scfactory.ScFactory;
 import net.ostis.sccore.scfactory.ScFactoryImpl;
+import net.ostis.sccore.types.ScElementTypes;
 
 /**
  * Class that provide all general actions with sc memory.
@@ -67,7 +69,7 @@ public abstract class ScPerformer {
      * @param third element in constraint
      * @return java.util.Iterator for iterate over ScConstraints
      */
-    public abstract Iterator createIterator_3_f_a_f(ScElement first, String secondType, ScElement third);
+    public abstract Iterator createIterator_3_f_a_f(ScElement first, List<ScElementTypes> arcTypes, ScElement third);
 
     /**
      * Creates f_a_a iterator.
@@ -77,7 +79,8 @@ public abstract class ScPerformer {
      * @param thirdType type of third element in constraint
      * @return java.util.Iterator for iterate over ScConstraints
      */
-    public abstract Iterator createIterator_3_f_a_a(ScElement first, String secondType, String thirdType);
+    public abstract Iterator createIterator_3_f_a_a(ScElement first, List<ScElementTypes> secondTypes,
+            List<ScElementTypes> thirdTypes);
 
     /**
      * Creates a_a_f iterator.
@@ -87,5 +90,6 @@ public abstract class ScPerformer {
      * @param third element in constraint
      * @return java.util.Iterator for iterate over ScConstraints
      */
-    public abstract Iterator createIterator_3_a_a_f(String firstType, String secondType, ScElement third);
+    public abstract Iterator createIterator_3_a_a_f(List<ScElementTypes> nodeTypes,
+            List<ScElementTypes> arcTypes, ScElement third);
 }

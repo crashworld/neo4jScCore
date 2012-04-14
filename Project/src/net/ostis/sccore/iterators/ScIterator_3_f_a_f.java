@@ -19,6 +19,7 @@ import net.ostis.sccore.scelements.ScArcImpl;
 import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scelements.ScNodeImpl;
+import net.ostis.sccore.types.ScElementTypes;
 
 /**
  * Iterates over 3_f_a_f constructions in database.
@@ -28,16 +29,26 @@ public class ScIterator_3_f_a_f implements ScIterator {
 
     private Iterator<Map<String, Object>> resultIterator;
 
-    public ScIterator_3_f_a_f(AbstractGraphDatabase db, ScElement firstElement, String secondType, ScElement thirdElement) {
+    public ScIterator_3_f_a_f(AbstractGraphDatabase db, ScElement firstElement, List<ScElementTypes> arcTypes,
+            ScElement thirdElement) {
+
+        StringBuilder arcTypesMatchExpr = new StringBuilder("");
+        StringBuilder arcTypesWhereExpr = new StringBuilder("");
+        int n = 0;
+        for (ScElementTypes arcType : arcTypes) {
+            arcTypesMatchExpr.append(", arc2<-[:endLink]-()<-[:beginLink]-type" + n);
+            arcTypesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + arcType.name() + "\"");
+            n++;
+        }
 
         ExecutionEngine engine = new ExecutionEngine(db);
-
-        //Just test query. Types needed.
         ExecutionResult result = engine.execute(
-            "START node1=node(" + firstElement.getAddress() + "), elem3=node(" + thirdElement.getAddress() + ") "
-            + "MATCH node1--arc2--elem3 "
-            + "WHERE (not(elem3._connectorNode)) or (arc2-->elem3) "
-            + "RETURN node1, arc2, elem3");
+                "START node1=node(" + firstElement.getAddress() + "), elem3=node(" + thirdElement.getAddress() + ") "
+                + "MATCH node1--arc2--elem3"
+                + arcTypesMatchExpr + " "
+                + "WHERE ((not(elem3._connectorNode)) or (arc2-->elem3)) "
+                + arcTypesWhereExpr + " "
+                + "RETURN node1, arc2, elem3");
 
         //test>>>>>>>>>>>>
         System.out.println(result);

@@ -73,8 +73,8 @@ public class ScArcImpl extends ScArc {
         IndexManager index = dataBase.index();   
             Node node = index.forNodes( ScNode.Sc_ELEMENT_TYPE ).get(ScNode.Sc_ELEMENT_TYPE, type.toString()).getSingle();            
             //фак май мозг!!!!
-//            if(node!=null)         
-//                factory.createScArc(this, new ScNodeImpl(node));
+            if(node!=null)         
+                factory.createScArc(new ScNodeImpl(node), this);
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -108,7 +108,7 @@ public class ScArcImpl extends ScArc {
         
         for(ScArc arc : scArcsList)
         {
-            ScNode node = arc.getEndScNode();            
+            ScNode node = arc.getStartScNode();
                        
             if(index.forNodes( ScNode.Sc_ELEMENT_TYPE ).get(ScNode.Sc_ELEMENT_TYPE, node.getName()).getSingle()!=null)         
                  scCurrentTypes.add(ScElementTypes.valueOf(node.getName()));

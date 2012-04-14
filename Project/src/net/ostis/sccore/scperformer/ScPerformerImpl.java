@@ -46,7 +46,7 @@ public class ScPerformerImpl extends ScPerformer {
      */
     public ScPerformerImpl(String basePath) {
         dataBase = DataBaseConnector.getDataBaseInstance(basePath);
-        
+
         ScFactoryImpl factory = ScFactoryImpl.getInstance();
         factory.setDataBase(dataBase);
     }
@@ -70,8 +70,8 @@ public class ScPerformerImpl extends ScPerformer {
         transaction = dataBase.beginTx();
         DataBaseConnector.createIndex(dataBase);
     }
-    
-     /**
+
+    /**
      * Method that finish transaction.
      *
      */
@@ -170,8 +170,8 @@ public class ScPerformerImpl extends ScPerformer {
      * @return java.util.Iterator for iterate over ScConstraints
      */
     @Override
-    public Iterator createIterator_3_f_a_f(ScElement first, String secondType, ScElement third) {
-        return new ScIterator_3_f_a_f(dataBase, first, secondType, third);
+    public Iterator createIterator_3_f_a_f(ScElement first, List<ScElementTypes> arcTypes, ScElement third) {
+        return new ScIterator_3_f_a_f(dataBase, first, arcTypes, third);
     }
 
     /**
@@ -183,8 +183,9 @@ public class ScPerformerImpl extends ScPerformer {
      * @return java.util.Iterator for iterate over ScConstraints
      */
     @Override
-    public Iterator createIterator_3_f_a_a(ScElement first, String secondType, String thirdType) {
-        return new ScIterator_3_f_a_a(dataBase, first, secondType, thirdType);
+    public Iterator createIterator_3_f_a_a(ScElement first, List<ScElementTypes> secondTypes,
+            List<ScElementTypes> thirdTypes) {
+        return new ScIterator_3_f_a_a(dataBase, first, secondTypes, thirdTypes);
     }
 
     /**
@@ -196,7 +197,8 @@ public class ScPerformerImpl extends ScPerformer {
      * @return java.util.Iterator for iterate over ScConstraints
      */
     @Override
-    public Iterator createIterator_3_a_a_f(String firstType, String secondType, ScElement third) {
-        return new ScIterator_3_a_a_f(dataBase, firstType, secondType, third);
+    public Iterator createIterator_3_a_a_f(List<ScElementTypes> nodeTypes,
+            List<ScElementTypes> arcTypes, ScElement third) {
+        return new ScIterator_3_a_a_f(dataBase, nodeTypes, arcTypes, third);
     }
 }

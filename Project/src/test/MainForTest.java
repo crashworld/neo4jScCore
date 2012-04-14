@@ -36,91 +36,65 @@ public class MainForTest {
             ScNode node2 = factory.createScNode("second", ScElementTypes.NODE_CONST);
             ScNode node3 = factory.createScNode("third", ScElementTypes.NODE_CONST);
 
-            ScEventHandler eventHandler = ScEventHandler.getInstance();
-            ScEventListener eventListener = ScEventFactory.createScListner(ScEventTypes.ATTACH_INPUT_TO_NODE,
-                new WhenCreateArcToSecondNode(factory), node2);
-
-            ScEventListener eventListener1 = ScEventFactory.createScListner(ScEventTypes.ATTACH_OUTPUT_TO_NODE,
-                new WhenCreateArcFromSecondNode(factory), node3);
-
-            ScEventListener eventListener2 = ScEventFactory.createScListner(ScEventTypes.DETACH_OUTPUT_FROM_NODE,
-                new WhenDetachFromFirstNode(performer), node1);
-
-            ScEventListener eventListener3 = ScEventFactory.createScListner(ScEventTypes.ATTACH_INPUT_TO_ARC,
-                new WhenAttachToArc(factory), node1);
-
-            eventHandler.subscribeOnEvent(eventListener);
-            eventHandler.subscribeOnEvent(eventListener1);
-            eventHandler.subscribeOnEvent(eventListener2);
-            eventHandler.subscribeOnEvent(eventListener3);
+//            ScEventHandler eventHandler = ScEventHandler.getInstance();
+//            ScEventListener eventListener = ScEventFactory.createScListner(ScEventTypes.ATTACH_INPUT_TO_NODE,
+//                new WhenCreateArcToSecondNode(factory), node2);
+//
+//            ScEventListener eventListener1 = ScEventFactory.createScListner(ScEventTypes.ATTACH_OUTPUT_TO_NODE,
+//                new WhenCreateArcFromSecondNode(factory), node3);
+//
+//            ScEventListener eventListener2 = ScEventFactory.createScListner(ScEventTypes.DETACH_OUTPUT_FROM_NODE,
+//                new WhenDetachFromFirstNode(performer), node1);
+//
+//            ScEventListener eventListener3 = ScEventFactory.createScListner(ScEventTypes.ATTACH_INPUT_TO_ARC,
+//                new WhenAttachToArc(factory), node1);
+//
+//            eventHandler.subscribeOnEvent(eventListener);
+//            eventHandler.subscribeOnEvent(eventListener1);
+//            eventHandler.subscribeOnEvent(eventListener2);
+//            eventHandler.subscribeOnEvent(eventListener3);
 
             List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
             typeList.add(ScElementTypes.ARC_CONST);
-            factory.generate_5_f_a_f_a_f(node1, typeList, node2, typeList, node3);
+            factory.generate_3_f_a_f(node1, typeList, node2);
 
             ScNode find1 = performer.findScNodeByName("first");
             ScNode find2 = performer.findScNodeByName("second");
             ScNode find3 = performer.findScNodeByName("third");
+            factory.createScArc(find1, find2);
 
-            ScArc arc1 = node1.getAllOutputScArcs().get(0);
-            ScArc arc2 = node3.getAllOutputScArcs().get(0);
-
-//            System.out.println(find1.getName() + " -> " + arc1.getType() + " -> " + find2.getName());
-//            System.out.println(find3.getName() + " -> " + arc2.getType() + " -> " + arc1.getType());
-
-
-//            ScArc arc3 = node2.getAllInputScArcs().get(0);
-
-//            System.out.println(arc3.getStartScNode().getName());
-//            System.out.println(arc3.getEndScNode().getName());
-
-//            List<ScArc> inputArcs = arc1.getAllInputScArcs();
-//
-//            System.out.println("input arcs from: ");
-//            for (ScArc currentScArc : inputArcs) {
-//                System.out.println(currentScArc.getStartScNode().getName());
+            //find2.addType(ScElementTypes.VAR);
+//            List<ScElementTypes> typeList2 = new ArrayList<ScElementTypes>();
+//            typeList2.add(ScElementTypes.NODE_CONST);
+            //typeList2.add(ScElementTypes.VAR);
+//            System.out.println("\n------------f_a_a-----------------\n");
+//            Iterator i = performer.createIterator_3_f_a_a(find1, typeList, typeList2);
+//            while (i.hasNext()) {
+//                i.next();
 //            }
-
-//            List<ScArc> inputArcs = node1.getAllOutputScArcs();
-//            for (ScArc currentScArc : inputArcs) {
-//                System.out.println(currentScArc.getStartScNode().getName()
-//                    + " --> " + currentScArc.getEndScNode().getName() + "\n");
+//            System.out.println("\n-------------a_a_f----------------\n");
+//            Iterator i = performer.createIterator_3_a_a_f(typeList2, typeList, find2);
+//            while (i.hasNext()) {
+//                i.next();
 //            }
-            System.out.println("\n------------f_a_a-----------------\n");
-            Iterator i = performer.createIterator_3_f_a_a(node1, "CONST", "sd");
-            while (i.hasNext()) {
-                i.next();
-            }
-            System.out.println("\n-------------a_a_f----------------\n");
-            i = performer.createIterator_3_a_a_f("s", "CONST", arc1);
-            while (i.hasNext()) {
-                i.next();
-            }
-            System.out.println("\n-------------f_a_f----------------\n");
-            i = performer.createIterator_3_f_a_f(arc1, "CONST", find3);
-            while (i.hasNext()) {
-                i.next();
-            }
+//            System.out.println("\n-------------f_a_f----------------\n");
+//            Iterator i = performer.createIterator_3_f_a_f(find1, typeList, find2);
+//            while (i.hasNext()) {
+//                i.next();
+//            }
 
             long time = System.currentTimeMillis();
             System.out.println("execute in: " + (System.currentTimeMillis() - time));
 
-            //performer.deleteScNode(performer.findScNodeByName("first"));
-            //performer.deleteScArc(arc1);
-            //        for (int i = 0; i < 50500; i++) {
-            //            factory.createScNode(Integer.toString(i), ScNodeTypes.CONST);
-            //        }
 
-        }
-        finally {
+        } finally {
             //!!! necessarily required (close transaction)
             performer.finishExecution();
         }
 
         try {
             performer.startExecution();
-        }
-        finally {
+        } finally {
             performer.finishExecution();
         }
     }
