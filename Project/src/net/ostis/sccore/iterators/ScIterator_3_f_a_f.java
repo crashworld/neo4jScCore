@@ -32,12 +32,12 @@ public class ScIterator_3_f_a_f implements ScIterator {
     public ScIterator_3_f_a_f(AbstractGraphDatabase db, ScElement firstElement, List<ScElementTypes> arcTypes,
             ScElement thirdElement) {
 
-        StringBuilder arcTypesMatchExpr = new StringBuilder("");
-        StringBuilder arcTypesWhereExpr = new StringBuilder("");
+        StringBuilder typesMatchExpr = new StringBuilder("");
+        StringBuilder typesWhereExpr = new StringBuilder("");
         int n = 0;
         for (ScElementTypes arcType : arcTypes) {
-            arcTypesMatchExpr.append(", arc2<-[:endLink]-()<-[:beginLink]-type" + n);
-            arcTypesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + arcType.name() + "\"");
+            typesMatchExpr.append(", arc2<-[:endLink]-()<-[:beginLink]-type" + n);
+            typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + arcType.name() + "\"");
             n++;
         }
 
@@ -45,9 +45,9 @@ public class ScIterator_3_f_a_f implements ScIterator {
         ExecutionResult result = engine.execute(
                 "START node1=node(" + firstElement.getAddress() + "), elem3=node(" + thirdElement.getAddress() + ") "
                 + "MATCH node1--arc2--elem3"
-                + arcTypesMatchExpr + " "
+                + typesMatchExpr + " "
                 + "WHERE ((not(elem3._connectorNode)) or (arc2-->elem3)) "
-                + arcTypesWhereExpr + " "
+                + typesWhereExpr + " "
                 + "RETURN node1, arc2, elem3");
 
         //test>>>>>>>>>>>>
@@ -66,7 +66,7 @@ public class ScIterator_3_f_a_f implements ScIterator {
      * @return 3_f_a_f constraint
      */
     public ScConstraint next() {
-        return ScConstraint.createConstraintFromResultSet(resultIterator.next());
+        return ScConstraint.createThreeElementConstraint(resultIterator.next());
     }
 
     public void remove() {

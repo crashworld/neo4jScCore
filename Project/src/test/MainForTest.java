@@ -56,22 +56,22 @@ public class MainForTest {
 
             List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
             typeList.add(ScElementTypes.ARC_CONST);
-            factory.generate_3_f_a_f(node1, typeList, node2);
+            factory.generate_5_f_a_f_a_f(node1, typeList, node2, typeList, node3);
+            // factory.generate_3_f_a_f(node1, typeList, node2);
 
             ScNode find1 = performer.findScNodeByName("first");
             ScNode find2 = performer.findScNodeByName("second");
             ScNode find3 = performer.findScNodeByName("third");
-            factory.createScArc(find1, find2);
 
-            //find2.addType(ScElementTypes.VAR);
-//            List<ScElementTypes> typeList2 = new ArrayList<ScElementTypes>();
-//            typeList2.add(ScElementTypes.NODE_CONST);
-            //typeList2.add(ScElementTypes.VAR);
-//            System.out.println("\n------------f_a_a-----------------\n");
-//            Iterator i = performer.createIterator_3_f_a_a(find1, typeList, typeList2);
-//            while (i.hasNext()) {
-//                i.next();
-//            }
+            List<ScElementTypes> typeList2 = new ArrayList<ScElementTypes>();
+            typeList2.add(ScElementTypes.NODE_CONST);
+
+            System.out.println("\n------------f_a_f_a_a-----------------\n");
+            Iterator i = performer.ScIterator_5_f_a_f_a_a(find1, typeList, find2, typeList, typeList2);
+            while (i.hasNext()) {
+                i.next();
+            }
+
 //            System.out.println("\n-------------a_a_f----------------\n");
 //            Iterator i = performer.createIterator_3_a_a_f(typeList2, typeList, find2);
 //            while (i.hasNext()) {

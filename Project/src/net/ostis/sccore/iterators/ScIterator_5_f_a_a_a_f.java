@@ -1,0 +1,74 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package net.ostis.sccore.iterators;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import net.ostis.sccore.scelements.ScElement;
+import net.ostis.sccore.types.ScElementTypes;
+import org.neo4j.cypher.javacompat.ExecutionEngine;
+import org.neo4j.cypher.javacompat.ExecutionResult;
+import org.neo4j.kernel.AbstractGraphDatabase;
+
+/**
+ *
+ * @author SeeDuke
+ */
+public class ScIterator_5_f_a_a_a_f implements ScIterator {
+
+    private Iterator<Map<String, Object>> resultIterator;
+
+    public ScIterator_5_f_a_a_a_f(AbstractGraphDatabase db, ScElement firstElement, List<ScElementTypes> secondTypes,
+            List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, ScElement fifthElement) {
+
+        StringBuilder typesMatchExpr = new StringBuilder("");
+        StringBuilder typesWhereExpr = new StringBuilder("");
+        int n = 0;
+        for (ScElementTypes nodeType : secondTypes) {
+            typesMatchExpr.append(", arc2<-[:endLink]-()<-[:beginLink]-type" + n);
+            typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + nodeType.name() + "\"");
+            n++;
+        }
+        for (ScElementTypes nodeType : thirdTypes) {
+            typesMatchExpr.append(", elem3<-[:endLink]-()<-[:beginLink]-type" + n);
+            typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + nodeType.name() + "\"");
+            n++;
+        }
+        for (ScElementTypes nodeType : fourthTypes) {
+            typesMatchExpr.append(", arc4<-[:endLink]-()<-[:beginLink]-type" + n);
+            typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + nodeType.name() + "\"");
+            n++;
+        }
+
+        ExecutionEngine engine = new ExecutionEngine(db);
+        ExecutionResult result = engine.execute(
+                "START node1=node(" + firstElement.getAddress() + "), node5=node(" + fifthElement.getAddress() + ") "
+                + "MATCH node1-[:beginLink]->arc2-[:endLink]->elem3, arc2<-[:endLink]-arc4<-[:beginLink]-node5 "
+                + typesMatchExpr + " "
+                + "WHERE not(node1._connectorNode) "
+                + typesWhereExpr + " "
+                + "RETURN node1, arc2, elem3, arc4, node5");
+
+        //test>>>>>>>>>>>>
+        System.out.println(result);
+        //test<<<<<<<<<<<<<
+
+        resultIterator = result.iterator();
+
+    }
+
+    public boolean hasNext() {
+        return resultIterator.hasNext();
+    }
+
+    public ScConstraint next() {
+        return ScConstraint.createFiveElementConstraint(resultIterator.next());
+    }
+
+    public void remove() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+}

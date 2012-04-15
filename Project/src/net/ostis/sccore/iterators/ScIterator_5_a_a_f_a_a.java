@@ -7,47 +7,56 @@ package net.ostis.sccore.iterators;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
+import net.ostis.sccore.scelements.ScElement;
+import net.ostis.sccore.types.ScElementTypes;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.kernel.AbstractGraphDatabase;
 
-import net.ostis.sccore.scelements.ScElement;
-import net.ostis.sccore.types.ScElementTypes;
-
 /**
- * Iterates over 3_a_a_f constructions in database.
- * @author Q-ANS
+ *
+ * @author SeeDuke
  */
-public class ScIterator_3_a_a_f implements ScIterator {
+public class ScIterator_5_a_a_f_a_a implements ScIterator {
 
     private Iterator<Map<String, Object>> resultIterator;
 
-    public ScIterator_3_a_a_f(AbstractGraphDatabase db, List<ScElementTypes> nodeTypes, List<ScElementTypes> arcTypes,
-            ScElement thirdElement) {
+    public ScIterator_5_a_a_f_a_a(AbstractGraphDatabase db, List<ScElementTypes> firstTypes,
+            List<ScElementTypes> secondTypes, ScElement thirdElement, List<ScElementTypes> fourthTypes,
+            List<ScElementTypes> fifthTypes) {
 
         StringBuilder typesMatchExpr = new StringBuilder("");
         StringBuilder typesWhereExpr = new StringBuilder("");
         int n = 0;
-        for (ScElementTypes nodeType : nodeTypes) {
+        for (ScElementTypes nodeType : firstTypes) {
             typesMatchExpr.append(", node1<-[:endLink]-()<-[:beginLink]-type" + n);
             typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + nodeType.name() + "\"");
             n++;
         }
-        for (ScElementTypes arcType : arcTypes) {
+        for (ScElementTypes nodeType : secondTypes) {
             typesMatchExpr.append(", arc2<-[:endLink]-()<-[:beginLink]-type" + n);
-            typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + arcType.name() + "\"");
+            typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + nodeType.name() + "\"");
+            n++;
+        }
+        for (ScElementTypes nodeType : fourthTypes) {
+            typesMatchExpr.append(", arc4<-[:endLink]-()<-[:beginLink]-type" + n);
+            typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + nodeType.name() + "\"");
+            n++;
+        }
+        for (ScElementTypes nodeType : fifthTypes) {
+            typesMatchExpr.append(", node5<-[:endLink]-()<-[:beginLink]-type" + n);
+            typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + nodeType.name() + "\"");
             n++;
         }
 
         ExecutionEngine engine = new ExecutionEngine(db);
         ExecutionResult result = engine.execute(
                 "START elem3=node(" + thirdElement.getAddress() + ") "
-                + "MATCH elem3<-[:endLink]-arc2<-[:beginLink]-node1 "
+                + "MATCH node1-[:beginLink]->arc2-[:endLink]->elem3, arc2<-[:endLink]-arc4<-[:beginLink]-node5 "
                 + typesMatchExpr + " "
                 + "WHERE not(node1._connectorNode) "
                 + typesWhereExpr + " "
-                + "RETURN node1, arc2, elem3 ");
+                + "RETURN node1, arc2, elem3, arc4, node5");
 
         //test>>>>>>>>>>>>
         System.out.println(result);
@@ -61,12 +70,8 @@ public class ScIterator_3_a_a_f implements ScIterator {
         return resultIterator.hasNext();
     }
 
-    /**
-     * Returns 3_a_a_f constraint from next iterator result.
-     * @return 3_a_a_f constraint
-     */
     public ScConstraint next() {
-        return ScConstraint.createThreeElementConstraint(resultIterator.next());
+        return ScConstraint.createFiveElementConstraint(resultIterator.next());
     }
 
     public void remove() {

@@ -15,6 +15,7 @@ import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scelements.ScNodeImpl;
 import org.neo4j.graphdb.Node;
+import scala.reflect.This;
 
 /**
  * Provides 3-elements and 5-elements sc-constraints. 
@@ -27,7 +28,7 @@ public class ScConstraint {
     private final static String ELEMENT3 = "elem3";
     private final static String ARC4 = "arc4";
     private final static String NODE5 = "node5";
-    private List<ScElement> elements = new ArrayList<ScElement>();
+    private static List<ScElement> elements = new ArrayList<ScElement>();
 
     /**
      * Creates constraint from List of sc-elements.
@@ -46,7 +47,7 @@ public class ScConstraint {
      * @param resultRow
      * @return ScConstraint
      */
-    public static ScConstraint createConstraintFromResultSet(Map resultRow) {
+    public static ScConstraint createThreeElementConstraint(Map resultRow) {
         List elements = new ArrayList<ScElement>();
 
         //creates first element - Node
@@ -65,10 +66,39 @@ public class ScConstraint {
             ScNode node3 = new ScNodeImpl((Node) resultRow.get(ELEMENT3));
             elements.add(node3);
         }
+
         //test>>>>>>>>>>>>
         ScConstraint c = new ScConstraint(elements);
         System.out.println(c.getElement(1).getAddress() + "-" + c.getElement(2).getAddress() + "-" + c.getElement(3).getAddress());
         //test<<<<<<<<<<<<<
+
         return new ScConstraint(elements);
+    }
+
+    public static ScConstraint createFiveElementConstraint(Map resultRow) {
+
+        elements = createThreeElementConstraint(resultRow).getElements();
+
+        //creates first element - Node
+        ScNode arc4 = new ScNodeImpl((Node) resultRow.get(ARC4));
+        elements.add(arc4);
+
+        //creates second element - Arc
+        ScArc node5 = new ScArcImpl((Node) resultRow.get(NODE5));
+        elements.add(node5);
+
+        //test>>>>>>>>>>>>
+        ScConstraint c = new ScConstraint(elements);
+        System.out.println(c.getElement(1).getAddress() + "-" + c.getElement(2).getAddress() + "-"
+                + c.getElement(3).getAddress() + "-" + c.getElement(4).getAddress() + "-"
+                + c.getElement(5).getAddress());
+        //test<<<<<<<<<<<<<
+
+        return new ScConstraint(elements);
+
+    }
+
+    private List<ScElement> getElements() {
+        return this.elements;
     }
 }
