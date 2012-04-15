@@ -93,24 +93,24 @@ public abstract class ScPerformer {
     public abstract Iterator createIterator_3_a_a_f(List<ScElementTypes> nodeTypes,
             List<ScElementTypes> arcTypes, ScElement third);
 
-    public abstract Iterator ScIterator_5_a_a_a_a_f(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
+    public abstract Iterator createIterator_5_a_a_a_a_f(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
             List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, ScElement fifthElement);
 
-    public abstract Iterator ScIterator_5_a_a_f_a_a(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
+    public abstract Iterator createIterator_5_a_a_f_a_a(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
             ScElement thirdElement, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes);
 
-    public abstract Iterator ScIterator_5_a_a_f_a_f(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
+    public abstract Iterator createIterator_5_a_a_f_a_f(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
             ScElement thirdElement, List<ScElementTypes> fourthTypes, ScElement fifthElement);
 
-    public abstract Iterator ScIterator_5_f_a_a_a_a(ScElement firstElement, List<ScElementTypes> secondTypes,
+    public abstract Iterator createIterator_5_f_a_a_a_a(ScElement firstElement, List<ScElementTypes> secondTypes,
             List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes);
 
-    public abstract Iterator ScIterator_5_f_a_a_a_f(ScElement firstElement, List<ScElementTypes> secondTypes,
+    public abstract Iterator createIterator_5_f_a_a_a_f(ScElement firstElement, List<ScElementTypes> secondTypes,
             List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, ScElement fifthElement);
 
-    public abstract Iterator ScIterator_5_f_a_f_a_a(ScElement firstElement, List<ScElementTypes> secondTypes,
+    public abstract Iterator createIterator_5_f_a_f_a_a(ScElement firstElement, List<ScElementTypes> secondTypes,
             ScElement thirdElement, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes);
 
-    public abstract Iterator ScIterator_5_f_a_f_a_f(ScElement firstElement, List<ScElementTypes> secondTypes,
+    public abstract Iterator createIterator_5_f_a_f_a_f(ScElement firstElement, List<ScElementTypes> secondTypes,
             ScElement thirdElement, List<ScElementTypes> fourthTypes, ScElement fifthElement);
 }

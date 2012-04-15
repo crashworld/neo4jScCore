@@ -26,11 +26,7 @@ public enum ScElementTypes {
     
     NEG("NEG"),
     
-    FUZ("FUZ"),
-    
-    ARC_CONST("ARC_CONST"),
-    
-    NODE_CONST("NODE_CONST");
+    FUZ("FUZ");
 
     private String typeName = "";
 

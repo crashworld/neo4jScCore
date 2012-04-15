@@ -53,9 +53,6 @@ public class ScIterator_5_a_a_f_a_f implements ScIterator {
                 + typesWhereExpr + " "
                 + "RETURN node1, arc2, elem3, arc4, node5");
 
-        //test>>>>>>>>>>>>
-        System.out.println(result);
-        //test<<<<<<<<<<<<<
 
         resultIterator = result.iterator();
 

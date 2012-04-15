@@ -48,13 +48,10 @@ public class ScIterator_5_f_a_a_a_f implements ScIterator {
                 "START node1=node(" + firstElement.getAddress() + "), node5=node(" + fifthElement.getAddress() + ") "
                 + "MATCH node1-[:beginLink]->arc2-[:endLink]->elem3, arc2<-[:endLink]-arc4<-[:beginLink]-node5 "
                 + typesMatchExpr + " "
-                + "WHERE not(node1._connectorNode) "
+                + "WHERE not(node1._connectorNode) AND not(node5._connectorNode) "
                 + typesWhereExpr + " "
                 + "RETURN node1, arc2, elem3, arc4, node5");
 
-        //test>>>>>>>>>>>>
-        System.out.println(result);
-        //test<<<<<<<<<<<<<
 
         resultIterator = result.iterator();
 

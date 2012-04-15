@@ -25,16 +25,16 @@ import net.ostis.sccore.types.ScElementTypes;
 public class MainForTest {
 
     public static void main(String[] args) {
-        String baseLocation = "D:\\data\\sc_core.db";
+        String baseLocation = "data\\sc_core.db";
         ScPerformer performer = new ScPerformerImpl(baseLocation);
 
         try {
             //!!! necessarily required (open transaction)
             performer.startExecution();
             ScFactory factory = performer.getScFactory();
-            ScNode node1 = factory.createScNode("first", ScElementTypes.NODE_CONST);
-            ScNode node2 = factory.createScNode("second", ScElementTypes.NODE_CONST);
-            ScNode node3 = factory.createScNode("third", ScElementTypes.NODE_CONST);
+            ScNode node1 = factory.createScNode("first", ScElementTypes.NODE);
+            ScNode node2 = factory.createScNode("second", ScElementTypes.NODE);
+            ScNode node3 = factory.createScNode("third", ScElementTypes.NODE);
 
 //            ScEventHandler eventHandler = ScEventHandler.getInstance();
 //            ScEventListener eventListener = ScEventFactory.createScListner(ScEventTypes.ATTACH_INPUT_TO_NODE,
@@ -55,28 +55,28 @@ public class MainForTest {
 //            eventHandler.subscribeOnEvent(eventListener3);
 
             List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
-            typeList.add(ScElementTypes.ARC_CONST);
-            factory.generate_5_f_a_f_a_f(node1, typeList, node2, typeList, node3);
-            // factory.generate_3_f_a_f(node1, typeList, node2);
+            typeList.add(ScElementTypes.ARC);
+            //factory.generate_5_f_a_f_a_f(node1, typeList, node2, typeList, node3);
+             factory.generate_3_f_a_f(node1, typeList, node2);
 
             ScNode find1 = performer.findScNodeByName("first");
             ScNode find2 = performer.findScNodeByName("second");
             ScNode find3 = performer.findScNodeByName("third");
 
             List<ScElementTypes> typeList2 = new ArrayList<ScElementTypes>();
-            typeList2.add(ScElementTypes.NODE_CONST);
+            typeList2.add(ScElementTypes.NODE);
 
-            System.out.println("\n------------f_a_f_a_a-----------------\n");
-            Iterator i = performer.ScIterator_5_f_a_f_a_a(find1, typeList, find2, typeList, typeList2);
-            while (i.hasNext()) {
-                i.next();
-            }
-
-//            System.out.println("\n-------------a_a_f----------------\n");
-//            Iterator i = performer.createIterator_3_a_a_f(typeList2, typeList, find2);
+//            System.out.println("\n------------f_a_f_a_a-----------------\n");
+//            Iterator i = performer.createIterator_5_f_a_f_a_a(find1, typeList, find2, typeList, typeList2);
 //            while (i.hasNext()) {
 //                i.next();
 //            }
+
+            System.out.println("\n-------------a_a_f----------------\n");
+            Iterator i = performer.createIterator_3_f_a_a(find1, new ArrayList<ScElementTypes>(), new ArrayList<ScElementTypes>());
+            while (i.hasNext()) {
+                i.next();
+            }
 //            System.out.println("\n-------------f_a_f----------------\n");
 //            Iterator i = performer.createIterator_3_f_a_f(find1, typeList, find2);
 //            while (i.hasNext()) {
@@ -112,9 +112,9 @@ public class MainForTest {
             ScElement element = event.getSource();
             ScArc arc = (ScArc) element;
             ScNode secondNode = arc.getEndScNode();
-            ScNode forthNode = factory.createScNode("forth", ScElementTypes.NODE_CONST);
+            ScNode forthNode = factory.createScNode("forth", ScElementTypes.NODE);
             List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
-            typeList.add(ScElementTypes.ARC_CONST);
+            typeList.add(ScElementTypes.ARC);
             factory.generate_3_f_a_f(secondNode, typeList, forthNode);
         }
     }
@@ -132,9 +132,9 @@ public class MainForTest {
             ScElement element = event.getSource();
             ScArc arc = (ScArc) element;
             ScNode secondNode = arc.getStartScNode();
-            ScNode node = factory.createScNode("five", ScElementTypes.NODE_CONST);
+            ScNode node = factory.createScNode("five", ScElementTypes.NODE);
             List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
-            typeList.add(ScElementTypes.ARC_CONST);
+            typeList.add(ScElementTypes.ARC);
             factory.generate_3_f_a_f(node, typeList, secondNode.getAllOutputScArcs().get(0));
         }
     }
@@ -148,9 +148,9 @@ public class MainForTest {
         }
 
         public void perform(ScEvent event) {
-            ScNode sixNode = performer.getScFactory().createScNode("six", ScElementTypes.NODE_CONST);
+            ScNode sixNode = performer.getScFactory().createScNode("six", ScElementTypes.NODE);
             List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
-            typeList.add(ScElementTypes.ARC_CONST);
+            typeList.add(ScElementTypes.ARC);
             performer.getScFactory().generate_3_f_a_f(performer.findScNodeByName("second"), typeList, sixNode);
         }
     }
@@ -165,9 +165,9 @@ public class MainForTest {
 
         public void perform(ScEvent event) {
             ScArc arc = (ScArc) event.getSource();
-            ScNode node = factory.createScNode("attr", ScElementTypes.NODE_CONST);
+            ScNode node = factory.createScNode("attr", ScElementTypes.NODE);
             List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
-            typeList.add(ScElementTypes.ARC_CONST);
+            typeList.add(ScElementTypes.ARC);
             factory.generate_3_f_a_f(node, typeList, arc);
         }
     }

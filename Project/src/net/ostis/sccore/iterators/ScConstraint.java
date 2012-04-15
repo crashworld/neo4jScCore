@@ -15,7 +15,6 @@ import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scelements.ScNodeImpl;
 import org.neo4j.graphdb.Node;
-import scala.reflect.This;
 
 /**
  * Provides 3-elements and 5-elements sc-constraints. 
@@ -67,11 +66,6 @@ public class ScConstraint {
             elements.add(node3);
         }
 
-        //test>>>>>>>>>>>>
-        ScConstraint c = new ScConstraint(elements);
-        System.out.println(c.getElement(1).getAddress() + "-" + c.getElement(2).getAddress() + "-" + c.getElement(3).getAddress());
-        //test<<<<<<<<<<<<<
-
         return new ScConstraint(elements);
     }
 
@@ -86,13 +80,6 @@ public class ScConstraint {
         //creates second element - Arc
         ScArc node5 = new ScArcImpl((Node) resultRow.get(NODE5));
         elements.add(node5);
-
-        //test>>>>>>>>>>>>
-        ScConstraint c = new ScConstraint(elements);
-        System.out.println(c.getElement(1).getAddress() + "-" + c.getElement(2).getAddress() + "-"
-                + c.getElement(3).getAddress() + "-" + c.getElement(4).getAddress() + "-"
-                + c.getElement(5).getAddress());
-        //test<<<<<<<<<<<<<
 
         return new ScConstraint(elements);
 
