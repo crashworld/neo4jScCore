@@ -234,7 +234,8 @@ public class ScPerformerImpl extends ScPerformer {
         List<Long> fourthAddresses = getAddresses(fourthTypes);
         List<Long> fifthAddresses = getAddresses(fifthTypes);
 
-        return new ScIterator_5_f_a_a_a_a(dataBase, firstElement, secondTypes, thirdTypes, fourthTypes, fifthTypes);
+        return new ScIterator_5_f_a_a_a_a(dataBase, firstElement, secondAddresses, thirdAddresses, fourthAddresses,
+            fifthAddresses);
     }
 
     @Override
@@ -257,7 +258,8 @@ public class ScPerformerImpl extends ScPerformer {
         List<Long> fourthAddresses = getAddresses(fourthTypes);
         List<Long> fifthAddresses = getAddresses(fifthTypes);
 
-        return new ScIterator_5_f_a_f_a_a(dataBase, firstElement, secondTypes, thirdElement, fourthTypes, fifthTypes);
+        return new ScIterator_5_f_a_f_a_a(dataBase, firstElement, secondAddresses, thirdElement, fourthAddresses,
+            fifthAddresses);
     }
 
     @Override
@@ -269,7 +271,8 @@ public class ScPerformerImpl extends ScPerformer {
         List<Long> thirdAddresses = getAddresses(thirdTypes);
         List<Long> fourthAddresses = getAddresses(fourthTypes);
 
-        return new ScIterator_5_a_a_a_a_f(dataBase, firstTypes, secondTypes, thirdTypes, fourthTypes, fifthElement);
+        return new ScIterator_5_a_a_a_a_f(dataBase, firstAddresses, secondAddresses, thirdAddresses, fourthAddresses,
+            fifthElement);
     }
 
     @Override
@@ -281,7 +284,8 @@ public class ScPerformerImpl extends ScPerformer {
         List<Long> fourthAddresses = getAddresses(fourthTypes);
         List<Long> fifthAddresses = getAddresses(fifthTypes);
 
-        return new ScIterator_5_a_a_f_a_a(dataBase, firstTypes, secondTypes, thirdElement, fourthTypes, fifthTypes);
+        return new ScIterator_5_a_a_f_a_a(dataBase, firstAddresses, secondAddresses, thirdElement, fourthAddresses,
+            fifthAddresses);
     }
 
     @Override
@@ -292,7 +296,8 @@ public class ScPerformerImpl extends ScPerformer {
         List<Long> secondAddresses = getAddresses(secondTypes);
         List<Long> fourthAddresses = getAddresses(fourthTypes);
 
-        return new ScIterator_5_a_a_f_a_f(dataBase, firstTypes, secondTypes, thirdElement, fourthTypes, fifthElement);
+        return new ScIterator_5_a_a_f_a_f(dataBase, firstAddresses, secondAddresses, thirdElement, fourthAddresses,
+            fifthElement);
     }
 
     @Override
@@ -302,7 +307,8 @@ public class ScPerformerImpl extends ScPerformer {
         List<Long> secondAddresses = getAddresses(secondTypes);
         List<Long> fourthAddresses = getAddresses(fourthTypes);
 
-        return new ScIterator_5_f_a_f_a_f(dataBase, firstElement, secondTypes, thirdElement, fourthTypes, fifthElement);
+        return new ScIterator_5_f_a_f_a_f(dataBase, firstElement, secondAddresses, thirdElement, fourthAddresses,
+            fifthElement);
     }
 
     /**
