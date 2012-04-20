@@ -11,6 +11,7 @@ import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.types.ScElementTypes;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
+import org.neo4j.graphdb.index.IndexManager;
 import org.neo4j.kernel.AbstractGraphDatabase;
 
 /**
@@ -22,7 +23,7 @@ public class ScIterator_5_f_a_f_a_f implements ScIterator {
     private Iterator<Map<String, Object>> resultIterator;
 
     public ScIterator_5_f_a_f_a_f(AbstractGraphDatabase db, ScElement firstElement, List<ScElementTypes> secondTypes,
-            ScElement thirdElement, List<ScElementTypes> fourthTypes, ScElement fifthElement) {
+        ScElement thirdElement, List<ScElementTypes> fourthTypes, ScElement fifthElement) {
 
         StringBuilder typesMatchExpr = new StringBuilder("");
         StringBuilder typesWhereExpr = new StringBuilder("");
@@ -40,13 +41,13 @@ public class ScIterator_5_f_a_f_a_f implements ScIterator {
 
         ExecutionEngine engine = new ExecutionEngine(db);
         ExecutionResult result = engine.execute(
-                "START node1=node(" + firstElement.getAddress() + "), elem3=node(" + thirdElement.getAddress()
-                + "), node5=node(" + fifthElement.getAddress() + ") "
-                + "MATCH node1-[:beginLink]->arc2-[:endLink]->elem3, arc2<-[:endLink]-arc4<-[:beginLink]-node5 "
-                + typesMatchExpr + " "
-                + "WHERE not(node1._connectorNode) "
-                + typesWhereExpr + " "
-                + "RETURN node1, arc2, elem3, arc4, node5");
+            "START node1=node(" + firstElement.getAddress() + "), elem3=node(" + thirdElement.getAddress()
+            + "), node5=node(" + fifthElement.getAddress() + ") "
+            + "MATCH node1-[:beginLink]->arc2-[:endLink]->elem3, arc2<-[:endLink]-arc4<-[:beginLink]-node5 "
+            + typesMatchExpr + " "
+            + "WHERE not(node1._connectorNode) "
+            + typesWhereExpr + " "
+            + "RETURN node1, arc2, elem3, arc4, node5");
 
 
         resultIterator = result.iterator();

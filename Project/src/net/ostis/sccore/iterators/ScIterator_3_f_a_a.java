@@ -30,12 +30,12 @@ public class ScIterator_3_f_a_a implements ScIterator {
         StringBuilder typesWhereExpr = new StringBuilder("");
         int n = 0;
         for (ScElementTypes thirdElementType : thirdElementTypes) {
-            typesMatchExpr.append(", elem3<-[:endLink]-()<-[:beginLink]-type" + n);
+            typesMatchExpr.append(", elem3<-[:typeLink]-type" + n);
             typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + thirdElementType.name() + "\"");
             n++;
         }
         for (ScElementTypes arcType : arcTypes) {
-            typesMatchExpr.append(", arc2<-[:endLink]-()<-[:beginLink]-type" + n);
+            typesMatchExpr.append(", arc2<-[:typeLink]-type" + n);
             typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + arcType.name() + "\"");
             n++;
         }

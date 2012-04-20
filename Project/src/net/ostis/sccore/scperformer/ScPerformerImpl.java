@@ -1,5 +1,6 @@
 package net.ostis.sccore.scperformer;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import net.ostis.sccore.iterators.ScIterator_3_a_a_f;
@@ -34,6 +35,8 @@ import net.ostis.sccore.scfactory.RelTypes;
 import net.ostis.sccore.scfactory.ScFactory;
 import net.ostis.sccore.scfactory.ScFactoryImpl;
 import net.ostis.sccore.types.ScElementTypes;
+import org.neo4j.graphdb.index.Index;
+import org.neo4j.graphdb.index.IndexManager;
 
 /**
  * Class that provide all general actions with sc memory.
@@ -193,7 +196,7 @@ public class ScPerformerImpl extends ScPerformer {
      */
     @Override
     public Iterator createIterator_3_f_a_a(ScElement first, List<ScElementTypes> secondTypes,
-            List<ScElementTypes> thirdTypes) {
+        List<ScElementTypes> thirdTypes) {
         return new ScIterator_3_f_a_a(dataBase, first, secondTypes, thirdTypes);
     }
 
@@ -207,49 +210,75 @@ public class ScPerformerImpl extends ScPerformer {
      */
     @Override
     public Iterator createIterator_3_a_a_f(List<ScElementTypes> nodeTypes,
-            List<ScElementTypes> arcTypes, ScElement third) {
+        List<ScElementTypes> arcTypes, ScElement third) {
         return new ScIterator_3_a_a_f(dataBase, nodeTypes, arcTypes, third);
     }
 
     @Override
     public Iterator createIterator_5_f_a_a_a_a(ScElement firstElement, List<ScElementTypes> secondTypes,
-            List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes) {
+        List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes) {
         return new ScIterator_5_f_a_a_a_a(dataBase, firstElement, secondTypes, thirdTypes, fourthTypes, fifthTypes);
     }
 
     @Override
     public Iterator createIterator_5_f_a_a_a_f(ScElement firstElement, List<ScElementTypes> secondTypes,
-            List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, ScElement fifthElement) {
-        return new ScIterator_5_f_a_a_a_f(dataBase, firstElement, secondTypes, thirdTypes, fourthTypes, fifthElement);
+        List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, ScElement fifthElement) {
+
+        List<Long> secondAddresses = getAddresses(secondTypes);
+        List<Long> thirdAddresses = getAddresses(thirdTypes);
+        List<Long> fourthAddresses = getAddresses(fourthTypes);
+
+        return new ScIterator_5_f_a_a_a_f(dataBase, firstElement, secondAddresses, thirdAddresses, fourthAddresses,
+            fifthElement);
     }
 
     @Override
     public Iterator createIterator_5_f_a_f_a_a(ScElement firstElement, List<ScElementTypes> secondTypes,
-            ScElement thirdElement, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes) {
+        ScElement thirdElement, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes) {
         return new ScIterator_5_f_a_f_a_a(dataBase, firstElement, secondTypes, thirdElement, fourthTypes, fifthTypes);
     }
 
     @Override
     public Iterator createIterator_5_a_a_a_a_f(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
-            List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, ScElement fifthElement) {
+        List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, ScElement fifthElement) {
         return new ScIterator_5_a_a_a_a_f(dataBase, firstTypes, secondTypes, thirdTypes, fourthTypes, fifthElement);
     }
 
     @Override
     public Iterator createIterator_5_a_a_f_a_a(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
-            ScElement thirdElement, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes) {
+        ScElement thirdElement, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes) {
         return new ScIterator_5_a_a_f_a_a(dataBase, firstTypes, secondTypes, thirdElement, fourthTypes, fifthTypes);
     }
 
     @Override
     public Iterator createIterator_5_a_a_f_a_f(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
-            ScElement thirdElement, List<ScElementTypes> fourthTypes, ScElement fifthElement) {
+        ScElement thirdElement, List<ScElementTypes> fourthTypes, ScElement fifthElement) {
         return new ScIterator_5_a_a_f_a_f(dataBase, firstTypes, secondTypes, thirdElement, fourthTypes, fifthElement);
     }
 
     @Override
     public Iterator createIterator_5_f_a_f_a_f(ScElement firstElement, List<ScElementTypes> secondTypes,
-            ScElement thirdElement, List<ScElementTypes> fourthTypes, ScElement fifthElement) {
+        ScElement thirdElement, List<ScElementTypes> fourthTypes, ScElement fifthElement) {
         return new ScIterator_5_f_a_f_a_f(dataBase, firstElement, secondTypes, thirdElement, fourthTypes, fifthElement);
+    }
+
+    /**
+     * Gets addresses of type-nodes
+     * @param elements list of types
+     * @return ArrayList of addresses
+     */
+    private List<Long> getAddresses(List<ScElementTypes> elements) {
+        IndexManager indexManager = dataBase.index();
+        Index index = indexManager.forNodes(ScNode.Sc_ELEMENT_TYPE);
+
+        List<Long> typeAddresses = new ArrayList<Long>();
+
+        for (ScElementTypes nodeType : elements) {
+            Node node = (Node) index.get(ScNode.Sc_ELEMENT_TYPE, nodeType.toString()).getSingle();
+            typeAddresses.add(node.getId());
+        }
+
+        return typeAddresses;
+
     }
 }

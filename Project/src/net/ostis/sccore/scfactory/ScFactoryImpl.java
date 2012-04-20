@@ -29,15 +29,13 @@ import org.neo4j.graphdb.index.IndexManager;
 public class ScFactoryImpl extends ScFactory {
 
     private AbstractGraphDatabase dataBase = null;
-
-    private static ScFactoryImpl factory = null;    
+    private static ScFactoryImpl factory = null;
 
     /**
      * Private constructor
      * 
      */
     private ScFactoryImpl() {
-
     }
 
     /**
@@ -53,7 +51,6 @@ public class ScFactoryImpl extends ScFactory {
         return factory;
     }
 
-    
     /**
      * Method that create sc node.
      *
@@ -68,6 +65,7 @@ public class ScFactoryImpl extends ScFactory {
         ScEventHandler eventHandler = ScEventHandler.getInstance();
         ScEvent event = new ScEvent(ScEventTypes.CREATE_SC_NODE, scNode);
         eventHandler.notify(event);
+        scNode.setName("");
 
         return scNode;
     }
@@ -196,7 +194,6 @@ public class ScFactoryImpl extends ScFactory {
         return newArc;
     }
 
-
     /**
      * Method that create sc arc.
      *
@@ -217,8 +214,8 @@ public class ScFactoryImpl extends ScFactory {
         connectorNode.setProperty(ScNodeImpl.CONNECTORNODE, "true");
         startNode.createRelationshipTo(connectorNode, RelTypes.beginLink);
         connectorNode.createRelationshipTo(endNode, RelTypes.endLink);
-        
-        
+
+
         ScArcImpl scArc = new ScArcImpl(connectorNode);
 
         /* create events */
@@ -298,7 +295,6 @@ public class ScFactoryImpl extends ScFactory {
         return generatedScArc;
     }
 
-
     /**
      * Method that generate sc constrain
      *    0
@@ -348,9 +344,8 @@ public class ScFactoryImpl extends ScFactory {
     public void setDataBase(AbstractGraphDatabase dataBase) {
         this.dataBase = dataBase;
     }
-    
-    public AbstractGraphDatabase getDataBase()
-    {
+
+    public AbstractGraphDatabase getDataBase() {
         return this.dataBase;
     }
 }

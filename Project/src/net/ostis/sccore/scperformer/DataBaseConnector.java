@@ -41,8 +41,8 @@ public class DataBaseConnector {
         registerShutDownHook(dataBase);
         
         /* start server */
-        WrappingNeoServerBootstrapper server = new WrappingNeoServerBootstrapper(dataBase);
-        server.start();
+//        WrappingNeoServerBootstrapper server = new WrappingNeoServerBootstrapper(dataBase);
+//        server.start();
 
         /* create index for types      */
        //createIndex(dataBase);

@@ -24,9 +24,7 @@ public class ScNodeImpl extends ScNode {
 
     /** String constant for connector node of sc arc. */
     public static final String CONNECTORNODE = "_connectorNode";
-
     private Node neo4jNode;
-
     private Content nodeContent;
 
     /**
@@ -88,7 +86,7 @@ public class ScNodeImpl extends ScNode {
         neo4jNode.setProperty(ScNode.SC_NODE_NAME_PROPERTY, name);
     }
 
-     /**
+    /**
      * Method that sets type of sc arc.
      *
      * @param type type of element
@@ -97,11 +95,14 @@ public class ScNodeImpl extends ScNode {
     public void addType(ScElementTypes type) {
         ScFactoryImpl factory = ScFactoryImpl.getInstance();
         AbstractGraphDatabase dataBase = factory.getDataBase();
-        IndexManager index = dataBase.index();   
-            Node node = index.forNodes( ScNode.Sc_ELEMENT_TYPE ).get(ScNode.Sc_ELEMENT_TYPE, type.toString()).getSingle();            
-            if(node!=null)         
-                factory.createScArc(new ScNodeImpl(node), this);
-       
+        IndexManager index = dataBase.index();
+        Node node = index.forNodes(ScNode.Sc_ELEMENT_TYPE).get(ScNode.Sc_ELEMENT_TYPE, type.toString()).getSingle();
+        if (node != null) {
+            node.createRelationshipTo(neo4jNode, RelTypes.typeLink);
+        }
+        //factory.createScArc(new ScNodeImpl(node), this);
+
+
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -111,11 +112,10 @@ public class ScNodeImpl extends ScNode {
      * @param types list of types name
      */
     @Override
-    public void addTypes(List<ScElementTypes> types) {        
-       for(ScElementTypes type : types)           
-       {    
-           this.addType(type);            
-       }
+    public void addTypes(List<ScElementTypes> types) {
+        for (ScElementTypes type : types) {
+            this.addType(type);
+        }
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -125,22 +125,22 @@ public class ScNodeImpl extends ScNode {
      * @return list of types
      */
     @Override
-    public List<ScElementTypes> getTypes() {        
+    public List<ScElementTypes> getTypes() {
         ScElementTypes[] scTypes = ScElementTypes.values();
-        List<ScElementTypes> scCurrentTypes = new ArrayList<ScElementTypes>();               
+        List<ScElementTypes> scCurrentTypes = new ArrayList<ScElementTypes>();
         List<ScArc> scArcsList = this.getAllInputScArcs();
         ScFactoryImpl factory = ScFactoryImpl.getInstance();
         AbstractGraphDatabase dataBase = factory.getDataBase();
-        IndexManager index = dataBase.index();   
-        
-        for(ScArc arc : scArcsList)
-        {
+        IndexManager index = dataBase.index();
+
+        for (ScArc arc : scArcsList) {
             ScNode node = arc.getStartScNode();
-                       
-            if(index.forNodes( ScNode.Sc_ELEMENT_TYPE ).get(ScNode.Sc_ELEMENT_TYPE, node.getName()).getSingle()!=null)         
-                 scCurrentTypes.add(ScElementTypes.valueOf(node.getName()));
+
+            if (index.forNodes(ScNode.Sc_ELEMENT_TYPE).get(ScNode.Sc_ELEMENT_TYPE, node.getName()).getSingle() != null) {
+                scCurrentTypes.add(ScElementTypes.valueOf(node.getName()));
+            }
         }
-       
+
         return scCurrentTypes;
         //throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -153,10 +153,10 @@ public class ScNodeImpl extends ScNode {
     @Override
     public void removeType(ScElementTypes type) {
         ScFactory factory = ScFactoryImpl.getInstance();
-        
-       ////////////////////////////////////////////////////////////////////////////
-       ScNode node = new ScNodeImpl(neo4jNode);
-       factory.createScArc(this, node, type);
+
+        ////////////////////////////////////////////////////////////////////////////
+        ScNode node = new ScNodeImpl(neo4jNode);
+        factory.createScArc(this, node, type);
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 

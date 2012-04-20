@@ -70,11 +70,13 @@ public class ScArcImpl extends ScArc {
     public void addType(ScElementTypes type) {
         ScFactoryImpl factory = ScFactoryImpl.getInstance();
         AbstractGraphDatabase dataBase = factory.getDataBase();
-        IndexManager index = dataBase.index();   
-            Node node = index.forNodes( ScNode.Sc_ELEMENT_TYPE ).get(ScNode.Sc_ELEMENT_TYPE, type.toString()).getSingle();            
-            //фак май мозг!!!!
-            if(node!=null)         
-                factory.createScArc(new ScNodeImpl(node), this);
+        IndexManager index = dataBase.index();
+        Node node = index.forNodes(ScNode.Sc_ELEMENT_TYPE).get(ScNode.Sc_ELEMENT_TYPE, type.toString()).getSingle();
+        //фак май мозг!!!!
+        if (node != null) {
+            node.createRelationshipTo(connectorNode, RelTypes.typeLink);
+        }
+        //factory.createScArc(new ScNodeImpl(node), this);
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -85,10 +87,9 @@ public class ScArcImpl extends ScArc {
      */
     @Override
     public void addTypes(List<ScElementTypes> types) {
-       for(ScElementTypes type : types)           
-       {    
-           this.addType(type);            
-       }
+        for (ScElementTypes type : types) {
+            this.addType(type);
+        }
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -100,24 +101,23 @@ public class ScArcImpl extends ScArc {
     @Override
     public List<ScElementTypes> getTypes() {
         ScElementTypes[] scTypes = ScElementTypes.values();
-        List<ScElementTypes> scCurrentTypes = new ArrayList<ScElementTypes>();               
+        List<ScElementTypes> scCurrentTypes = new ArrayList<ScElementTypes>();
         List<ScArc> scArcsList = this.getAllInputScArcs();
         ScFactoryImpl factory = ScFactoryImpl.getInstance();
         AbstractGraphDatabase dataBase = factory.getDataBase();
-        IndexManager index = dataBase.index();   
-        
-        for(ScArc arc : scArcsList)
-        {
+        IndexManager index = dataBase.index();
+
+        for (ScArc arc : scArcsList) {
             ScNode node = arc.getStartScNode();
-                       
-            if(index.forNodes( ScNode.Sc_ELEMENT_TYPE ).get(ScNode.Sc_ELEMENT_TYPE, node.getName()).getSingle()!=null)         
-                 scCurrentTypes.add(ScElementTypes.valueOf(node.getName()));
+
+            if (index.forNodes(ScNode.Sc_ELEMENT_TYPE).get(ScNode.Sc_ELEMENT_TYPE, node.getName()).getSingle() != null) {
+                scCurrentTypes.add(ScElementTypes.valueOf(node.getName()));
+            }
         }
-       
+
         return scCurrentTypes;
         //throw new UnsupportedOperationException("Not supported yet.");
     }
-
 
     /**
      * Method that remove type from sc element.
@@ -187,10 +187,10 @@ public class ScArcImpl extends ScArc {
             Node connector = currentRelationship.getStartNode();
             scArcsList.add(new ScArcImpl(connector));
         }
-        
+
         return scArcsList;
     }
-    
+
     /**
      * Gets connector that used like arc.
      * 
