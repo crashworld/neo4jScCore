@@ -22,42 +22,41 @@ public class ScIterator_5_a_a_f_a_a implements ScIterator {
 
     private Iterator<Map<String, Object>> resultIterator;
 
-    public ScIterator_5_a_a_f_a_a(AbstractGraphDatabase db, List<ScElementTypes> firstTypes,
-        List<ScElementTypes> secondTypes, ScElement thirdElement, List<ScElementTypes> fourthTypes,
-        List<ScElementTypes> fifthTypes) {
+    public ScIterator_5_a_a_f_a_a(AbstractGraphDatabase db, List<Long> firstTypes, List<Long> secondTypes,
+        ScElement thirdElement, List<Long> fourthTypes, List<Long> fifthTypes) {
 
-        StringBuilder typesMatchExpr = new StringBuilder("");
+        StringBuilder typesStartExpr = new StringBuilder("");
         StringBuilder typesWhereExpr = new StringBuilder("");
         int n = 0;
-        for (ScElementTypes nodeType : firstTypes) {
-            typesMatchExpr.append(", node1<-[:endLink]-()<-[:beginLink]-type" + n);
-            typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + nodeType.name() + "\"");
+        for (long nodeType : firstTypes) {
+            typesStartExpr.append(", type" + n + "=node(" + nodeType + ") ");
+            typesWhereExpr.append(", node1<-[:typelink]-type" + n);
             n++;
         }
-        for (ScElementTypes nodeType : secondTypes) {
-            typesMatchExpr.append(", arc2<-[:endLink]-()<-[:beginLink]-type" + n);
-            typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + nodeType.name() + "\"");
+        for (long nodeType : secondTypes) {
+            typesStartExpr.append(", type" + n + "=node(" + nodeType + ") ");
+            typesWhereExpr.append(" AND arc2<-[:typeLink]-type" + n);
             n++;
         }
-        for (ScElementTypes nodeType : fourthTypes) {
-            typesMatchExpr.append(", arc4<-[:endLink]-()<-[:beginLink]-type" + n);
-            typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + nodeType.name() + "\"");
+        for (long nodeType : fourthTypes) {
+            typesStartExpr.append(", type" + n + "=node(" + nodeType + ") ");
+            typesWhereExpr.append(" AND arc4<-[:typeLink]-type" + n);
             n++;
         }
-        for (ScElementTypes nodeType : fifthTypes) {
-            typesMatchExpr.append(", node5<-[:endLink]-()<-[:beginLink]-type" + n);
-            typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + nodeType.name() + "\"");
+        for (long nodeType : fifthTypes) {
+            typesStartExpr.append(", type" + n + "=node(" + nodeType + ") ");
+            typesWhereExpr.append(", node5<-[:typelink]-type" + n);
             n++;
         }
 
         ExecutionEngine engine = new ExecutionEngine(db);
         ExecutionResult result = engine.execute(
             "START elem3=node(" + thirdElement.getAddress() + ") "
-                + "MATCH node1-[:beginLink]->arc2-[:endLink]->elem3, arc2<-[:endLink]-arc4<-[:beginLink]-node5 "
-                + typesMatchExpr + " "
-                + "WHERE not(node1._connectorNode) "
-                + typesWhereExpr + " "
-                + "RETURN node1, arc2, elem3, arc4, node5");
+            + typesStartExpr + " "
+            + "MATCH node1-[:beginLink]->arc2-[:endLink]->elem3, arc2<-[:endLink]-arc4<-[:beginLink]-node5 "
+            + "WHERE not(node1._connectorNode) "
+            + typesWhereExpr + " "
+            + "RETURN node1, arc2, elem3, arc4, node5");
 
         resultIterator = result.iterator();
 

@@ -28,17 +28,17 @@ public class ScIterator_5_f_a_a_a_f implements ScIterator {
         StringBuilder typesWhereExpr = new StringBuilder("");
         int n = 0;
         for (long nodeType : secondTypes) {
-            typesStartExpr.append(", type" + n + "=node(" + (int) nodeType + ") ");
+            typesStartExpr.append(", type" + n + "=node(" + nodeType + ") ");
             typesWhereExpr.append(" AND arc2<-[:typeLink]-type" + n);
             n++;
         }
         for (long nodeType : thirdTypes) {
-            typesStartExpr.append(", type" + n + "=node(" + (int) nodeType + ") ");
+            typesStartExpr.append(", type" + n + "=node(" + nodeType + ") ");
             typesWhereExpr.append(" AND elem3<-[:typeLink]-type" + n);
             n++;
         }
         for (long nodeType : fourthTypes) {
-            typesStartExpr.append(", type" + n + "=node(" + (int) nodeType + ") ");
+            typesStartExpr.append(", type" + n + "=node(" + nodeType + ") ");
             typesWhereExpr.append(" AND arc4<-[:typeLink]-type" + n);
             n++;
         }

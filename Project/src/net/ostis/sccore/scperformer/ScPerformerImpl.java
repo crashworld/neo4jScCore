@@ -181,8 +181,11 @@ public class ScPerformerImpl extends ScPerformer {
      * @return java.util.Iterator for iterate over ScConstraints
      */
     @Override
-    public Iterator createIterator_3_f_a_f(ScElement first, List<ScElementTypes> arcTypes, ScElement third) {
-        return new ScIterator_3_f_a_f(dataBase, first, arcTypes, third);
+    public Iterator createIterator_3_f_a_f(ScElement first, List<ScElementTypes> secondTypes, ScElement third) {
+
+        List<Long> secondAddresses = getAddresses(secondTypes);
+
+        return new ScIterator_3_f_a_f(dataBase, first, secondAddresses, third);
     }
 
     /**
@@ -196,7 +199,11 @@ public class ScPerformerImpl extends ScPerformer {
     @Override
     public Iterator createIterator_3_f_a_a(ScElement first, List<ScElementTypes> secondTypes,
         List<ScElementTypes> thirdTypes) {
-        return new ScIterator_3_f_a_a(dataBase, first, secondTypes, thirdTypes);
+
+        List<Long> secondAddresses = getAddresses(secondTypes);
+        List<Long> thirdAddresses = getAddresses(thirdTypes);
+
+        return new ScIterator_3_f_a_a(dataBase, first, secondAddresses, thirdAddresses);
     }
 
     /**
@@ -208,15 +215,26 @@ public class ScPerformerImpl extends ScPerformer {
      * @return java.util.Iterator for iterate over ScConstraints
      */
     @Override
-    public Iterator createIterator_3_a_a_f(List<ScElementTypes> nodeTypes,
-        List<ScElementTypes> arcTypes, ScElement third) {
-        return new ScIterator_3_a_a_f(dataBase, nodeTypes, arcTypes, third);
+    public Iterator createIterator_3_a_a_f(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
+        ScElement third) {
+
+        List<Long> firstAddresses = getAddresses(firstTypes);
+        List<Long> secondAddresses = getAddresses(secondTypes);
+
+        return new ScIterator_3_a_a_f(dataBase, firstAddresses, secondAddresses, third);
     }
 
     @Override
     public Iterator createIterator_5_f_a_a_a_a(ScElement firstElement, List<ScElementTypes> secondTypes,
         List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes) {
-        return new ScIterator_5_f_a_a_a_a(dataBase, firstElement, secondTypes, thirdTypes, fourthTypes, fifthTypes);
+
+        List<Long> secondAddresses = getAddresses(secondTypes);
+        List<Long> thirdAddresses = getAddresses(thirdTypes);
+        List<Long> fourthAddresses = getAddresses(fourthTypes);
+        List<Long> fifthAddresses = getAddresses(fifthTypes);
+
+        return new ScIterator_5_f_a_a_a_a(dataBase, firstElement, secondAddresses, thirdAddresses, fourthAddresses,
+            fifthAddresses);
     }
 
     @Override
@@ -234,31 +252,62 @@ public class ScPerformerImpl extends ScPerformer {
     @Override
     public Iterator createIterator_5_f_a_f_a_a(ScElement firstElement, List<ScElementTypes> secondTypes,
         ScElement thirdElement, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes) {
-        return new ScIterator_5_f_a_f_a_a(dataBase, firstElement, secondTypes, thirdElement, fourthTypes, fifthTypes);
+
+        List<Long> secondAddresses = getAddresses(secondTypes);
+        List<Long> fourthAddresses = getAddresses(fourthTypes);
+        List<Long> fifthAddresses = getAddresses(fifthTypes);
+
+        return new ScIterator_5_f_a_f_a_a(dataBase, firstElement, secondAddresses, thirdElement, fourthAddresses,
+            fifthAddresses);
     }
 
     @Override
     public Iterator createIterator_5_a_a_a_a_f(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
         List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, ScElement fifthElement) {
-        return new ScIterator_5_a_a_a_a_f(dataBase, firstTypes, secondTypes, thirdTypes, fourthTypes, fifthElement);
+
+        List<Long> firstAddresses = getAddresses(firstTypes);
+        List<Long> secondAddresses = getAddresses(secondTypes);
+        List<Long> thirdAddresses = getAddresses(thirdTypes);
+        List<Long> fourthAddresses = getAddresses(fourthTypes);
+
+        return new ScIterator_5_a_a_a_a_f(dataBase, firstAddresses, secondAddresses, thirdAddresses, fourthAddresses,
+            fifthElement);
     }
 
     @Override
     public Iterator createIterator_5_a_a_f_a_a(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
         ScElement thirdElement, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes) {
-        return new ScIterator_5_a_a_f_a_a(dataBase, firstTypes, secondTypes, thirdElement, fourthTypes, fifthTypes);
+
+        List<Long> firstAddresses = getAddresses(firstTypes);
+        List<Long> secondAddresses = getAddresses(secondTypes);
+        List<Long> fourthAddresses = getAddresses(fourthTypes);
+        List<Long> fifthAddresses = getAddresses(fifthTypes);
+
+        return new ScIterator_5_a_a_f_a_a(dataBase, firstAddresses, secondAddresses, thirdElement, fourthAddresses,
+            fifthAddresses);
     }
 
     @Override
     public Iterator createIterator_5_a_a_f_a_f(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
         ScElement thirdElement, List<ScElementTypes> fourthTypes, ScElement fifthElement) {
-        return new ScIterator_5_a_a_f_a_f(dataBase, firstTypes, secondTypes, thirdElement, fourthTypes, fifthElement);
+
+        List<Long> firstAddresses = getAddresses(firstTypes);
+        List<Long> secondAddresses = getAddresses(secondTypes);
+        List<Long> fourthAddresses = getAddresses(fourthTypes);
+
+        return new ScIterator_5_a_a_f_a_f(dataBase, firstAddresses, secondAddresses, thirdElement, fourthAddresses,
+            fifthElement);
     }
 
     @Override
     public Iterator createIterator_5_f_a_f_a_f(ScElement firstElement, List<ScElementTypes> secondTypes,
         ScElement thirdElement, List<ScElementTypes> fourthTypes, ScElement fifthElement) {
-        return new ScIterator_5_f_a_f_a_f(dataBase, firstElement, secondTypes, thirdElement, fourthTypes, fifthElement);
+
+        List<Long> secondAddresses = getAddresses(secondTypes);
+        List<Long> fourthAddresses = getAddresses(fourthTypes);
+
+        return new ScIterator_5_f_a_f_a_f(dataBase, firstElement, secondAddresses, thirdElement, fourthAddresses,
+            fifthElement);
     }
 
     /**

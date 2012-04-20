@@ -69,11 +69,8 @@ public class MainForTest {
 //                i.next();
 //            }
 
-            System.out.println("\n-------------a_a_f----------------\n");
-            Iterator i = performer.createIterator_3_f_a_a(find1, new ArrayList<ScElementTypes>(), new ArrayList<ScElementTypes>());
-            while (i.hasNext()) {
-                i.next();
-            }
+            System.out.println("\n-------------f_a_a----------------\n");
+            Iterator i = performer.createIterator_3_f_a_a(find1, typeList, typeList2);
 //            System.out.println("\n-------------f_a_f----------------\n");
 //            Iterator i = performer.createIterator_3_f_a_f(find1, typeList, find2);
 //            while (i.hasNext()) {

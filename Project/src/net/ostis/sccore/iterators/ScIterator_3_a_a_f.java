@@ -24,32 +24,32 @@ public class ScIterator_3_a_a_f implements ScIterator {
 
     private Iterator<Map<String, Object>> resultIterator;
 
-    public ScIterator_3_a_a_f(AbstractGraphDatabase db, List<ScElementTypes> nodeTypes, List<ScElementTypes> arcTypes,
+    public ScIterator_3_a_a_f(AbstractGraphDatabase db, List<Long> firstTypes, List<Long> secondTypes,
         ScElement thirdElement) {
 
-        StringBuilder typesMatchExpr = new StringBuilder("");
+        StringBuilder typesStartExpr = new StringBuilder("");
         StringBuilder typesWhereExpr = new StringBuilder("");
         int n = 0;
-        for (ScElementTypes nodeType : nodeTypes) {
-            typesMatchExpr.append(", node1<-[:endLink]-()<-[:beginLink]-type" + n);
-            typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + nodeType.name() + "\"");
+        for (long nodeType : firstTypes) {
+            typesStartExpr.append(", type" + n + "=node(" + nodeType + ") ");
+            typesWhereExpr.append(", node1<-[:typelink]-type" + n);
             n++;
         }
-        for (ScElementTypes arcType : arcTypes) {
-            typesMatchExpr.append(", arc2<-[:endLink]-()<-[:beginLink]-type" + n);
-            typesWhereExpr.append(" AND type" + n + "._scNodeName=\"" + arcType.name() + "\"");
+        for (long nodeType : secondTypes) {
+            typesStartExpr.append(", type" + n + "=node(" + nodeType + ") ");
+            typesWhereExpr.append(" AND arc2<-[:typeLink]-type" + n);
             n++;
         }
 
         ExecutionEngine engine = new ExecutionEngine(db);
         ExecutionResult result = engine.execute(
             "START elem3=node(" + thirdElement.getAddress() + ") "
-                + "MATCH elem3<-[:endLink]-arc2<-[:beginLink]-node1 "
-                + typesMatchExpr + " "
-                + "WHERE not(node1._connectorNode) "
-                + typesWhereExpr + " "
-                + "RETURN node1, arc2, elem3 ");
-
+            + typesStartExpr + " "
+            + "MATCH elem3<-[:endLink]-arc2<-[:beginLink]-node1 "
+            + "WHERE not(node1._connectorNode) "
+            + typesWhereExpr + " "
+            + "RETURN node1, arc2, elem3 ");
+			
         resultIterator = result.iterator();
 
     }
