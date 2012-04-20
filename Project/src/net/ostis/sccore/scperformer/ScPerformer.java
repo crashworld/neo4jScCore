@@ -2,6 +2,7 @@ package net.ostis.sccore.scperformer;
 
 import java.util.Iterator;
 import java.util.List;
+
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
@@ -33,30 +34,29 @@ public abstract class ScPerformer {
 
     /**
      * Method that finish transaction.
-     * 
      */
     public abstract void finishExecution();
 
     /**
      * Method that find sc node by name in memory.
-     * 
+     *
      * @param nodeName name of node
      * @return founded node
      */
     public abstract ScNode findScNodeByName(String nodeName);
 
     /**
-     * Method that remove sc arc. 
+     * Method that remove sc arc.
      * When it was deleted, connected with it sc arcs was deleted too.
-     * 
+     *
      * @param arc deleted sc arc
      */
     public abstract void deleteScArc(ScArc arc);
 
     /**
-     * Method that remove sc node. When it was deleted, 
+     * Method that remove sc node. When it was deleted,
      * connected with it sc arcs was deleted too.
-     * 
+     *
      * @param scNode deleted sc node
      */
     public abstract void deleteScNode(ScNode scNode);
@@ -80,7 +80,7 @@ public abstract class ScPerformer {
      * @return java.util.Iterator for iterate over ScConstraints
      */
     public abstract Iterator createIterator_3_f_a_a(ScElement first, List<ScElementTypes> secondTypes,
-            List<ScElementTypes> thirdTypes);
+        List<ScElementTypes> thirdTypes);
 
     /**
      * Creates a_a_f iterator.
@@ -91,26 +91,26 @@ public abstract class ScPerformer {
      * @return java.util.Iterator for iterate over ScConstraints
      */
     public abstract Iterator createIterator_3_a_a_f(List<ScElementTypes> nodeTypes,
-            List<ScElementTypes> arcTypes, ScElement third);
+        List<ScElementTypes> arcTypes, ScElement third);
 
     public abstract Iterator createIterator_5_a_a_a_a_f(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
-            List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, ScElement fifthElement);
+        List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, ScElement fifthElement);
 
     public abstract Iterator createIterator_5_a_a_f_a_a(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
-            ScElement thirdElement, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes);
+        ScElement thirdElement, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes);
 
     public abstract Iterator createIterator_5_a_a_f_a_f(List<ScElementTypes> firstTypes, List<ScElementTypes> secondTypes,
-            ScElement thirdElement, List<ScElementTypes> fourthTypes, ScElement fifthElement);
+        ScElement thirdElement, List<ScElementTypes> fourthTypes, ScElement fifthElement);
 
     public abstract Iterator createIterator_5_f_a_a_a_a(ScElement firstElement, List<ScElementTypes> secondTypes,
-            List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes);
+        List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes);
 
     public abstract Iterator createIterator_5_f_a_a_a_f(ScElement firstElement, List<ScElementTypes> secondTypes,
-            List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, ScElement fifthElement);
+        List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, ScElement fifthElement);
 
     public abstract Iterator createIterator_5_f_a_f_a_a(ScElement firstElement, List<ScElementTypes> secondTypes,
-            ScElement thirdElement, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes);
+        ScElement thirdElement, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes);
 
     public abstract Iterator createIterator_5_f_a_f_a_f(ScElement firstElement, List<ScElementTypes> secondTypes,
-            ScElement thirdElement, List<ScElementTypes> fourthTypes, ScElement fifthElement);
+        ScElement thirdElement, List<ScElementTypes> fourthTypes, ScElement fifthElement);
 }

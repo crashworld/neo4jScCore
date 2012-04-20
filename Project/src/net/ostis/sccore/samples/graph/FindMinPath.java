@@ -7,12 +7,12 @@ package net.ostis.sccore.samples.graph;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scperformer.ScPerformer;
 import net.ostis.sccore.scperformer.ScPerformerImpl;
 
 /**
- *
  * @author yaskoam
  */
 public class FindMinPath {
@@ -52,7 +52,8 @@ public class FindMinPath {
             }
 
             GraphManager.printUndirectedGraph(performer, graphNode);
-        } finally {
+        }
+        finally {
             performer.finishExecution();
         }
     }

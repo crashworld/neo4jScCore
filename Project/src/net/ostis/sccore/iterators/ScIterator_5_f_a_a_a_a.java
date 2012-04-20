@@ -7,14 +7,15 @@ package net.ostis.sccore.iterators;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import net.ostis.sccore.scelements.ScElement;
-import net.ostis.sccore.types.ScElementTypes;
+
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.kernel.AbstractGraphDatabase;
 
+import net.ostis.sccore.scelements.ScElement;
+import net.ostis.sccore.types.ScElementTypes;
+
 /**
- *
  * @author SeeDuke
  */
 public class ScIterator_5_f_a_a_a_a implements ScIterator {
@@ -22,7 +23,7 @@ public class ScIterator_5_f_a_a_a_a implements ScIterator {
     private Iterator<Map<String, Object>> resultIterator;
 
     public ScIterator_5_f_a_a_a_a(AbstractGraphDatabase db, ScElement firstElement, List<ScElementTypes> secondTypes,
-            List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes) {
+        List<ScElementTypes> thirdTypes, List<ScElementTypes> fourthTypes, List<ScElementTypes> fifthTypes) {
 
         StringBuilder typesMatchExpr = new StringBuilder("");
         StringBuilder typesWhereExpr = new StringBuilder("");
@@ -50,7 +51,7 @@ public class ScIterator_5_f_a_a_a_a implements ScIterator {
 
         ExecutionEngine engine = new ExecutionEngine(db);
         ExecutionResult result = engine.execute(
-                "START node1=node(" + firstElement.getAddress() + ") "
+            "START node1=node(" + firstElement.getAddress() + ") "
                 + "MATCH node1-[:beginLink]->arc2-[:endLink]->elem3, arc2<-[:endLink]-arc4<-[:beginLink]-node5 "
                 + typesMatchExpr + " "
                 + "WHERE not(node1._connectorNode) "

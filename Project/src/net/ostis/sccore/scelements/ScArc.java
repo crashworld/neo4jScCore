@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Class for presentation SC arc.
- * 
+ *
  * @author yaskoam
  */
 public abstract class ScArc extends ScElement {
@@ -35,7 +35,7 @@ public abstract class ScArc extends ScElement {
 
     /**
      * Method that get all input sc arcs.
-     * 
+     *
      * @return all input sc arcs
      */
     public abstract List<ScArc> getAllInputScArcs();

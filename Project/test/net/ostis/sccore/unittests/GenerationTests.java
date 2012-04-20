@@ -2,6 +2,7 @@ package net.ostis.sccore.unittests;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,7 +15,6 @@ import net.ostis.sccore.scperformer.ScPerformerImpl;
 import net.ostis.sccore.types.ScElementTypes;
 
 /**
- *
  * @author yaskoam
  */
 public class GenerationTests {
@@ -69,7 +69,7 @@ public class GenerationTests {
         ScNode attr = factory.createScNode("attr5", ScElementTypes.NODE);
         List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
         typeList.add(ScElementTypes.ARC);
-        factory.generate_5_f_a_f_a_f(firstNode,  typeList, secondNode,  typeList, firstNode);
+        factory.generate_5_f_a_f_a_f(firstNode, typeList, secondNode, typeList, firstNode);
     }
 
     @Test

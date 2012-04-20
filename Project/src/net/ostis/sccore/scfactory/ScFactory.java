@@ -4,11 +4,10 @@ import java.util.List;
 
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScNode;
-import net.ostis.sccore.types.ScElementTypes;
 
 /**
  * Class that provide generation different elements of sc memory.
- * 
+ *
  * @author yaskoam
  */
 public abstract class ScFactory {
@@ -20,7 +19,7 @@ public abstract class ScFactory {
      */
     public abstract ScNode createScNode();
 
-     /**
+    /**
      * Method that create sc node with name.
      *
      * @param nodeName sc node name
@@ -35,8 +34,8 @@ public abstract class ScFactory {
      * @param types sc node types
      * @return created sc node
      */
-    public abstract ScNode createScNode(String nodeName,  List<ScElementTypes> types);
-    
+    public abstract ScNode createScNode(String nodeName, List<String> types);
+
     /**
      * Method that create sc node with type and name.
      *
@@ -44,7 +43,7 @@ public abstract class ScFactory {
      * @param type sc node type
      * @return created sc node
      */
-    public abstract ScNode createScNode(String nodeName,  ScElementTypes type);
+    public abstract ScNode createScNode(String nodeName, String type);
 
 
     /**
@@ -64,7 +63,7 @@ public abstract class ScFactory {
      * @param type type of sc arc
      * @return created sc arc
      */
-    public abstract ScArc createScArc(ScNode startScNode, ScNode endScNode, ScElementTypes type);
+    public abstract ScArc createScArc(ScNode startScNode, ScNode endScNode, String type);
 
     /**
      * Method that create sc arc to sc node with list of types.
@@ -74,8 +73,8 @@ public abstract class ScFactory {
      * @param types list of types
      * @return created sc arc
      */
-    public abstract ScArc createScArc(ScNode startScNode, ScNode endScNode, List<ScElementTypes> types);
-   
+    public abstract ScArc createScArc(ScNode startScNode, ScNode endScNode, List<String> types);
+
     /**
      * Method that create sc arc to sc arc.
      *
@@ -93,7 +92,7 @@ public abstract class ScFactory {
      * @param type type of sc arc
      * @return created sc arc
      */
-    public abstract ScArc createScArc(ScNode startScNode, ScArc endScArc, ScElementTypes type);
+    public abstract ScArc createScArc(ScNode startScNode, ScArc endScArc, String type);
 
     /**
      * Method that create sc arc to sc arc with types.
@@ -103,7 +102,7 @@ public abstract class ScFactory {
      * @param types list of types
      * @return created sc arc
      */
-    public abstract ScArc createScArc(ScNode startScNode, ScArc endScArc, List<ScElementTypes> types);
+    public abstract ScArc createScArc(ScNode startScNode, ScArc endScArc, List<String> types);
 
     /**
      * Method that generate sc constrain ( 0->0 ).
@@ -113,7 +112,7 @@ public abstract class ScFactory {
      * @param endNode end node of constrain
      * @return generated sc arc
      */
-    public abstract ScArc generate_3_f_a_f(ScNode startNode, List<ScElementTypes> types, ScNode endNode);
+    public abstract ScArc generate_3_f_a_f(ScNode startNode, List<String> types, ScNode endNode);
 
     /**
      * Method that generate sc constrain ( 0 -> | ).
@@ -123,14 +122,14 @@ public abstract class ScFactory {
      * @param endScArc end sc arc of constrain
      * @return generated sc arc
      */
-    public abstract ScArc generate_3_f_a_f(ScNode startNode, List<ScElementTypes> types, ScArc endScArc);
+    public abstract ScArc generate_3_f_a_f(ScNode startNode, List<String> types, ScArc endScArc);
 
 
     /**
      * Method that generate sc constrain
-     *    0
+     * 0
      * 0->|
-     *    0 .
+     * 0 .
      *
      * @param firstNode first node of constrain
      * @param types1 types of first generated sc arc of constrain
@@ -138,20 +137,20 @@ public abstract class ScFactory {
      * @param types2 types of second generated sc arc of constrain
      * @param thirdNode third node of constrain
      */
-    public abstract void generate_5_f_a_f_a_f(ScNode firstNode, List<ScElementTypes> types1,
-        ScNode secondNode, List<ScElementTypes> types2, ScNode thirdNode);
+    public abstract void generate_5_f_a_f_a_f(ScNode firstNode, List<String> types1,
+        ScNode secondNode, List<String> types2, ScNode thirdNode);
 
     /**
      * Method that generate sc constrain
      * 0->0->0 .
-     * 
+     *
      * @param firstNode first node of constrain
      * @param types1 types of first generated sc arc of constrain
      * @param secondNode second node of constrain
      * @param types2 types of second generated sc arc of constrain
      * @param thirdNode third node of constrain
      */
-    public abstract void generate_5_f_a_f_a_f_1(ScNode firstNode, List<ScElementTypes> types1,
-        ScNode secondNode, List<ScElementTypes> types2, ScNode thirdNode);
+    public abstract void generate_5_f_a_f_a_f_1(ScNode firstNode, List<String> types1,
+        ScNode secondNode, List<String> types2, ScNode thirdNode);
 
 }

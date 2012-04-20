@@ -7,17 +7,18 @@ package net.ostis.sccore.iterators;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.neo4j.graphdb.Node;
+
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScArcImpl;
-
-
 import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scelements.ScNodeImpl;
-import org.neo4j.graphdb.Node;
 
 /**
- * Provides 3-elements and 5-elements sc-constraints. 
+ * Provides 3-elements and 5-elements sc-constraints.
+ *
  * @author Q-ANS
  */
 public class ScConstraint {
@@ -31,6 +32,7 @@ public class ScConstraint {
 
     /**
      * Creates constraint from List of sc-elements.
+     *
      * @param elements
      */
     public ScConstraint(List<ScElement> elements) {
@@ -43,6 +45,7 @@ public class ScConstraint {
 
     /**
      * Creates constraint from Map gotten by iterator from databese.
+     *
      * @param resultRow
      * @return ScConstraint
      */
@@ -61,7 +64,8 @@ public class ScConstraint {
         if (((Node) resultRow.get(ELEMENT3)).hasProperty("_connectorNode")) {
             ScArc arc3 = new ScArcImpl((Node) resultRow.get(ELEMENT3));
             elements.add(arc3);
-        } else {
+        }
+        else {
             ScNode node3 = new ScNodeImpl((Node) resultRow.get(ELEMENT3));
             elements.add(node3);
         }

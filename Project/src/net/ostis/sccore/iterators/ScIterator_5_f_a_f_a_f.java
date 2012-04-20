@@ -7,15 +7,15 @@ package net.ostis.sccore.iterators;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import net.ostis.sccore.scelements.ScElement;
-import net.ostis.sccore.types.ScElementTypes;
+
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
-import org.neo4j.graphdb.index.IndexManager;
 import org.neo4j.kernel.AbstractGraphDatabase;
 
+import net.ostis.sccore.scelements.ScElement;
+import net.ostis.sccore.types.ScElementTypes;
+
 /**
- *
  * @author SeeDuke
  */
 public class ScIterator_5_f_a_f_a_f implements ScIterator {
@@ -42,12 +42,12 @@ public class ScIterator_5_f_a_f_a_f implements ScIterator {
         ExecutionEngine engine = new ExecutionEngine(db);
         ExecutionResult result = engine.execute(
             "START node1=node(" + firstElement.getAddress() + "), elem3=node(" + thirdElement.getAddress()
-            + "), node5=node(" + fifthElement.getAddress() + ") "
-            + "MATCH node1-[:beginLink]->arc2-[:endLink]->elem3, arc2<-[:endLink]-arc4<-[:beginLink]-node5 "
-            + typesMatchExpr + " "
-            + "WHERE not(node1._connectorNode) "
-            + typesWhereExpr + " "
-            + "RETURN node1, arc2, elem3, arc4, node5");
+                + "), node5=node(" + fifthElement.getAddress() + ") "
+                + "MATCH node1-[:beginLink]->arc2-[:endLink]->elem3, arc2<-[:endLink]-arc4<-[:beginLink]-node5 "
+                + typesMatchExpr + " "
+                + "WHERE not(node1._connectorNode) "
+                + typesWhereExpr + " "
+                + "RETURN node1, arc2, elem3, arc4, node5");
 
 
         resultIterator = result.iterator();

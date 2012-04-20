@@ -3,15 +3,12 @@ package test;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scevents.ScActionListener;
 import net.ostis.sccore.scevents.ScEvent;
-import net.ostis.sccore.scevents.ScEventFactory;
-import net.ostis.sccore.scevents.ScEventHandler;
-import net.ostis.sccore.scevents.ScEventListener;
-import net.ostis.sccore.scevents.ScEventTypes;
 import net.ostis.sccore.scfactory.ScFactory;
 import net.ostis.sccore.scperformer.ScPerformer;
 import net.ostis.sccore.scperformer.ScPerformerImpl;
@@ -54,16 +51,16 @@ public class MainForTest {
 //            eventHandler.subscribeOnEvent(eventListener2);
 //            eventHandler.subscribeOnEvent(eventListener3);
 
-            List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
+            List<String> typeList = new ArrayList<String>();
             typeList.add(ScElementTypes.ARC);
             //factory.generate_5_f_a_f_a_f(node1, typeList, node2, typeList, node3);
-             factory.generate_3_f_a_f(node1, typeList, node2);
+            factory.generate_3_f_a_f(node1, typeList, node2);
 
             ScNode find1 = performer.findScNodeByName("first");
             ScNode find2 = performer.findScNodeByName("second");
             ScNode find3 = performer.findScNodeByName("third");
 
-            List<ScElementTypes> typeList2 = new ArrayList<ScElementTypes>();
+            List<String> typeList2 = new ArrayList<String>();
             typeList2.add(ScElementTypes.NODE);
 
 //            System.out.println("\n------------f_a_f_a_a-----------------\n");
@@ -87,14 +84,16 @@ public class MainForTest {
             System.out.println("execute in: " + (System.currentTimeMillis() - time));
 
 
-        } finally {
+        }
+        finally {
             //!!! necessarily required (close transaction)
             performer.finishExecution();
         }
 
         try {
             performer.startExecution();
-        } finally {
+        }
+        finally {
             performer.finishExecution();
         }
     }
@@ -107,13 +106,12 @@ public class MainForTest {
             this.factory = factory;
         }
 
-        @Override
         public void perform(ScEvent event) {
             ScElement element = event.getSource();
             ScArc arc = (ScArc) element;
             ScNode secondNode = arc.getEndScNode();
             ScNode forthNode = factory.createScNode("forth", ScElementTypes.NODE);
-            List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
+            List<String> typeList = new ArrayList<String>();
             typeList.add(ScElementTypes.ARC);
             factory.generate_3_f_a_f(secondNode, typeList, forthNode);
         }
@@ -127,13 +125,12 @@ public class MainForTest {
             this.factory = factory;
         }
 
-        @Override
         public void perform(ScEvent event) {
             ScElement element = event.getSource();
             ScArc arc = (ScArc) element;
             ScNode secondNode = arc.getStartScNode();
             ScNode node = factory.createScNode("five", ScElementTypes.NODE);
-            List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
+            List<String> typeList = new ArrayList<String>();
             typeList.add(ScElementTypes.ARC);
             factory.generate_3_f_a_f(node, typeList, secondNode.getAllOutputScArcs().get(0));
         }
@@ -149,7 +146,7 @@ public class MainForTest {
 
         public void perform(ScEvent event) {
             ScNode sixNode = performer.getScFactory().createScNode("six", ScElementTypes.NODE);
-            List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
+            List<String> typeList = new ArrayList<String>();
             typeList.add(ScElementTypes.ARC);
             performer.getScFactory().generate_3_f_a_f(performer.findScNodeByName("second"), typeList, sixNode);
         }
@@ -166,7 +163,7 @@ public class MainForTest {
         public void perform(ScEvent event) {
             ScArc arc = (ScArc) event.getSource();
             ScNode node = factory.createScNode("attr", ScElementTypes.NODE);
-            List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
+            List<String> typeList = new ArrayList<String>();
             typeList.add(ScElementTypes.ARC);
             factory.generate_3_f_a_f(node, typeList, arc);
         }

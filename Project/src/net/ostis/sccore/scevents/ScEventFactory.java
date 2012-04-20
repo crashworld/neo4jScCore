@@ -15,7 +15,7 @@ public class ScEventFactory {
      *
      * @param eventType type of event that we want to listen
      * @param listner object that realize ScActionListner interface
-     * @param nodeName name of node that associated with happened event
+     * @param scElement sc element that associated with happened event
      * @return created ScEventListner object
      */
     public static ScEventListener createScListner(ScEventTypes eventType,

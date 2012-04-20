@@ -1,9 +1,8 @@
 package net.ostis.sccore.scevents;
 
 /**
- *
  * Enum for various type of event in sc memory.
- * 
+ *
  * @author yaskoam
  */
 public enum ScEventTypes {
@@ -16,10 +15,10 @@ public enum ScEventTypes {
     DETACH_INPUT_FROM_NODE("DETACH_INPUT_FROM_NODE"),
     DETACH_OUTPUT_FROM_NODE("DETACH_OUTPUT_FROM_NODE"),
     DETACH_INPUT_FROM_ARC("DETACH_INPUT_FROM_ARC");
-    
+
 
     private String typeName = "";
-    
+
     private ScEventTypes(String typeName) {
         this.typeName = typeName;
     }

@@ -4,15 +4,10 @@ import java.util.List;
 
 /**
  * Class for presentation SC node.
+ *
  * @author yaskoam
  */
 public abstract class ScNode extends ScElement {
-    /** String constant for name of node attribute. */
-    public static final String SC_NODE_NAME_PROPERTY = "_scNodeName";
-    /** String constant for type of element         */
-    public static final String Sc_ELEMENT_TYPE = "_scElementType";
-   
-
     /**
      * Method that get name of sc node.
      *
@@ -43,7 +38,7 @@ public abstract class ScNode extends ScElement {
 
     /**
      * Method that get all sc arcs connected with node.
-     * 
+     *
      * @return list of sc arcs
      */
     public abstract List<ScArc> getAllScArc();

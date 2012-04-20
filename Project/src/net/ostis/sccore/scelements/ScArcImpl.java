@@ -1,21 +1,23 @@
 package net.ostis.sccore.scelements;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.neo4j.cypher.javacompat.ExecutionEngine;
+import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
 import net.ostis.sccore.scfactory.RelTypes;
-import net.ostis.sccore.scfactory.ScFactoryImpl;
+import net.ostis.sccore.scperformer.DataBaseManager;
 import net.ostis.sccore.types.ScElementTypes;
-import org.neo4j.graphdb.index.IndexManager;
-import org.neo4j.kernel.AbstractGraphDatabase;
 
 /**
  * Class that implement sc arc.
- * 
+ *
  * @author yaskoam
  */
 public class ScArcImpl extends ScArc {
@@ -67,17 +69,13 @@ public class ScArcImpl extends ScArc {
      * @param type type of element
      */
     @Override
-    public void addType(ScElementTypes type) {
-        ScFactoryImpl factory = ScFactoryImpl.getInstance();
-        AbstractGraphDatabase dataBase = factory.getDataBase();
-        IndexManager index = dataBase.index();
-        Node node = index.forNodes(ScNode.Sc_ELEMENT_TYPE).get(ScNode.Sc_ELEMENT_TYPE, type.toString()).getSingle();
-        //фак май мозг!!!!
-        if (node != null) {
-            node.createRelationshipTo(connectorNode, RelTypes.typeLink);
+    public void addType(String type) {
+        DataBaseManager dataBaseManager = DataBaseManager.getDataBaseManagerInstance();
+        Node typeNode = dataBaseManager.getTypeNode(type);
+
+        if (typeNode != null) {
+            typeNode.createRelationshipTo(connectorNode, RelTypes.typeLink);
         }
-        //factory.createScArc(new ScNodeImpl(node), this);
-        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
@@ -86,37 +84,35 @@ public class ScArcImpl extends ScArc {
      * @param types list of types name
      */
     @Override
-    public void addTypes(List<ScElementTypes> types) {
-        for (ScElementTypes type : types) {
-            this.addType(type);
+    public void addTypes(List<String> types) {
+        for (String currentType : types) {
+            this.addType(currentType);
         }
-        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
-     * Method that get all types of sc elemetn.
+     * Method that get all types of sc element.
      *
      * @return list of types
      */
     @Override
-    public List<ScElementTypes> getTypes() {
-        ScElementTypes[] scTypes = ScElementTypes.values();
-        List<ScElementTypes> scCurrentTypes = new ArrayList<ScElementTypes>();
-        List<ScArc> scArcsList = this.getAllInputScArcs();
-        ScFactoryImpl factory = ScFactoryImpl.getInstance();
-        AbstractGraphDatabase dataBase = factory.getDataBase();
-        IndexManager index = dataBase.index();
+    public List<String> getTypes() {
+        List<String> nodeTypes = new ArrayList<String>();
 
-        for (ScArc arc : scArcsList) {
-            ScNode node = arc.getStartScNode();
+        ExecutionEngine engine = new ExecutionEngine(DataBaseManager.getDataBaseManagerInstance().getDataBase());
+        ExecutionResult result = engine.execute(
+            "START node=node(" + this.getAddress() + ") "
+                + "MATCH node<-[:typeLink]-type "
+                + "RETURN type ");
 
-            if (index.forNodes(ScNode.Sc_ELEMENT_TYPE).get(ScNode.Sc_ELEMENT_TYPE, node.getName()).getSingle() != null) {
-                scCurrentTypes.add(ScElementTypes.valueOf(node.getName()));
-            }
+        Iterator<Map<String, Object>> resultIterator = result.iterator();
+
+        while (resultIterator.hasNext()) {
+            Node node = (Node) resultIterator.next().get("type");
+            nodeTypes.add((String) node.getProperty(ScElementTypes.ELEMENT_TYPE_PROPERTY));
         }
 
-        return scCurrentTypes;
-        //throw new UnsupportedOperationException("Not supported yet.");
+        return nodeTypes;
     }
 
     /**
@@ -125,8 +121,20 @@ public class ScArcImpl extends ScArc {
      * @param type name of type
      */
     @Override
-    public void removeType(ScElementTypes type) {
-        //throw new UnsupportedOperationException("Not supported yet.");
+    public void removeType(String type) {
+        ExecutionEngine engine = new ExecutionEngine(DataBaseManager.getDataBaseManagerInstance().getDataBase());
+        ExecutionResult result = engine.execute(
+            "START node=node(" + this.getAddress() + ") "
+                + "MATCH node<-[relationship:typeLink]-type "
+                + "WHERE type." + ScElementTypes.ELEMENT_TYPE_PROPERTY + "=" + type + " "
+                + "RETURN relationship ");
+
+        Iterator<Map<String, Object>> resultIterator = result.iterator();
+
+        while (resultIterator.hasNext()) {
+            Relationship relationship = (Relationship) resultIterator.next().get("relationship");
+            relationship.delete();
+        }
     }
 
     /**
@@ -150,7 +158,7 @@ public class ScArcImpl extends ScArc {
     @Override
     public ScNode getEndScNode() {
         Node endNode = getEndLink().getEndNode();
-        if (endNode.hasProperty(ScNodeImpl.CONNECTORNODE)) {
+        if (endNode.hasProperty(ScNodeImpl.CONNECTOR_NODE)) {
             return null;
         }
 
@@ -166,7 +174,7 @@ public class ScArcImpl extends ScArc {
     @Override
     public ScArc getEndScArc() {
         Node connector = getEndLink().getEndNode();
-        if (!connector.hasProperty(ScNodeImpl.CONNECTORNODE)) {
+        if (!connector.hasProperty(ScNodeImpl.CONNECTOR_NODE)) {
             return null;
         }
 
@@ -193,7 +201,7 @@ public class ScArcImpl extends ScArc {
 
     /**
      * Gets connector that used like arc.
-     * 
+     *
      * @return connector-connector
      */
     public Node getArcConnectorNode() {

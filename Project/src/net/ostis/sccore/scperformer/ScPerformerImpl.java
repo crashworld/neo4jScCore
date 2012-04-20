@@ -3,6 +3,17 @@ package net.ostis.sccore.scperformer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.index.AutoIndexer;
+import org.neo4j.graphdb.index.Index;
+import org.neo4j.graphdb.index.IndexManager;
+import org.neo4j.graphdb.index.ReadableIndex;
+import org.neo4j.kernel.AbstractGraphDatabase;
+
 import net.ostis.sccore.iterators.ScIterator_3_a_a_f;
 import net.ostis.sccore.iterators.ScIterator_3_f_a_a;
 import net.ostis.sccore.iterators.ScIterator_3_f_a_f;
@@ -13,16 +24,6 @@ import net.ostis.sccore.iterators.ScIterator_5_f_a_a_a_a;
 import net.ostis.sccore.iterators.ScIterator_5_f_a_a_a_f;
 import net.ostis.sccore.iterators.ScIterator_5_f_a_f_a_a;
 import net.ostis.sccore.iterators.ScIterator_5_f_a_f_a_f;
-
-import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.index.AutoIndexer;
-import org.neo4j.graphdb.index.ReadableIndex;
-
-import org.neo4j.kernel.AbstractGraphDatabase;
-
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScArcImpl;
 import net.ostis.sccore.scelements.ScElement;
@@ -35,12 +36,11 @@ import net.ostis.sccore.scfactory.RelTypes;
 import net.ostis.sccore.scfactory.ScFactory;
 import net.ostis.sccore.scfactory.ScFactoryImpl;
 import net.ostis.sccore.types.ScElementTypes;
-import org.neo4j.graphdb.index.Index;
-import org.neo4j.graphdb.index.IndexManager;
+
 
 /**
  * Class that provide all general actions with sc memory.
- * 
+ *
  * @author yaskoam
  */
 public class ScPerformerImpl extends ScPerformer {
@@ -54,7 +54,8 @@ public class ScPerformerImpl extends ScPerformer {
      * @param basePath path
      */
     public ScPerformerImpl(String basePath) {
-        dataBase = DataBaseConnector.getDataBaseInstance(basePath);
+        DataBaseManager dataBaseManager = DataBaseManager.getDataBaseManagerInstance(basePath);
+        dataBase = dataBaseManager.getDataBase();
 
         ScFactoryImpl factory = ScFactoryImpl.getInstance();
         factory.setDataBase(dataBase);
@@ -71,18 +72,15 @@ public class ScPerformerImpl extends ScPerformer {
     }
 
     /**
-     * Method that start data base transaction and start create Index for types
-     * for execute different operation.
+     * Method that start data base transaction.
      */
     @Override
     public void startExecution() {
         transaction = dataBase.beginTx();
-        DataBaseConnector.createIndex(dataBase);
     }
 
     /**
      * Method that finish transaction.
-     *
      */
     @Override
     public void finishExecution() {
@@ -100,7 +98,7 @@ public class ScPerformerImpl extends ScPerformer {
     public ScNode findScNodeByName(String nodeName) {
         AutoIndexer<Node> autoIndexer = dataBase.index().getNodeAutoIndexer();
         ReadableIndex<Node> index = autoIndexer.getAutoIndex();
-        Node node = index.get(ScNode.SC_NODE_NAME_PROPERTY, nodeName).getSingle();
+        Node node = index.get(ScNodeImpl.SC_NODE_NAME_PROPERTY, nodeName).getSingle();
         if (node == null) {
             return null;
         }
@@ -108,7 +106,7 @@ public class ScPerformerImpl extends ScPerformer {
     }
 
     /**
-     * Method that remove sc arc. 
+     * Method that remove sc arc.
      * When it was deleted, connected with it sc arcs was deleted too.
      *
      * @param arc deleted sc arc
@@ -137,9 +135,10 @@ public class ScPerformerImpl extends ScPerformer {
         ScEvent event = new ScEvent(ScEventTypes.DETACH_OUTPUT_FROM_NODE, new ScNodeImpl(beginNode));
         ScEventHandler.getInstance().notify(event);
 
-        if (endNode.hasProperty(ScNodeImpl.CONNECTORNODE)) {
+        if (endNode.hasProperty(ScNodeImpl.CONNECTOR_NODE)) {
             event = new ScEvent(ScEventTypes.DETACH_INPUT_FROM_ARC, new ScArcImpl(endNode));
-        } else {
+        }
+        else {
             event = new ScEvent(ScEventTypes.DETACH_INPUT_FROM_NODE, new ScNodeImpl(endNode));
         }
 
@@ -149,9 +148,9 @@ public class ScPerformerImpl extends ScPerformer {
     }
 
     /**
-     * Method that remove sc node. 
+     * Method that remove sc node.
      * When it was deleted, connected with it sc arcs was deleted too.
-     * 
+     *
      * @param scNode deleted sc node
      */
     @Override
@@ -264,17 +263,18 @@ public class ScPerformerImpl extends ScPerformer {
 
     /**
      * Gets addresses of type-nodes
+     *
      * @param elements list of types
      * @return ArrayList of addresses
      */
     private List<Long> getAddresses(List<ScElementTypes> elements) {
         IndexManager indexManager = dataBase.index();
-        Index index = indexManager.forNodes(ScNode.Sc_ELEMENT_TYPE);
+        Index index = indexManager.forNodes(ScElementTypes.ELEMENT_TYPE_PROPERTY);
 
         List<Long> typeAddresses = new ArrayList<Long>();
 
         for (ScElementTypes nodeType : elements) {
-            Node node = (Node) index.get(ScNode.Sc_ELEMENT_TYPE, nodeType.toString()).getSingle();
+            Node node = (Node) index.get(ScElementTypes.ELEMENT_TYPE_PROPERTY, nodeType.toString()).getSingle();
             typeAddresses.add(node.getId());
         }
 

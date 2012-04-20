@@ -7,16 +7,17 @@ package net.ostis.sccore.unittests;
 
 import java.util.ArrayList;
 import java.util.List;
-import net.ostis.sccore.samples.graph.GraphManager;
-import net.ostis.sccore.scelements.ScNode;
-import net.ostis.sccore.scperformer.ScPerformer;
-import net.ostis.sccore.scperformer.ScPerformerImpl;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import net.ostis.sccore.samples.graph.GraphManager;
+import net.ostis.sccore.scelements.ScNode;
+import net.ostis.sccore.scperformer.ScPerformer;
+import net.ostis.sccore.scperformer.ScPerformerImpl;
+
 /**
- *
  * @author yaskoam
  */
 public class GraphTest {
@@ -62,14 +63,15 @@ public class GraphTest {
 
         try {
             performer.startExecution();
-            
+
             ScNode graphNode = performer.findScNodeByName(graphName);
             if (graphNode == null) {
                 graphNode = GraphManager.createUndirectedGraph(performer, graphName, vertexList, edgeList);
             }
-            
+
             GraphManager.printUndirectedGraph(performer, graphNode);
-        } finally {
+        }
+        finally {
             performer.finishExecution();
         }
     }

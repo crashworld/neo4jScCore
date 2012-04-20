@@ -1,7 +1,7 @@
 package net.ostis.sccore.scevents;
 
-import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScArc;
+import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
 
 /**
@@ -67,7 +67,7 @@ public class ListenerForAttachOutputToNode extends ScEventListener {
         if (startNode.getAddress() != scElement.getAddress()) {
             return false;
         }
-        
+
         return true;
     }
 

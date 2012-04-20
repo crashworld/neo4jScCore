@@ -5,25 +5,19 @@ import java.util.List;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.AutoIndexer;
 import org.neo4j.graphdb.index.ReadableIndex;
-
 import org.neo4j.kernel.AbstractGraphDatabase;
 
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScArcImpl;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scelements.ScNodeImpl;
-
 import net.ostis.sccore.scevents.ScEvent;
 import net.ostis.sccore.scevents.ScEventHandler;
 import net.ostis.sccore.scevents.ScEventTypes;
 
-import net.ostis.sccore.types.ScElementTypes;
-import org.neo4j.graphdb.index.Index;
-import org.neo4j.graphdb.index.IndexManager;
-
 /**
  * Class that implement sc factory.
- * 
+ *
  * @author yaskoam
  */
 public class ScFactoryImpl extends ScFactory {
@@ -33,7 +27,6 @@ public class ScFactoryImpl extends ScFactory {
 
     /**
      * Private constructor
-     * 
      */
     private ScFactoryImpl() {
     }
@@ -84,7 +77,7 @@ public class ScFactoryImpl extends ScFactory {
 
         AutoIndexer<Node> autoIndexer = dataBase.index().getNodeAutoIndexer();
         ReadableIndex<Node> index = autoIndexer.getAutoIndex();
-        Node node = index.get(ScNode.SC_NODE_NAME_PROPERTY, nodeName).getSingle();
+        Node node = index.get(ScNodeImpl.SC_NODE_NAME_PROPERTY, nodeName).getSingle();
         if (node != null) {
             return new ScNodeImpl(node);
         }
@@ -103,7 +96,7 @@ public class ScFactoryImpl extends ScFactory {
      * @return created sc node
      */
     @Override
-    public ScNode createScNode(String nodeName, ScElementTypes type) {
+    public ScNode createScNode(String nodeName, String type) {
         if (type == null) {
             throw new IllegalArgumentException("Creation sc node: null type.");
         }
@@ -120,7 +113,7 @@ public class ScFactoryImpl extends ScFactory {
      * @return created sc node
      */
     @Override
-    public ScNode createScNode(String nodeName, List<ScElementTypes> types) {
+    public ScNode createScNode(String nodeName, List<String> types) {
         if (types == null) {
             throw new IllegalArgumentException("Creation sc node: null types.");
         }
@@ -146,7 +139,7 @@ public class ScFactoryImpl extends ScFactory {
         Node endNode = ((ScNodeImpl) endScNode).getNeo4jNode();
 
         Node connectorNode = dataBase.createNode();
-        connectorNode.setProperty(ScNodeImpl.CONNECTORNODE, "true");
+        connectorNode.setProperty(ScNodeImpl.CONNECTOR_NODE, "true");
         startNode.createRelationshipTo(connectorNode, RelTypes.beginLink);
         connectorNode.createRelationshipTo(endNode, RelTypes.endLink);
 
@@ -171,7 +164,7 @@ public class ScFactoryImpl extends ScFactory {
      * @return created sc arc
      */
     @Override
-    public ScArc createScArc(ScNode startScNode, ScNode endScNode, ScElementTypes type) {
+    public ScArc createScArc(ScNode startScNode, ScNode endScNode, String type) {
         ScArc newScArc = createScArc(startScNode, endScNode);
         newScArc.addType(type);
         return newScArc;
@@ -185,7 +178,7 @@ public class ScFactoryImpl extends ScFactory {
      * @return created sc arc
      */
     @Override
-    public ScArc createScArc(ScNode startScNode, ScNode endScNode, List<ScElementTypes> types) {
+    public ScArc createScArc(ScNode startScNode, ScNode endScNode, List<String> types) {
         if (types == null) {
             throw new IllegalArgumentException("Creation sc arc: null types.");
         }
@@ -211,7 +204,7 @@ public class ScFactoryImpl extends ScFactory {
         Node endNode = ((ScArcImpl) endScArc).getArcConnectorNode();
 
         Node connectorNode = dataBase.createNode();
-        connectorNode.setProperty(ScNodeImpl.CONNECTORNODE, "true");
+        connectorNode.setProperty(ScNodeImpl.CONNECTOR_NODE, "true");
         startNode.createRelationshipTo(connectorNode, RelTypes.beginLink);
         connectorNode.createRelationshipTo(endNode, RelTypes.endLink);
 
@@ -237,7 +230,7 @@ public class ScFactoryImpl extends ScFactory {
      * @return created sc arc
      */
     @Override
-    public ScArc createScArc(ScNode startScNode, ScArc endScArc, ScElementTypes type) {
+    public ScArc createScArc(ScNode startScNode, ScArc endScArc, String type) {
         ScArc newScArc = createScArc(startScNode, endScArc);
         newScArc.addType(type);
         return newScArc;
@@ -252,7 +245,7 @@ public class ScFactoryImpl extends ScFactory {
      * @return created sc arc
      */
     @Override
-    public ScArc createScArc(ScNode startScNode, ScArc endScArc, List<ScElementTypes> types) {
+    public ScArc createScArc(ScNode startScNode, ScArc endScArc, List<String> types) {
         if (types == null) {
             throw new IllegalArgumentException("Creation sc arc: null types.");
         }
@@ -263,14 +256,14 @@ public class ScFactoryImpl extends ScFactory {
 
     /**
      * Method that generate sc constrain ( 0->0 ) .
-     * 
+     *
      * @param startNode first node of constrain
      * @param types types of sc arc
      * @param endNode end node of constrain
      * @return generated sc arc
      */
     @Override
-    public ScArc generate_3_f_a_f(ScNode startNode, List<ScElementTypes> types, ScNode endNode) {
+    public ScArc generate_3_f_a_f(ScNode startNode, List<String> types, ScNode endNode) {
         if (types == null) {
             throw new IllegalArgumentException("Creation 3_f_a_f : null types.");
         }
@@ -287,7 +280,7 @@ public class ScFactoryImpl extends ScFactory {
      * @return generated sc arc
      */
     @Override
-    public ScArc generate_3_f_a_f(ScNode startNode, List<ScElementTypes> types, ScArc endScArc) {
+    public ScArc generate_3_f_a_f(ScNode startNode, List<String> types, ScArc endScArc) {
         if (types == null) {
             throw new IllegalArgumentException("Creation 3_f_a_f : null types.");
         }
@@ -297,9 +290,9 @@ public class ScFactoryImpl extends ScFactory {
 
     /**
      * Method that generate sc constrain
-     *    0
+     * 0
      * 0->|
-     *    0 .
+     * 0 .
      *
      * @param firstNode first node of constrain
      * @param types1 types of first generated sc arc of constrain
@@ -308,8 +301,8 @@ public class ScFactoryImpl extends ScFactory {
      * @param thirdNode third node of constrain
      */
     @Override
-    public void generate_5_f_a_f_a_f(ScNode firstNode, List<ScElementTypes> types1, ScNode secondNode,
-        List<ScElementTypes> types2, ScNode thirdNode) {
+    public void generate_5_f_a_f_a_f(ScNode firstNode, List<String> types1, ScNode secondNode,
+        List<String> types2, ScNode thirdNode) {
 
         if (types1 == null || types2 == null) {
             throw new IllegalArgumentException("Creation 5_f_a_f_a_f : null types.");
@@ -330,8 +323,8 @@ public class ScFactoryImpl extends ScFactory {
      * @param thirdNode third node of constrain
      */
     @Override
-    public void generate_5_f_a_f_a_f_1(ScNode firstNode, List<ScElementTypes> types1, ScNode secondNode,
-        List<ScElementTypes> types2, ScNode thirdNode) {
+    public void generate_5_f_a_f_a_f_1(ScNode firstNode, List<String> types1, ScNode secondNode,
+        List<String> types2, ScNode thirdNode) {
 
         if (types1 == null || types2 == null) {
             throw new IllegalArgumentException("Creation 5_f_a_f_a_f_1 : null types.");
@@ -343,9 +336,5 @@ public class ScFactoryImpl extends ScFactory {
 
     public void setDataBase(AbstractGraphDatabase dataBase) {
         this.dataBase = dataBase;
-    }
-
-    public AbstractGraphDatabase getDataBase() {
-        return this.dataBase;
     }
 }

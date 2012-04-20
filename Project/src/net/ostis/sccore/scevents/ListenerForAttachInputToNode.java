@@ -46,7 +46,7 @@ public class ListenerForAttachInputToNode extends ScEventListener {
 
     /**
      * Method that determine, if this listener suitable for happened event.
-     * 
+     *
      * @param event event object, contain new arc which was attached to sc node.
      * @return return true, if this listener suitable, in other case return false
      */

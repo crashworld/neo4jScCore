@@ -10,7 +10,6 @@ import net.ostis.sccore.scperformer.ScPerformerImpl;
 import net.ostis.sccore.types.ScElementTypes;
 
 /**
- *
  * @author yaskoam
  */
 public class HighSpeedPerformance {

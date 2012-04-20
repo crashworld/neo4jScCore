@@ -17,6 +17,7 @@ import net.ostis.sccore.types.ScElementTypes;
 
 /**
  * Iterates over 3_f_a_a constructions in database.
+ *
  * @author Q-ANS
  */
 public class ScIterator_3_f_a_a implements ScIterator {
@@ -24,7 +25,7 @@ public class ScIterator_3_f_a_a implements ScIterator {
     private Iterator<Map<String, Object>> resultIterator;
 
     public ScIterator_3_f_a_a(AbstractGraphDatabase db, ScElement firstElement, List<ScElementTypes> arcTypes,
-            List<ScElementTypes> thirdElementTypes) {
+        List<ScElementTypes> thirdElementTypes) {
 
         StringBuilder typesMatchExpr = new StringBuilder("");
         StringBuilder typesWhereExpr = new StringBuilder("");
@@ -42,7 +43,7 @@ public class ScIterator_3_f_a_a implements ScIterator {
 
         ExecutionEngine engine = new ExecutionEngine(db);
         ExecutionResult result = engine.execute(
-                "START node1=node(" + firstElement.getAddress() + ") "
+            "START node1=node(" + firstElement.getAddress() + ") "
                 + "MATCH node1-[:beginLink]->arc2-[:endLink]->elem3"
                 + typesMatchExpr + " "
                 + "WHERE not(node1._connectorNode)"
@@ -60,6 +61,7 @@ public class ScIterator_3_f_a_a implements ScIterator {
 
     /**
      * Returns 3_f_a_a constraint from next iterator result.
+     *
      * @return 3_f_a_a constraint
      */
     public ScConstraint next() {

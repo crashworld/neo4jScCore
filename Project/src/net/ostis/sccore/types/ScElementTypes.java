@@ -2,42 +2,41 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package net.ostis.sccore.types;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Enum that contain types of sc elements.
+ * Class that contain standard types of sc elements.
  *
  * @author yaskoam
  */
-public enum ScElementTypes {
+public class ScElementTypes {
 
-    NODE("NODE"),
-    
-    ARC("ARC"),
-    
-    CONST("CONST"),
-    
-    VAR("VAR"),
-    
-    META("META"),
-    
-    POS("POS"),
-    
-    NEG("NEG"),
-    
-    FUZ("FUZ");
+    public static final String NODE = "NODE";
+    public static final String ARC = "ARC";
+    public static final String CONST = "CONST";
+    public static final String VAR = "VAR";
+    public static final String META = "META";
+    public static final String POS = "POS";
+    public static final String NEG = "NEG";
+    public static final String FUZ = "FUZ";
 
-    private String typeName = "";
+    public static final String ELEMENT_TYPE_PROPERTY = "_scElementType";
 
-    private ScElementTypes(String typeName) {
-        this.typeName = typeName;
+    public static List<String> getTypesList() {
+
+        List<String> typesList = new ArrayList<String>();
+        typesList.add(ARC);
+        typesList.add(NODE);
+        typesList.add(CONST);
+        typesList.add(VAR);
+        typesList.add(META);
+        typesList.add(POS);
+        typesList.add(NEG);
+        typesList.add(FUZ);
+
+        return typesList;
     }
-
-    @Override
-    public String toString() {
-        return this.typeName;
-    }
-    
-    
 }

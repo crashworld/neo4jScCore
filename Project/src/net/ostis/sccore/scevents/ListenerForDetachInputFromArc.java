@@ -1,8 +1,6 @@
 package net.ostis.sccore.scevents;
 
-import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScElement;
-import net.ostis.sccore.scelements.ScNode;
 
 /**
  * Class for listener, that wait detach input arc from another arc.
@@ -15,7 +13,7 @@ public class ListenerForDetachInputFromArc extends ScEventListener {
 
     /**
      * Construct listener.
-     * 
+     *
      * @param listner object that implement ScActionListner interface
      * @param scElement arc from which another arc was detached.
      */
@@ -60,7 +58,7 @@ public class ListenerForDetachInputFromArc extends ScEventListener {
         if (element.getAddress() != scElement.getAddress()) {
             return true;
         }
-        
+
         return true;
     }
 

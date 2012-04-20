@@ -46,7 +46,7 @@ public class ListenerForDeleteNode extends ScEventListener {
 
     /**
      * Method that determine, if this listener suitable for happened event.
-     * 
+     *
      * @param event event object, contain node which will be deleted.
      * @return return true, if this listener suitable, in other case return false
      */
@@ -61,7 +61,7 @@ public class ListenerForDeleteNode extends ScEventListener {
         if (node.getAddress() != scElement.getAddress()) {
             return false;
         }
-        
+
         return true;
     }
 

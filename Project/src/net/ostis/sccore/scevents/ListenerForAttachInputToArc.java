@@ -61,11 +61,11 @@ public class ListenerForAttachInputToArc extends ScEventListener {
         if (endArc == null) {
             return false;
         }
-        
+
         if (endArc.getAddress() != this.scElement.getAddress()) {
             return false;
         }
-        
+
         return true;
     }
 }

@@ -4,7 +4,7 @@ import net.ostis.sccore.scelements.ScElement;
 
 /**
  * Class for presentation event that can be happened.
- * 
+ *
  * @author yaskoam
  */
 public class ScEvent {

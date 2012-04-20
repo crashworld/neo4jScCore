@@ -33,7 +33,7 @@ public class ListenerForCreationNode extends ScEventListener {
         return ScEventTypes.CREATE_SC_NODE;
     }
 
-    
+
     /**
      * Method that will be executed in answer for the event.
      *

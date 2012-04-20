@@ -1,29 +1,37 @@
 package net.ostis.sccore.scelements;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.neo4j.cypher.javacompat.ExecutionEngine;
+import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
 import net.ostis.sccore.contents.Content;
 import net.ostis.sccore.scfactory.RelTypes;
-import net.ostis.sccore.scfactory.ScFactory;
-import net.ostis.sccore.scfactory.ScFactoryImpl;
+import net.ostis.sccore.scperformer.DataBaseManager;
 import net.ostis.sccore.types.ScElementTypes;
-import org.neo4j.graphdb.index.IndexManager;
-import org.neo4j.kernel.AbstractGraphDatabase;
 
 /**
  * Class that implement SC node.
- * 
+ *
  * @author yaskoam
  */
 public class ScNodeImpl extends ScNode {
 
-    /** String constant for connector node of sc arc. */
-    public static final String CONNECTORNODE = "_connectorNode";
+    /**
+     * String constant for connector node of sc arc.
+     */
+    public static final String CONNECTOR_NODE = "_connectorNode";
+    /**
+     * String constant for name of node attribute.
+     */
+    public static final String SC_NODE_NAME_PROPERTY = "_scNodeName";
+
     private Node neo4jNode;
     private Content nodeContent;
 
@@ -83,7 +91,7 @@ public class ScNodeImpl extends ScNode {
      */
     @Override
     public void setName(String name) {
-        neo4jNode.setProperty(ScNode.SC_NODE_NAME_PROPERTY, name);
+        neo4jNode.setProperty(ScNodeImpl.SC_NODE_NAME_PROPERTY, name);
     }
 
     /**
@@ -92,18 +100,13 @@ public class ScNodeImpl extends ScNode {
      * @param type type of element
      */
     @Override
-    public void addType(ScElementTypes type) {
-        ScFactoryImpl factory = ScFactoryImpl.getInstance();
-        AbstractGraphDatabase dataBase = factory.getDataBase();
-        IndexManager index = dataBase.index();
-        Node node = index.forNodes(ScNode.Sc_ELEMENT_TYPE).get(ScNode.Sc_ELEMENT_TYPE, type.toString()).getSingle();
-        if (node != null) {
-            node.createRelationshipTo(neo4jNode, RelTypes.typeLink);
+    public void addType(String type) {
+        DataBaseManager dataBaseManager = DataBaseManager.getDataBaseManagerInstance();
+        Node typeNode = dataBaseManager.getTypeNode(type);
+
+        if (typeNode != null) {
+            typeNode.createRelationshipTo(neo4jNode, RelTypes.typeLink);
         }
-        //factory.createScArc(new ScNodeImpl(node), this);
-
-
-        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
@@ -112,37 +115,36 @@ public class ScNodeImpl extends ScNode {
      * @param types list of types name
      */
     @Override
-    public void addTypes(List<ScElementTypes> types) {
-        for (ScElementTypes type : types) {
-            this.addType(type);
+    public void addTypes(List<String> types) {
+        for (String currentType : types) {
+            this.addType(currentType);
         }
-        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
-     * Method that get all types of sc elemetn.
+     * Method that get all types of sc element.
      *
      * @return list of types
      */
     @Override
-    public List<ScElementTypes> getTypes() {
-        ScElementTypes[] scTypes = ScElementTypes.values();
-        List<ScElementTypes> scCurrentTypes = new ArrayList<ScElementTypes>();
-        List<ScArc> scArcsList = this.getAllInputScArcs();
-        ScFactoryImpl factory = ScFactoryImpl.getInstance();
-        AbstractGraphDatabase dataBase = factory.getDataBase();
-        IndexManager index = dataBase.index();
+    public List<String> getTypes() {
 
-        for (ScArc arc : scArcsList) {
-            ScNode node = arc.getStartScNode();
+        List<String> nodeTypes = new ArrayList<String>();
 
-            if (index.forNodes(ScNode.Sc_ELEMENT_TYPE).get(ScNode.Sc_ELEMENT_TYPE, node.getName()).getSingle() != null) {
-                scCurrentTypes.add(ScElementTypes.valueOf(node.getName()));
-            }
+        ExecutionEngine engine = new ExecutionEngine(DataBaseManager.getDataBaseManagerInstance().getDataBase());
+        ExecutionResult result = engine.execute(
+            "START node=node(" + this.getAddress() + ") "
+                + "MATCH node<-[:typeLink]-type "
+                + "RETURN type ");
+
+        Iterator<Map<String, Object>> resultIterator = result.iterator();
+
+        while (resultIterator.hasNext()) {
+            Node node = (Node) resultIterator.next().get("type");
+            nodeTypes.add((String) node.getProperty(ScElementTypes.ELEMENT_TYPE_PROPERTY));
         }
 
-        return scCurrentTypes;
-        //throw new UnsupportedOperationException("Not supported yet.");
+        return nodeTypes;
     }
 
     /**
@@ -151,13 +153,21 @@ public class ScNodeImpl extends ScNode {
      * @param type name of type
      */
     @Override
-    public void removeType(ScElementTypes type) {
-        ScFactory factory = ScFactoryImpl.getInstance();
+    public void removeType(String type) {
 
-        ////////////////////////////////////////////////////////////////////////////
-        ScNode node = new ScNodeImpl(neo4jNode);
-        factory.createScArc(this, node, type);
-        //throw new UnsupportedOperationException("Not supported yet.");
+        ExecutionEngine engine = new ExecutionEngine(DataBaseManager.getDataBaseManagerInstance().getDataBase());
+        ExecutionResult result = engine.execute(
+            "START node=node(" + this.getAddress() + ") "
+                + "MATCH node<-[relationship:typeLink]-type "
+                + "WHERE type." + ScElementTypes.ELEMENT_TYPE_PROPERTY + "=" + type + " "
+                + "RETURN relationship ");
+
+        Iterator<Map<String, Object>> resultIterator = result.iterator();
+
+        while (resultIterator.hasNext()) {
+            Relationship relationship = (Relationship) resultIterator.next().get("relationship");
+            relationship.delete();
+        }
     }
 
     /**
@@ -198,7 +208,7 @@ public class ScNodeImpl extends ScNode {
 
     /**
      * Method that get all sc arcs connected with node.
-     * 
+     *
      * @return list of sc arcs
      */
     @Override
