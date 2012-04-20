@@ -13,6 +13,7 @@ import org.neo4j.kernel.EmbeddedGraphDatabase;
 
 import net.ostis.sccore.scelements.ScNodeImpl;
 import net.ostis.sccore.types.ScElementTypes;
+import org.neo4j.server.WrappingNeoServerBootstrapper;
 
 /**
  * Class that provide getting database object.
@@ -50,8 +51,8 @@ public class DataBaseManager {
         createStandartTypeNodes(dataBase);
 
         // start server
-//        WrappingNeoServerBootstrapper server = new WrappingNeoServerBootstrapper(dataBase);
-//        server.start();
+        WrappingNeoServerBootstrapper server = new WrappingNeoServerBootstrapper(dataBase);
+        server.start();
     }
 
     /**

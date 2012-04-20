@@ -18,6 +18,7 @@ import net.ostis.sccore.types.ScElementTypes;
  * @author yaskoam
  */
 public class GenerationTests {
+
     private static ScPerformer performer;
 
     @BeforeClass
@@ -38,7 +39,7 @@ public class GenerationTests {
         //Generate 0 -> 0
         ScNode firstNode = factory.createScNode("first3", ScElementTypes.NODE);
         ScNode secondNode = factory.createScNode("second3", ScElementTypes.NODE);
-        List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
+        List<String> typeList = new ArrayList<String>();
         typeList.add(ScElementTypes.ARC);
         ScArc firstArc = factory.generate_3_f_a_f(firstNode, typeList, secondNode);
     }
@@ -51,7 +52,7 @@ public class GenerationTests {
 
         ScNode attrNode = factory.createScNode("attr3", ScElementTypes.NODE);
 
-        List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
+        List<String> typeList = new ArrayList<String>();
         typeList.add(ScElementTypes.ARC);
 
         ScArc secondArc = factory.generate_3_f_a_f(attrNode, typeList, firstNode.getAllOutputScArcs().get(0));
@@ -67,7 +68,7 @@ public class GenerationTests {
         ScNode firstNode = factory.createScNode("first5", ScElementTypes.NODE);
         ScNode secondNode = factory.createScNode("second5", ScElementTypes.NODE);
         ScNode attr = factory.createScNode("attr5", ScElementTypes.NODE);
-        List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
+        List<String> typeList = new ArrayList<String>();
         typeList.add(ScElementTypes.ARC);
         factory.generate_5_f_a_f_a_f(firstNode, typeList, secondNode, typeList, firstNode);
     }
@@ -79,7 +80,7 @@ public class GenerationTests {
         ScNode firstNode = factory.createScNode("first5_1", ScElementTypes.NODE);
         ScNode secondNode = factory.createScNode("second5_1", ScElementTypes.NODE);
         ScNode attr = factory.createScNode("attr5_1", ScElementTypes.NODE);
-        List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
+        List<String> typeList = new ArrayList<String>();
         typeList.add(ScElementTypes.ARC);
         factory.generate_5_f_a_f_a_f(firstNode, typeList, secondNode, typeList, firstNode);
     }

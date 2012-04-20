@@ -63,20 +63,6 @@ public class MainForTest {
             List<String> typeList2 = new ArrayList<String>();
             typeList2.add(ScElementTypes.NODE);
 
-//            System.out.println("\n------------f_a_f_a_a-----------------\n");
-//            Iterator i = performer.createIterator_5_f_a_f_a_a(find1, typeList, find2, typeList, typeList2);
-//            while (i.hasNext()) {
-//                i.next();
-//            }
-
-            System.out.println("\n-------------f_a_a----------------\n");
-            Iterator i = performer.createIterator_3_f_a_a(find1, typeList, typeList2);
-//            System.out.println("\n-------------f_a_f----------------\n");
-//            Iterator i = performer.createIterator_3_f_a_f(find1, typeList, find2);
-//            while (i.hasNext()) {
-//                i.next();
-//            }
-
             long time = System.currentTimeMillis();
             System.out.println("execute in: " + (System.currentTimeMillis() - time));
 

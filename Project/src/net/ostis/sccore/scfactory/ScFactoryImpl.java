@@ -75,12 +75,12 @@ public class ScFactoryImpl extends ScFactory {
             throw new IllegalArgumentException("Creation sc node: null name.");
         }
 
-        AutoIndexer<Node> autoIndexer = dataBase.index().getNodeAutoIndexer();
-        ReadableIndex<Node> index = autoIndexer.getAutoIndex();
-        Node node = index.get(ScNodeImpl.SC_NODE_NAME_PROPERTY, nodeName).getSingle();
-        if (node != null) {
-            return new ScNodeImpl(node);
-        }
+//        AutoIndexer<Node> autoIndexer = dataBase.index().getNodeAutoIndexer();
+//        ReadableIndex<Node> index = autoIndexer.getAutoIndex();
+//        Node node = index.get(ScNodeImpl.SC_NODE_NAME_PROPERTY, nodeName).getSingle();
+//        if (node != null) {
+//            return new ScNodeImpl(node);
+//        }
 
         ScNode scNode = createScNode();
         scNode.setName(nodeName);

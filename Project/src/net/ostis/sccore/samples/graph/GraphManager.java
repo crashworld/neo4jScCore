@@ -14,9 +14,9 @@ import net.ostis.sccore.types.ScElementTypes;
  * @author yaskoam
  */
 public class GraphManager {
+
     public static final List<String> constNodeTypes = new ArrayList<String>();
     public static final List<String> posConstArcTypes = new ArrayList<String>();
-
     public static final String VERTEX_ATTR_NAME = "vertex";
     public static final String EDGE_ATTR_NAME = "edge";
 
@@ -85,7 +85,7 @@ public class GraphManager {
         System.out.println("All graph edges: ");
         ScNode edgeAttr = performer.findScNodeByName(EDGE_ATTR_NAME);
         Iterator edgeIterator = performer.createIterator_5_f_a_a_a_f(graphNode, posConstArcTypes,
-            new ArrayList<ScElementTypes>(), posConstArcTypes, edgeAttr);
+            new ArrayList<String>(), posConstArcTypes, edgeAttr);
 
         while (edgeIterator.hasNext()) {
             ScConstraint constraint = (ScConstraint) edgeIterator.next();
@@ -103,8 +103,8 @@ public class GraphManager {
     }
 
     public static void deleteUndirectedGraph(ScPerformer performer, ScNode graphNode) {
-        Iterator iterator = performer.createIterator_3_f_a_a(graphNode, new ArrayList<ScElementTypes>(),
-            new ArrayList<ScElementTypes>());
+        Iterator iterator = performer.createIterator_3_f_a_a(graphNode, new ArrayList<String>(),
+            new ArrayList<String>());
 
         while (iterator.hasNext()) {
             ScNode currentGraphElement = (ScNode) ((ScConstraint) iterator.next()).getElement(3);
