@@ -57,7 +57,7 @@ public class MainForTest {
             List<ScElementTypes> typeList = new ArrayList<ScElementTypes>();
             typeList.add(ScElementTypes.ARC);
             //factory.generate_5_f_a_f_a_f(node1, typeList, node2, typeList, node3);
-             factory.generate_3_f_a_f(node1, typeList, node2);
+            factory.generate_3_f_a_f(node1, typeList, node2);
 
             ScNode find1 = performer.findScNodeByName("first");
             ScNode find2 = performer.findScNodeByName("second");
@@ -72,11 +72,8 @@ public class MainForTest {
 //                i.next();
 //            }
 
-            System.out.println("\n-------------a_a_f----------------\n");
-            Iterator i = performer.createIterator_3_f_a_a(find1, new ArrayList<ScElementTypes>(), new ArrayList<ScElementTypes>());
-            while (i.hasNext()) {
-                i.next();
-            }
+            System.out.println("\n-------------f_a_a----------------\n");
+            Iterator i = performer.createIterator_3_f_a_a(find1, typeList, typeList2);
 //            System.out.println("\n-------------f_a_f----------------\n");
 //            Iterator i = performer.createIterator_3_f_a_f(find1, typeList, find2);
 //            while (i.hasNext()) {
@@ -87,14 +84,16 @@ public class MainForTest {
             System.out.println("execute in: " + (System.currentTimeMillis() - time));
 
 
-        } finally {
+        }
+        finally {
             //!!! necessarily required (close transaction)
             performer.finishExecution();
         }
 
         try {
             performer.startExecution();
-        } finally {
+        }
+        finally {
             performer.finishExecution();
         }
     }

@@ -15,9 +15,9 @@ import net.ostis.sccore.iterators.ScConstraint;
  * @author yaskoam
  */
 public class GraphManager {
+
     public static final List<ScElementTypes> constNodeTypes = new ArrayList<ScElementTypes>();
     public static final List<ScElementTypes> posConstArcTypes = new ArrayList<ScElementTypes>();
-
     public static final String VERTEX_ATTR_NAME = "vertex";
     public static final String EDGE_ATTR_NAME = "edge";
 
@@ -52,7 +52,7 @@ public class GraphManager {
         ScNode edgeAttr = factory.createScNode(EDGE_ATTR_NAME, constNodeTypes);
 
         //Create graph nodes
-        for(String currentVertex : graphVertex) {
+        for (String currentVertex : graphVertex) {
             ScNode scNode = factory.createScNode(currentVertex, constNodeTypes);
             factory.generate_5_f_a_f_a_f(graphNode, posConstArcTypes, scNode, posConstArcTypes, vertexAttr);
         }
@@ -77,9 +77,9 @@ public class GraphManager {
             posConstArcTypes, vertexAttr);
 
         System.out.println("All graph vertexes: ");
-        while(vertexIterator.hasNext()) {
+        while (vertexIterator.hasNext()) {
             ScConstraint constraint = (ScConstraint) vertexIterator.next();
-            System.out.println(((ScNode)constraint.getElement(3)).getName() + " ");
+            System.out.println(((ScNode) constraint.getElement(3)).getName() + " ");
         }
 
         //Find all edges
@@ -88,26 +88,26 @@ public class GraphManager {
         Iterator edgeIterator = performer.createIterator_5_f_a_a_a_f(graphNode, posConstArcTypes,
             new ArrayList<ScElementTypes>(), posConstArcTypes, edgeAttr);
 
-        while(edgeIterator.hasNext()) {
+        while (edgeIterator.hasNext()) {
             ScConstraint constraint = (ScConstraint) edgeIterator.next();
             ScNode edgeNode = (ScNode) constraint.getElement(3);
             Iterator incidentIterator = performer.createIterator_3_f_a_a(edgeNode, posConstArcTypes, constNodeTypes);
 
-            ScConstraint constraint1 = (ScConstraint)incidentIterator.next();
+            ScConstraint constraint1 = (ScConstraint) incidentIterator.next();
             ScConstraint constraint2 = (ScConstraint) incidentIterator.next();
 
-             System.out.print(((ScNode)constraint1.getElement(3)).getName());
-             System.out.print("--");
-             System.out.print(((ScNode)constraint2.getElement(3)).getName());
-             System.out.println();
+            System.out.print(((ScNode) constraint1.getElement(3)).getName());
+            System.out.print("--");
+            System.out.print(((ScNode) constraint2.getElement(3)).getName());
+            System.out.println();
         }
     }
 
     public static void deleteUndirectedGraph(ScPerformer performer, ScNode graphNode) {
         Iterator iterator = performer.createIterator_3_f_a_a(graphNode, new ArrayList<ScElementTypes>(),
-                new ArrayList<ScElementTypes>());
+            new ArrayList<ScElementTypes>());
 
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             ScNode currentGraphElement = (ScNode) ((ScConstraint) iterator.next()).getElement(3);
             performer.deleteScNode(currentGraphElement);
         }
