@@ -18,8 +18,7 @@ public class HighSpeedPerformance {
 
     @BeforeClass
     public static void beforeClass() {
-        ScPerformer newPerformer = new ScPerformerImpl("data\\sc_core.db");
-        performer = newPerformer;
+        performer = new ScPerformerImpl("data\\sc_core.db");
         performer.startExecution();
     }
 
@@ -31,8 +30,9 @@ public class HighSpeedPerformance {
     @Test
     public void addScNodes50000() {
         ScFactory factory = performer.getScFactory();
-        for (int i = 0; i < 5000; i++) {
+        for (int i = 0; i < 50000; i++) {
             factory.createScNode(Integer.toString(i), ScElementTypes.NODE);
+            performer.successExecution();
         }
     }
 }

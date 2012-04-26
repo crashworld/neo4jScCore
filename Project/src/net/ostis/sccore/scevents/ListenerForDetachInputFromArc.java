@@ -14,11 +14,11 @@ public class ListenerForDetachInputFromArc extends ScEventListener {
     /**
      * Construct listener.
      *
-     * @param listner object that implement ScActionListner interface
+     * @param listener object that implement ScActionListener interface
      * @param scElement arc from which another arc was detached.
      */
-    public ListenerForDetachInputFromArc(ScActionListener listner, ScElement scElement) {
-        this.listener = listner;
+    public ListenerForDetachInputFromArc(ScActionListener listener, ScElement scElement) {
+        this.listener = listener;
         this.scElement = scElement;
     }
 

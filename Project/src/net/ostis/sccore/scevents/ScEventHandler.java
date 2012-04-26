@@ -60,11 +60,11 @@ public class ScEventHandler {
     /**
      * Method that provide subscription on some type of event.
      *
-     * @param eventListner subscriber object
+     * @param eventListener subscriber object
      */
-    public void subscribeOnEvent(ScEventListener eventListner) {
-        List<ScEventListener> subscribersList = subscribersMap.get(eventListner.getEventType());
-        subscribersList.add(eventListner);
+    public void subscribeOnEvent(ScEventListener eventListener) {
+        List<ScEventListener> subscribersList = subscribersMap.get(eventListener.getEventType());
+        subscribersList.add(eventListener);
     }
 
     /**
@@ -75,10 +75,10 @@ public class ScEventHandler {
     public void notify(ScEvent event) {
         List<ScEventListener> subscribersList = subscribersMap.get(event.getEventType());
 
-        for (ScEventListener currentListner : subscribersList) {
-            boolean isChecked = currentListner.verification(event);
+        for (ScEventListener currentListener : subscribersList) {
+            boolean isChecked = currentListener.verification(event);
             if (isChecked) {
-                currentListner.perform(event);
+                currentListener.perform(event);
             }
         }
     }

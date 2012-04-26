@@ -10,18 +10,18 @@ import net.ostis.sccore.scelements.ScNode;
  * @author yaskoam
  */
 public class ListenerForAttachOutputToNode extends ScEventListener {
-    private ScActionListener listner;
+    private ScActionListener listener;
     private ScElement scElement;
 
 
     /**
      * Construct listener.
      *
-     * @param listner object that implement ScActionListner interface
+     * @param listener object that implement ScActionListener interface
      * @param scElement node to which add output sc arc.
      */
-    public ListenerForAttachOutputToNode(ScActionListener listner, ScElement scElement) {
-        this.listner = listner;
+    public ListenerForAttachOutputToNode(ScActionListener listener, ScElement scElement) {
+        this.listener = listener;
         this.scElement = scElement;
     }
 
@@ -42,7 +42,7 @@ public class ListenerForAttachOutputToNode extends ScEventListener {
      */
     @Override
     public void perform(ScEvent event) {
-        listner.perform(event);
+        listener.perform(event);
     }
 
     /**
@@ -60,15 +60,8 @@ public class ListenerForAttachOutputToNode extends ScEventListener {
 
         ScArc arc = (ScArc) element;
         ScNode startNode = arc.getStartScNode();
-        if (startNode == null) {
-            return false;
-        }
+        return startNode != null && (startNode.getAddress() == scElement.getAddress());
 
-        if (startNode.getAddress() != scElement.getAddress()) {
-            return false;
-        }
-
-        return true;
     }
 
 

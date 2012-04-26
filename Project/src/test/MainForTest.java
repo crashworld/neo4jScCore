@@ -1,7 +1,6 @@
 package test;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import net.ostis.sccore.scelements.ScArc;
@@ -25,7 +24,7 @@ public class MainForTest {
         String baseLocation = "data\\sc_core.db";
         ScPerformer performer = new ScPerformerImpl(baseLocation);
 
-        try {
+/*        try {
             //!!! necessarily required (open transaction)
             performer.startExecution();
             ScFactory factory = performer.getScFactory();
@@ -71,10 +70,15 @@ public class MainForTest {
         finally {
             //!!! necessarily required (close transaction)
             performer.finishExecution();
-        }
+        }*/
 
         try {
             performer.startExecution();
+            ScFactory factory = performer.getScFactory();
+            ScNode node1 = factory.createScNode("first", ScElementTypes.NODE);
+            ScNode node2 = factory.createScNode("second", ScElementTypes.NODE);
+            ScNode node3 = factory.createScNode("third", ScElementTypes.NODE);
+            node1.removeType(ScElementTypes.NODE);
         }
         finally {
             performer.finishExecution();

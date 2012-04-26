@@ -6,14 +6,15 @@ import java.util.Map;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
+import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.IndexManager;
 import org.neo4j.kernel.AbstractGraphDatabase;
 import org.neo4j.kernel.Config;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
+import org.neo4j.server.WrappingNeoServerBootstrapper;
 
 import net.ostis.sccore.scelements.ScNodeImpl;
 import net.ostis.sccore.types.ScElementTypes;
-import org.neo4j.server.WrappingNeoServerBootstrapper;
 
 /**
  * Class that provide getting database object.
@@ -22,7 +23,6 @@ import org.neo4j.server.WrappingNeoServerBootstrapper;
  */
 public class DataBaseManager {
 
-    private static String dataBasePath = "";
     private Index<Node> typesIndex;
     private AbstractGraphDatabase dataBase;
     private static DataBaseManager dataBaseManager;
@@ -58,14 +58,13 @@ public class DataBaseManager {
     /**
      * Get data base manager instance.
      *
-     * @param basePath basePath path to location of data base
+     * @param path path to location of data base
      * @return data base manager object
      */
     public static synchronized DataBaseManager getDataBaseManagerInstance(String path) {
-        dataBasePath = path;
 
         if (dataBaseManager == null) {
-            dataBaseManager = new DataBaseManager(dataBasePath);
+            dataBaseManager = new DataBaseManager(path);
         }
 
         return dataBaseManager;
@@ -97,21 +96,26 @@ public class DataBaseManager {
      * @return type node
      */
     public Node getTypeNode(String type) {
-        Node typeNode = typesIndex.get(ScElementTypes.ELEMENT_TYPE_PROPERTY, type).getSingle();
+        IndexHits<Node> indexHits = typesIndex.get(ScElementTypes.ELEMENT_TYPE_PROPERTY, type);
+        try {
+            Node typeNode = indexHits.getSingle();
 
-        if (typeNode == null) {
-            typeNode = dataBase.createNode();
-            typeNode.setProperty(ScElementTypes.ELEMENT_TYPE_PROPERTY, type);
+            if (typeNode == null) {
+                typeNode = dataBase.createNode();
+                typeNode.setProperty(ScElementTypes.ELEMENT_TYPE_PROPERTY, type);
+            }
+
+            typesIndex.add(typeNode, ScElementTypes.ELEMENT_TYPE_PROPERTY, type);
+            return typeNode;
+        } finally {
+            indexHits.close();
         }
-
-        typesIndex.add(typeNode, ScElementTypes.ELEMENT_TYPE_PROPERTY, type);
-        return typeNode;
     }
 
     /**
      * Method that create index for types.
      *
-     * @return created index of types
+     * @param dataBase data base object
      */
     private void createStandartTypeNodes(AbstractGraphDatabase dataBase) {
         Transaction transaction = dataBase.beginTx();

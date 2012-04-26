@@ -9,19 +9,19 @@ import net.ostis.sccore.scelements.ScNode;
  * @author yaskoam
  */
 public class ListenerForDeleteNode extends ScEventListener {
-    private ScActionListener listner;
+    private ScActionListener listener;
     private ScElement scElement;
 
 
     /**
      * Construct listener.
      *
-     * @param listner object that implement ScActionListner interface
+     * @param listener object that implement ScActionListener interface
      * @param scElement node which will be deleted.
      */
-    public ListenerForDeleteNode(ScActionListener listner, ScElement scElement) {
+    public ListenerForDeleteNode(ScActionListener listener, ScElement scElement) {
         this.scElement = scElement;
-        this.listner = listner;
+        this.listener = listener;
     }
 
     /**
@@ -41,7 +41,7 @@ public class ListenerForDeleteNode extends ScEventListener {
      */
     @Override
     public void perform(ScEvent event) {
-        listner.perform(event);
+        listener.perform(event);
     }
 
     /**
@@ -58,11 +58,8 @@ public class ListenerForDeleteNode extends ScEventListener {
         }
 
         ScNode node = (ScNode) element;
-        if (node.getAddress() != scElement.getAddress()) {
-            return false;
-        }
+        return node.getAddress() == scElement.getAddress();
 
-        return true;
     }
 
 }

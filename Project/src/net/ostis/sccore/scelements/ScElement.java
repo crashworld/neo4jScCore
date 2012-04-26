@@ -52,6 +52,11 @@ public abstract class ScElement {
     public abstract void removeType(String type);
 
     /**
+     * Method that remove all type from sc element
+     */
+    public abstract void removeAllTypes();
+    
+    /**
      * Method that get address of sc element in memory.
      *
      * @return address of element

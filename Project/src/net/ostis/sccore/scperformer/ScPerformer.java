@@ -8,7 +8,6 @@ import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scfactory.ScFactory;
 import net.ostis.sccore.scfactory.ScFactoryImpl;
-import net.ostis.sccore.types.ScElementTypes;
 
 /**
  * Class that provide all general actions with sc memory.
@@ -38,6 +37,11 @@ public abstract class ScPerformer {
     public abstract void finishExecution();
 
     /**
+     * Method that sets transaction succesfull.
+     */
+    public abstract void successExecution();
+
+    /**
      * Method that find sc node by name in memory.
      *
      * @param nodeName name of node
@@ -65,7 +69,7 @@ public abstract class ScPerformer {
      * Creates f_a_f iterator.
      *
      * @param first first element in constraint
-     * @param secondType type of second element in constraint
+     * @param arcTypes types of second element in constraint
      * @param third element in constraint
      * @return java.util.Iterator for iterate over ScConstraints
      */
@@ -75,8 +79,8 @@ public abstract class ScPerformer {
      * Creates f_a_a iterator.
      *
      * @param first first element in constraint
-     * @param secondType type of second element in constraint
-     * @param thirdType type of third element in constraint
+     * @param secondTypes types of second element in constraint
+     * @param thirdTypes types of third element in constraint
      * @return java.util.Iterator for iterate over ScConstraints
      */
     public abstract Iterator createIterator_3_f_a_a(ScElement first, List<String> secondTypes,
@@ -85,8 +89,8 @@ public abstract class ScPerformer {
     /**
      * Creates a_a_f iterator.
      *
-     * @param firstType type of first element in constraint
-     * @param secondType type of second element in constraint
+     * @param nodeTypes types of first element in constraint
+     * @param arcTypes types of second element in constraint
      * @param third element in constraint
      * @return java.util.Iterator for iterate over ScConstraints
      */

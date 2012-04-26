@@ -1,18 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-package net.ostis.sccore.unittests;
+package net.ostis.sccore.samples.graph;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import net.ostis.sccore.samples.graph.GraphManager;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scperformer.ScPerformer;
 import net.ostis.sccore.scperformer.ScPerformerImpl;
@@ -20,22 +10,10 @@ import net.ostis.sccore.scperformer.ScPerformerImpl;
 /**
  * @author yaskoam
  */
-public class GraphTest {
-    private static ScPerformer performer;
+public class CreateSCGraphSample {
+    public static void main(String[] args) {
 
-    @BeforeClass
-    public static void beforeClass() {
-        performer = new ScPerformerImpl("data\\sc_core.db");
-        performer.startExecution();
-    }
-
-    @AfterClass
-    public static void afterClass() {
-        performer.finishExecution();
-    }
-
-    @Test
-    public void testUndirectedGraph() {
+        ScPerformer performer = new ScPerformerImpl("data\\sc_core.db");
         String graphName = "firstGraph";
 
         //Vertexes
