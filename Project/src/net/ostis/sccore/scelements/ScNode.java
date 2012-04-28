@@ -2,6 +2,8 @@ package net.ostis.sccore.scelements;
 
 import java.util.List;
 
+import net.ostis.sccore.contents.Content;
+
 /**
  * Class for presentation SC node.
  *
@@ -42,4 +44,18 @@ public abstract class ScNode extends ScElement {
      * @return list of sc arcs
      */
     public abstract List<ScArc> getAllScArc();
+
+    /**
+     * Method that set content in node.
+     *
+     * @param content object
+     */
+    public abstract void setContent(Content content);
+
+    /**
+     * Method that get content from node.
+     *
+     * @return content object
+     */
+    public abstract Content getContent();
 }

@@ -9,7 +9,6 @@ import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scfactory.ScFactory;
 import net.ostis.sccore.scfactory.ScFactoryImpl;
-import net.ostis.sccore.types.ScElementTypes;
 
 /**
  * Class that provide all general actions with sc memory.
@@ -37,6 +36,11 @@ public abstract class ScPerformer {
      * Method that finish transaction.
      */
     public abstract void finishExecution();
+
+    /**
+     * Method that sets transaction succesfull.
+     */
+    public abstract void successExecution();
 
     /**
      * Method that find sc node by name in memory.

@@ -15,7 +15,7 @@ public class ListenerForDetachInputFromNode extends ScEventListener {
     /**
      * Construct listener.
      *
-     * @param listener object that implement ScActionListner interface
+     * @param listener object that implement ScActionListener interface
      * @param scElement node from which input arc was detached.
      */
     public ListenerForDetachInputFromNode(ScActionListener listener, ScElement scElement) {
@@ -57,11 +57,8 @@ public class ListenerForDetachInputFromNode extends ScEventListener {
         }
 
         ScNode node = (ScNode) element;
-        if (node.getAddress() != scElement.getAddress()) {
-            return false;
-        }
+        return node.getAddress() == scElement.getAddress();
 
-        return true;
     }
 
 }

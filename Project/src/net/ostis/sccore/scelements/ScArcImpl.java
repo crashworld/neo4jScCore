@@ -126,7 +126,7 @@ public class ScArcImpl extends ScArc {
         ExecutionResult result = engine.execute(
             "START node=node(" + this.getAddress() + ") "
                 + "MATCH node<-[relationship:typeLink]-type "
-                + "WHERE type." + ScElementTypes.ELEMENT_TYPE_PROPERTY + "=" + type + " "
+                + "WHERE type." + ScElementTypes.ELEMENT_TYPE_PROPERTY + "=\"" + type + "\" "
                 + "RETURN relationship ");
 
         Iterator<Map<String, Object>> resultIterator = result.iterator();
@@ -136,6 +136,17 @@ public class ScArcImpl extends ScArc {
             relationship.delete();
         }
     }
+
+    /**
+     * Method that remove all types from sc arc.
+     */
+    @Override
+    public void removeAllTypes() {
+        for (String currentType : this.getTypes()) {
+            this.removeType(currentType);
+        }
+    }
+
 
     /**
      * Gets start sc connector of sc arc.

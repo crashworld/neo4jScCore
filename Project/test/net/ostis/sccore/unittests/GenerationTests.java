@@ -23,8 +23,7 @@ public class GenerationTests {
 
     @BeforeClass
     public static void beforeClass() {
-        ScPerformer newPerformer = new ScPerformerImpl("data\\sc_core.db");
-        performer = newPerformer;
+        performer = new ScPerformerImpl("data\\sc_core.db");
         performer.startExecution();
     }
 
@@ -42,6 +41,7 @@ public class GenerationTests {
         List<String> typeList = new ArrayList<String>();
         typeList.add(ScElementTypes.ARC);
         ScArc firstArc = factory.generate_3_f_a_f(firstNode, typeList, secondNode);
+        performer.successExecution();
     }
 
     @Test
@@ -56,6 +56,7 @@ public class GenerationTests {
         typeList.add(ScElementTypes.ARC);
 
         ScArc secondArc = factory.generate_3_f_a_f(attrNode, typeList, firstNode.getAllOutputScArcs().get(0));
+        performer.successExecution();
     }
 
     @Test
@@ -71,6 +72,7 @@ public class GenerationTests {
         List<String> typeList = new ArrayList<String>();
         typeList.add(ScElementTypes.ARC);
         factory.generate_5_f_a_f_a_f(firstNode, typeList, secondNode, typeList, firstNode);
+        performer.successExecution();
     }
 
     @Test
@@ -83,5 +85,6 @@ public class GenerationTests {
         List<String> typeList = new ArrayList<String>();
         typeList.add(ScElementTypes.ARC);
         factory.generate_5_f_a_f_a_f(firstNode, typeList, secondNode, typeList, firstNode);
+        performer.successExecution();
     }
 }

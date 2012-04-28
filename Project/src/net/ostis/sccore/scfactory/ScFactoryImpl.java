@@ -267,8 +267,7 @@ public class ScFactoryImpl extends ScFactory {
         if (types == null) {
             throw new IllegalArgumentException("Creation 3_f_a_f : null types.");
         }
-        ScArc generatedScArc = this.createScArc(startNode, endNode, types);
-        return generatedScArc;
+        return this.createScArc(startNode, endNode, types);
     }
 
     /**
@@ -284,8 +283,7 @@ public class ScFactoryImpl extends ScFactory {
         if (types == null) {
             throw new IllegalArgumentException("Creation 3_f_a_f : null types.");
         }
-        ScArc generatedScArc = this.createScArc(startNode, endScArc, types);
-        return generatedScArc;
+        return this.createScArc(startNode, endScArc, types);
     }
 
     /**

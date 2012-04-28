@@ -9,17 +9,17 @@ import net.ostis.sccore.scelements.ScNode;
  * @author yaskoam
  */
 public class ListenerForCreationNode extends ScEventListener {
-    private ScActionListener listner;
+    private ScActionListener listener;
     private String nodeName;
 
     /**
      * Construct listener.
      *
-     * @param listner object that implement ScActionListner interface
+     * @param listener object that implement ScActionListener interface
      * @param nodeName node name which was created.
      */
-    public ListenerForCreationNode(ScActionListener listner, String nodeName) {
-        this.listner = listner;
+    public ListenerForCreationNode(ScActionListener listener, String nodeName) {
+        this.listener = listener;
         this.nodeName = nodeName;
     }
 
@@ -41,7 +41,7 @@ public class ListenerForCreationNode extends ScEventListener {
      */
     @Override
     public void perform(ScEvent event) {
-        listner.perform(event);
+        listener.perform(event);
     }
 
     /**
@@ -58,9 +58,6 @@ public class ListenerForCreationNode extends ScEventListener {
         }
 
         ScNode node = (ScNode) element;
-        if (!nodeName.equals(node.getName())) {
-            return false;
-        }
-        return true;
+        return nodeName.equals(node.getName());
     }
 }

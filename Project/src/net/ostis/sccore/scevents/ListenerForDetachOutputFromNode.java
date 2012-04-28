@@ -8,17 +8,17 @@ import net.ostis.sccore.scelements.ScElement;
  * @author yaskoam
  */
 public class ListenerForDetachOutputFromNode extends ScEventListener {
-    private ScActionListener listner;
+    private ScActionListener listener;
     private ScElement scElement;
 
     /**
      * Construct listener.
      *
-     * @param listener object that implement ScActionListner interface
+     * @param listener object that implement ScActionListener interface
      * @param scElement node from which output arc was detached.
      */
     public ListenerForDetachOutputFromNode(ScActionListener listener, ScElement scElement) {
-        this.listner = listener;
+        this.listener = listener;
         this.scElement = scElement;
     }
 
@@ -39,7 +39,7 @@ public class ListenerForDetachOutputFromNode extends ScEventListener {
      */
     @Override
     public void perform(ScEvent event) {
-        listner.perform(event);
+        listener.perform(event);
     }
 
     /**
@@ -51,14 +51,7 @@ public class ListenerForDetachOutputFromNode extends ScEventListener {
     @Override
     public boolean verification(ScEvent event) {
         ScElement element = event.getSource();
-        if (!element.isScNode()) {
-            return false;
-        }
+        return element.isScNode() && (element.getAddress() == scElement.getAddress());
 
-        if (element.getAddress() != scElement.getAddress()) {
-            return false;
-        }
-
-        return true;
     }
 }

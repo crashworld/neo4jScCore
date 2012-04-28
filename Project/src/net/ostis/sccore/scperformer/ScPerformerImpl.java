@@ -11,6 +11,7 @@ import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.AutoIndexer;
 import org.neo4j.graphdb.index.Index;
+import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.index.IndexManager;
 import org.neo4j.graphdb.index.ReadableIndex;
 import org.neo4j.kernel.AbstractGraphDatabase;
@@ -89,6 +90,14 @@ public class ScPerformerImpl extends ScPerformer {
     }
 
     /**
+     * Method that sets transaction succesfull.
+     */
+    @Override
+    public void successExecution() {
+        transaction.success();
+    }
+
+    /**
      * Method that find sc node by name in memory.
      *
      * @param nodeName name of node
@@ -98,11 +107,20 @@ public class ScPerformerImpl extends ScPerformer {
     public ScNode findScNodeByName(String nodeName) {
         AutoIndexer<Node> autoIndexer = dataBase.index().getNodeAutoIndexer();
         ReadableIndex<Node> index = autoIndexer.getAutoIndex();
-        Node node = index.get(ScNodeImpl.SC_NODE_NAME_PROPERTY, nodeName).getSingle();
-        if (node == null) {
-            return null;
+
+        IndexHits<Node> indexHits = index.get(ScNodeImpl.SC_NODE_NAME_PROPERTY, nodeName);
+        try {
+            if (indexHits.hasNext()) {
+                Node node = indexHits.next();
+                return new ScNodeImpl(node);
+            }
+            else {
+                return null;
+            }
         }
-        return new ScNodeImpl(node);
+        finally {
+            indexHits.close();
+        }
     }
 
     /**
@@ -114,6 +132,8 @@ public class ScPerformerImpl extends ScPerformer {
     @Override
     public void deleteScArc(ScArc arc) {
         ScArcImpl arcImpl = (ScArcImpl) arc;
+        arcImpl.removeAllTypes();
+
         List<ScArc> inputArcsList = arcImpl.getAllInputScArcs();
 
         for (ScArc currentArc : inputArcsList) {
@@ -137,7 +157,8 @@ public class ScPerformerImpl extends ScPerformer {
 
         if (endNode.hasProperty(ScNodeImpl.CONNECTOR_NODE)) {
             event = new ScEvent(ScEventTypes.DETACH_INPUT_FROM_ARC, new ScArcImpl(endNode));
-        } else {
+        }
+        else {
             event = new ScEvent(ScEventTypes.DETACH_INPUT_FROM_NODE, new ScNodeImpl(endNode));
         }
 
@@ -155,6 +176,8 @@ public class ScPerformerImpl extends ScPerformer {
     @Override
     public void deleteScNode(ScNode scNode) {
         ScNodeImpl scNodeImpl = (ScNodeImpl) scNode;
+        scNodeImpl.removeAllTypes();
+
         List<ScArc> scArcsList = scNodeImpl.getAllScArc();
 
         for (ScArc currentArc : scArcsList) {
@@ -219,7 +242,7 @@ public class ScPerformerImpl extends ScPerformer {
      * Creates f_a_f iterator.
      *
      * @param first first element in constraint
-     * @param secondType type of second element in constraint
+     * @param secondTypes types of second element in constraint
      * @param third element in constraint
      * @return java.util.Iterator for iterate over ScConstraints
      */
@@ -234,8 +257,8 @@ public class ScPerformerImpl extends ScPerformer {
      * Creates f_a_a iterator.
      *
      * @param first first element in constraint
-     * @param secondType type of second element in constraint
-     * @param thirdType type of third element in constraint
+     * @param secondTypes types of second element in constraint
+     * @param thirdTypes types of third element in constraint
      * @return java.util.Iterator for iterate over ScConstraints
      */
     private Iterator createIterator_3_f_a_a(ScElement first, List<String> secondTypes,
@@ -248,10 +271,10 @@ public class ScPerformerImpl extends ScPerformer {
     }
 
     /**
-     * Creates a_a_f iterator.
+     * Creates 3_a_a_f iterator.
      *
-     * @param firstType type of first element in constraint
-     * @param secondType type of second element in constraint
+     * @param firstTypes types of first element in constraint
+     * @param secondTypes types of second element in constraint
      * @param third element in constraint
      * @return java.util.Iterator for iterate over ScConstraints
      */

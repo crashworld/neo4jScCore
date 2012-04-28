@@ -32,8 +32,10 @@ public class ScNodeImpl extends ScNode {
      */
     public static final String SC_NODE_NAME_PROPERTY = "_scNodeName";
 
+    private static final String CONTENT = "_content";
+    private static final String CONTENT_TYPE = "_contentType";
+
     private Node neo4jNode;
-    private Content nodeContent;
 
     /**
      * Construct object.
@@ -159,7 +161,7 @@ public class ScNodeImpl extends ScNode {
         ExecutionResult result = engine.execute(
             "START node=node(" + this.getAddress() + ") "
                 + "MATCH node<-[relationship:typeLink]-type "
-                + "WHERE type." + ScElementTypes.ELEMENT_TYPE_PROPERTY + "=" + type + " "
+                + "WHERE type." + ScElementTypes.ELEMENT_TYPE_PROPERTY + "=\"" + type + "\" "
                 + "RETURN relationship ");
 
         Iterator<Map<String, Object>> resultIterator = result.iterator();
@@ -167,6 +169,16 @@ public class ScNodeImpl extends ScNode {
         while (resultIterator.hasNext()) {
             Relationship relationship = (Relationship) resultIterator.next().get("relationship");
             relationship.delete();
+        }
+    }
+
+    /**
+     * Method that remove all types from sc node.
+     */
+    @Override
+    public void removeAllTypes() {
+        for (String currentType : this.getTypes()) {
+            this.removeType(currentType);
         }
     }
 
@@ -216,6 +228,36 @@ public class ScNodeImpl extends ScNode {
         List<ScArc> scArcsList = this.getAllInputScArcs();
         scArcsList.addAll(this.getAllOutputScArcs());
         return scArcsList;
+    }
+
+    /**
+     * Method that get content from node.
+     *
+     * @return content object
+     */
+    @Override
+    public Content getContent() {
+        if (!neo4jNode.hasProperty(ScNodeImpl.CONTENT_TYPE)) {
+            return null;
+        }
+
+        Content content = new Content();
+        content.setContent(neo4jNode.getProperty(ScNodeImpl.CONTENT));
+        Content.ContentTypes contentTypes = Content.ContentTypes.getTypeByName((String) neo4jNode.getProperty(CONTENT_TYPE));
+        content.setContentType(contentTypes);
+
+        return content;
+    }
+
+    /**
+     * Method that set content in node.
+     *
+     * @param content object
+     */
+    @Override
+    public void setContent(Content content) {
+        neo4jNode.setProperty(ScNodeImpl.CONTENT, content.getContent());
+        neo4jNode.setProperty(ScNodeImpl.CONTENT_TYPE, content.getContentType().toString());
     }
 
     public Node getNeo4jNode() {
