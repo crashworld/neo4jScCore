@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.ostis.sccore.iterators;
 
 import java.util.Iterator;
@@ -13,7 +9,6 @@ import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.kernel.AbstractGraphDatabase;
 
 import net.ostis.sccore.scelements.ScElement;
-import net.ostis.sccore.types.ScElementTypes;
 
 /**
  * Iterates over 3_a_a_f constructions in database.
@@ -44,16 +39,19 @@ public class ScIterator_3_a_a_f implements ScIterator {
         ExecutionEngine engine = new ExecutionEngine(db);
         ExecutionResult result = engine.execute(
             "START elem3=node(" + thirdElement.getAddress() + ") "
-            + typesStartExpr + " "
-            + "MATCH elem3<-[:endLink]-arc2<-[:beginLink]-node1 "
-            + "WHERE not(node1._connectorNode) "
-            + typesWhereExpr + " "
-            + "RETURN node1, arc2, elem3 ");
-			
+                + typesStartExpr + " "
+                + "MATCH elem3<-[:endLink]-arc2<-[:beginLink]-node1 "
+                + "WHERE not(node1._connectorNode) "
+                + typesWhereExpr + " "
+                + "RETURN node1, arc2, elem3 ");
+
         resultIterator = result.iterator();
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean hasNext() {
         return resultIterator.hasNext();
     }
@@ -67,6 +65,9 @@ public class ScIterator_3_a_a_f implements ScIterator {
         return ScConstraint.createThreeElementConstraint(resultIterator.next());
     }
 
+    /**
+     * Not supported.
+     */
     public void remove() {
         throw new UnsupportedOperationException("Not supported yet.");
     }

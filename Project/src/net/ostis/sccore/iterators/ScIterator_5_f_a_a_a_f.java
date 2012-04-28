@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.ostis.sccore.iterators;
 
 import java.util.Iterator;
@@ -57,14 +53,25 @@ public class ScIterator_5_f_a_a_a_f implements ScIterator {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean hasNext() {
         return resultIterator.hasNext();
     }
 
+    /**
+     * Returns 5_f_a_a_a_f constraint from next iterator result.
+     *
+     * @return 5_f_a_a_a_f constraint
+     */
     public ScConstraint next() {
         return ScConstraint.createFiveElementConstraint(resultIterator.next());
     }
 
+    /**
+     * Not supported.
+     */
     public void remove() {
         throw new UnsupportedOperationException("Not supported yet.");
     }

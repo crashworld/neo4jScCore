@@ -3,7 +3,6 @@ package net.ostis.sccore.scperformer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import net.ostis.sccore.iterators.ScIteratorTypes;
 
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
@@ -16,6 +15,7 @@ import org.neo4j.graphdb.index.IndexManager;
 import org.neo4j.graphdb.index.ReadableIndex;
 import org.neo4j.kernel.AbstractGraphDatabase;
 
+import net.ostis.sccore.iterators.ScIteratorTypes;
 import net.ostis.sccore.iterators.ScIterator_3_a_a_f;
 import net.ostis.sccore.iterators.ScIterator_3_f_a_a;
 import net.ostis.sccore.iterators.ScIterator_3_f_a_f;
@@ -98,8 +98,16 @@ public class ScPerformerImpl extends ScPerformer {
     }
 
     /**
+     * Method that sets transaction failure.
+     */
+    @Override
+    public void failureExecution() {
+        transaction.failure();
+    }
+
+    /**
      * Method that find sc node by name in memory.
-     *
+     * <p> If exist several nodes with the same name, it return some of them. </p>
      * @param nodeName name of node
      * @return founded node
      */
@@ -194,7 +202,12 @@ public class ScPerformerImpl extends ScPerformer {
         scNode = null;
     }
 
-    //=========================================================
+    /**
+     * Method that create sc iterator.
+     * @param type type of sc iterator
+     * @param args search args for sc iterator
+     * @return sc iterator object
+     */
     @Override
     public Iterator createIterator(String type, Object... args) {
         if (type.equals(ScIteratorTypes.A_A_F)) {
@@ -374,12 +387,12 @@ public class ScPerformerImpl extends ScPerformer {
      */
     private List<Long> getAddresses(List<String> elements) {
         IndexManager indexManager = dataBase.index();
-        Index index = indexManager.forNodes(ScElementTypes.ELEMENT_TYPE_PROPERTY);
+        Index<Node> index = indexManager.forNodes(ScElementTypes.ELEMENT_TYPE_PROPERTY);
 
         List<Long> typeAddresses = new ArrayList<Long>();
 
         for (String nodeType : elements) {
-            Node node = (Node) index.get(ScElementTypes.ELEMENT_TYPE_PROPERTY, nodeType.toString()).getSingle();
+            Node node = index.get(ScElementTypes.ELEMENT_TYPE_PROPERTY, nodeType).next();
             typeAddresses.add(node.getId());
         }
 

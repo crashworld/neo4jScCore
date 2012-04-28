@@ -1,12 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.ostis.sccore.iterators;
 
 /**
+ * Class for string constant of iterator types.
  *
- * @author Q-ANS
+ * @author SeeDuke
  */
 public class ScIteratorTypes {
 

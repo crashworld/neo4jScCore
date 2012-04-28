@@ -213,17 +213,17 @@ public class ScArcImpl extends ScArc {
     /**
      * Gets connector that used like arc.
      *
-     * @return connector-connector
+     * @return connector node
      */
     public Node getArcConnectorNode() {
         return this.connectorNode;
     }
 
-    public Relationship getBeginLink() {
+    private Relationship getBeginLink() {
         return connectorNode.getSingleRelationship(RelTypes.beginLink, Direction.INCOMING);
     }
 
-    public Relationship getEndLink() {
+    private Relationship getEndLink() {
         return connectorNode.getSingleRelationship(RelTypes.endLink, Direction.OUTGOING);
     }
 }

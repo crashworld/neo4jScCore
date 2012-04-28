@@ -1,11 +1,8 @@
 package net.ostis.sccore.scperformer;
 
 import java.util.Iterator;
-import java.util.List;
-import net.ostis.sccore.iterators.ScIteratorTypes;
 
 import net.ostis.sccore.scelements.ScArc;
-import net.ostis.sccore.scelements.ScElement;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scfactory.ScFactory;
 import net.ostis.sccore.scfactory.ScFactoryImpl;
@@ -41,6 +38,11 @@ public abstract class ScPerformer {
      * Method that sets transaction succesfull.
      */
     public abstract void successExecution();
+
+    /**
+     * Method that sets transaction failure.
+     */
+    public abstract void failureExecution();
 
     /**
      * Method that find sc node by name in memory.

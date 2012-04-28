@@ -3,8 +3,6 @@ package net.ostis.sccore.scfactory;
 import java.util.List;
 
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.index.AutoIndexer;
-import org.neo4j.graphdb.index.ReadableIndex;
 import org.neo4j.kernel.AbstractGraphDatabase;
 
 import net.ostis.sccore.scelements.ScArc;
@@ -75,13 +73,6 @@ public class ScFactoryImpl extends ScFactory {
             throw new IllegalArgumentException("Creation sc node: null name.");
         }
 
-//        AutoIndexer<Node> autoIndexer = dataBase.index().getNodeAutoIndexer();
-//        ReadableIndex<Node> index = autoIndexer.getAutoIndex();
-//        Node node = index.get(ScNodeImpl.SC_NODE_NAME_PROPERTY, nodeName).getSingle();
-//        if (node != null) {
-//            return new ScNodeImpl(node);
-//        }
-
         ScNode scNode = createScNode();
         scNode.setName(nodeName);
 
@@ -132,7 +123,7 @@ public class ScFactoryImpl extends ScFactory {
     @Override
     public ScArc createScArc(ScNode startScNode, ScNode endScNode) {
         if (startScNode == null || endScNode == null) {
-            throw new IllegalArgumentException("Creation sc arc: null node or type.");
+            throw new IllegalArgumentException("Creation sc arc: null node.");
         }
 
         Node startNode = ((ScNodeImpl) startScNode).getNeo4jNode();
@@ -165,6 +156,9 @@ public class ScFactoryImpl extends ScFactory {
      */
     @Override
     public ScArc createScArc(ScNode startScNode, ScNode endScNode, String type) {
+        if (startScNode == null || endScNode == null || type == null) {
+            throw new IllegalArgumentException("Creation sc arc: null node.");
+        }
         ScArc newScArc = createScArc(startScNode, endScNode);
         newScArc.addType(type);
         return newScArc;
@@ -197,7 +191,7 @@ public class ScFactoryImpl extends ScFactory {
     @Override
     public ScArc createScArc(ScNode startScNode, ScArc endScArc) {
         if (startScNode == null || endScArc == null) {
-            throw new IllegalArgumentException("Creation sc arc: null node or type.");
+            throw new IllegalArgumentException("Creation sc arc: null node or arc.");
         }
 
         Node startNode = ((ScNodeImpl) startScNode).getNeo4jNode();
@@ -231,6 +225,9 @@ public class ScFactoryImpl extends ScFactory {
      */
     @Override
     public ScArc createScArc(ScNode startScNode, ScArc endScArc, String type) {
+        if (type == null) {
+            throw new IllegalArgumentException("Creation sc arc: null type.");
+        }
         ScArc newScArc = createScArc(startScNode, endScArc);
         newScArc.addType(type);
         return newScArc;

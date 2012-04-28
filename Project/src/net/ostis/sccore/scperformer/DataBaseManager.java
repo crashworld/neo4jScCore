@@ -98,11 +98,13 @@ public class DataBaseManager {
     public Node getTypeNode(String type) {
         IndexHits<Node> indexHits = typesIndex.get(ScElementTypes.ELEMENT_TYPE_PROPERTY, type);
         try {
-            Node typeNode = indexHits.getSingle();
 
-            if (typeNode == null) {
+            Node typeNode;
+            if (!indexHits.hasNext()) {
                 typeNode = dataBase.createNode();
                 typeNode.setProperty(ScElementTypes.ELEMENT_TYPE_PROPERTY, type);
+            } else {
+                typeNode = indexHits.next();
             }
 
             typesIndex.add(typeNode, ScElementTypes.ELEMENT_TYPE_PROPERTY, type);

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.ostis.sccore.iterators;
 
 import java.util.ArrayList;
@@ -33,24 +29,30 @@ public class ScConstraint {
     /**
      * Creates constraint from List of sc-elements.
      *
-     * @param elements
+     * @param elements sc elements of constraint
      */
     public ScConstraint(List<ScElement> elements) {
-        this.elements = elements;
-    }
-
-    public ScElement getElement(int n) {
-        return elements.get(n - 1);
+        ScConstraint.elements = elements;
     }
 
     /**
-     * Creates constraint from Map gotten by iterator from databese.
+     * Method that return element of constraint.
+     *
+     * @param number number of element
+     * @return sc element
+     */
+    public ScElement getElement(int number) {
+        return elements.get(number - 1);
+    }
+
+    /**
+     * Creates constraint from Map gotten by iterator from database.
      *
      * @param resultRow
      * @return ScConstraint
      */
     public static ScConstraint createThreeElementConstraint(Map resultRow) {
-        List elements = new ArrayList<ScElement>();
+        List<ScElement> elements = new ArrayList<ScElement>();
 
         //creates first element - Node
         ScNode node1 = new ScNodeImpl((Node) resultRow.get(NODE1));
@@ -73,6 +75,11 @@ public class ScConstraint {
         return new ScConstraint(elements);
     }
 
+    /**
+     * Method that create five element constraint.
+     * @param resultRow 
+     * @return sc constraint object
+     */
     public static ScConstraint createFiveElementConstraint(Map resultRow) {
 
         elements = createThreeElementConstraint(resultRow).getElements();
@@ -90,6 +97,6 @@ public class ScConstraint {
     }
 
     private List<ScElement> getElements() {
-        return this.elements;
+        return elements;
     }
 }

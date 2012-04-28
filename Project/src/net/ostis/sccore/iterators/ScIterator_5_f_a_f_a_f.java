@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package net.ostis.sccore.iterators;
 
 import java.util.Iterator;
@@ -13,14 +9,13 @@ import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.kernel.AbstractGraphDatabase;
 
 import net.ostis.sccore.scelements.ScElement;
-import net.ostis.sccore.types.ScElementTypes;
 
 /**
  * @author SeeDuke
  */
 public class ScIterator_5_f_a_f_a_f implements ScIterator {
 
-    private Iterator<Map<String, Object> > resultIterator;
+    private Iterator<Map<String, Object>> resultIterator;
 
     public ScIterator_5_f_a_f_a_f(AbstractGraphDatabase db, ScElement firstElement, List<Long> secondTypes,
         ScElement thirdElement, List<Long> fourthTypes, ScElement fifthElement) {
@@ -43,25 +38,36 @@ public class ScIterator_5_f_a_f_a_f implements ScIterator {
         ExecutionEngine engine = new ExecutionEngine(db);
         ExecutionResult result = engine.execute(
             "START node1=node(" + firstElement.getAddress() + "), elem3=node(" + thirdElement.getAddress()
-            + "), node5=node(" + fifthElement.getAddress() + ") "
-            + typesStartExpr + " "
-            + "MATCH node1-[:beginLink]->arc2-[:endLink]->elem3, arc2<-[:endLink]-arc4<-[:beginLink]-node5 "
-            + "WHERE not(node1._connectorNode) "
-            + typesWhereExpr + " "
-            + "RETURN node1, arc2, elem3, arc4, node5");
+                + "), node5=node(" + fifthElement.getAddress() + ") "
+                + typesStartExpr + " "
+                + "MATCH node1-[:beginLink]->arc2-[:endLink]->elem3, arc2<-[:endLink]-arc4<-[:beginLink]-node5 "
+                + "WHERE not(node1._connectorNode) "
+                + typesWhereExpr + " "
+                + "RETURN node1, arc2, elem3, arc4, node5");
 
         resultIterator = result.iterator();
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public boolean hasNext() {
         return resultIterator.hasNext();
     }
 
+    /**
+     * Returns 5_f_a_f_a_f constraint from next iterator result.
+     *
+     * @return 5_f_a_f_a_f constraint
+     */
     public ScConstraint next() {
         return ScConstraint.createFiveElementConstraint(resultIterator.next());
     }
 
+    /**
+     * Not supported.
+     */
     public void remove() {
         throw new UnsupportedOperationException("Not supported yet.");
     }

@@ -32,101 +32,70 @@ public class ContentTests {
 
     @Test
     public void testIntContent() {
-        try {
-            //performer.startExecution();
-            ScNode node = factory.createScNode("node", ScElementTypes.NODE);
-            Content content = new Content(123);
-            node.setContent(content);
+        ScNode node = factory.createScNode("node", ScElementTypes.NODE);
+        Content content = new Content(123);
+        node.setContent(content);
 
-            content = node.getContent();
-            System.out.println(content.getIntContent());
+        content = node.getContent();
+        System.out.println(content.getIntContent());
 
-            performer.deleteScNode(node);
-        }
-        finally {
-            //performer.finishExecution();
-        }
-
+        performer.deleteScNode(node);
     }
 
     @Test
     public void testStringContent() {
-        try {
-            //performer.startExecution();
-            ScNode node = factory.createScNode("node", ScElementTypes.NODE);
-            Content content = new Content("Content string");
-            node.setContent(content);
 
-            content = node.getContent();
-            System.out.println(content.getStringContent());
+        ScNode node = factory.createScNode("node", ScElementTypes.NODE);
+        Content content = new Content("Content string");
+        node.setContent(content);
 
-            performer.deleteScNode(node);
-        }
-        finally {
-            //performer.finishExecution();
-        }
+        content = node.getContent();
+        System.out.println(content.getStringContent());
+
+        performer.deleteScNode(node);
 
     }
 
     @Test
     public void testFloatContent() {
-        try {
-            //performer.startExecution();
-            ScNode node = factory.createScNode("node", ScElementTypes.NODE);
-            Content content = new Content((float) 123.123);
-            node.setContent(content);
 
-            content = node.getContent();
-            System.out.println(content.getFloatContent());
+        ScNode node = factory.createScNode("node", ScElementTypes.NODE);
+        Content content = new Content((float) 123.123);
+        node.setContent(content);
 
-            performer.deleteScNode(node);
-        }
-        finally {
-            //performer.finishExecution();
-        }
+        content = node.getContent();
+        System.out.println(content.getFloatContent());
 
+        performer.deleteScNode(node);
     }
 
     @Test
     public void testDoubleContent() {
-        try {
-            //performer.startExecution();
-            ScNode node = factory.createScNode("node", ScElementTypes.NODE);
-            Content content = new Content((double) 123.123);
-            node.setContent(content);
+        ScNode node = factory.createScNode("node", ScElementTypes.NODE);
+        Content content = new Content((double) 123.123);
+        node.setContent(content);
 
-            content = node.getContent();
-            System.out.println(content.getDoubleContent());
+        content = node.getContent();
+        System.out.println(content.getDoubleContent());
 
-            performer.deleteScNode(node);
-        }
-        finally {
-            //performer.finishExecution();
-        }
+        performer.deleteScNode(node);
 
     }
 
     @Test
     public void testByteContent() {
-        try {
-            //performer.startExecution();
-            ScNode node = factory.createScNode("node", ScElementTypes.NODE);
-            byte[] b = new byte[]{
-                0x0, 0x0
-            };
-            Content content = new Content(b);
-            node.setContent(content);
+        ScNode node = factory.createScNode("node", ScElementTypes.NODE);
+        byte[] b = new byte[]{
+            0x0, 0x0
+        };
+        Content content = new Content(b);
+        node.setContent(content);
 
-            content = node.getContent();
-            for (byte currentByte : content.getByteContent()) {
-                System.out.print(currentByte);
-            }
-
-            performer.deleteScNode(node);
-        }
-        finally {
-            //performer.finishExecution();
+        content = node.getContent();
+        for (byte currentByte : content.getByteContent()) {
+            System.out.print(currentByte);
         }
 
+        performer.deleteScNode(node);
     }
 }

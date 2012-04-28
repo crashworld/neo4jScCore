@@ -78,11 +78,15 @@ public class ScNodeImpl extends ScNode {
 
     /**
      * Method that get name of sc node.
+     * <p> If name doesn't exist it return an empty string. </p>
      *
      * @return name of sc node
      */
     @Override
     public String getName() {
+        if (!neo4jNode.hasProperty(SC_NODE_NAME_PROPERTY)) {
+            return "";
+        }
         return (String) neo4jNode.getProperty(SC_NODE_NAME_PROPERTY);
     }
 
@@ -97,7 +101,7 @@ public class ScNodeImpl extends ScNode {
     }
 
     /**
-     * Method that sets type of sc arc.
+     * Method that sets type of sc node.
      *
      * @param type type of element
      */
@@ -112,7 +116,7 @@ public class ScNodeImpl extends ScNode {
     }
 
     /**
-     * Method that set types of sc element.
+     * Method that set types of sc node.
      *
      * @param types list of types name
      */
@@ -232,6 +236,7 @@ public class ScNodeImpl extends ScNode {
 
     /**
      * Method that get content from node.
+     * <p> If content doesn't exist it return null. </p>
      *
      * @return content object
      */
