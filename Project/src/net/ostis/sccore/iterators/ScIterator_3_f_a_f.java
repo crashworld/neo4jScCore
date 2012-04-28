@@ -40,7 +40,7 @@ public class ScIterator_3_f_a_f implements ScIterator {
         ExecutionResult result = engine.execute(
             "START node1=node(" + firstElement.getAddress() + "), elem3=node(" + thirdElement.getAddress() + ") "
             + typesStartExpr + " "
-            + "MATCH node1--arc2--elem3"
+            + "MATCH node1--arc2--elem3 "
             + "WHERE ((not(elem3._connectorNode)) or (arc2-->elem3)) "
             + typesWhereExpr + " "
             + "RETURN node1, arc2, elem3");

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.ostis.sccore.iterators.ScConstraint;
+import net.ostis.sccore.iterators.ScIteratorTypes;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scfactory.ScFactory;
 import net.ostis.sccore.scperformer.ScPerformer;
@@ -72,7 +73,7 @@ public class GraphManager {
     public static void printUndirectedGraph(ScPerformer performer, ScNode graphNode) {
         //Find all vertexes
         ScNode vertexAttr = performer.findScNodeByName(VERTEX_ATTR_NAME);
-        Iterator vertexIterator = performer.createIterator_5_f_a_a_a_f(graphNode, posConstArcTypes, constNodeTypes,
+        Iterator vertexIterator = performer.createIterator(ScIteratorTypes.F_A_A_A_F, graphNode, posConstArcTypes, constNodeTypes,
             posConstArcTypes, vertexAttr);
 
         System.out.println("All graph vertexes: ");
@@ -84,13 +85,13 @@ public class GraphManager {
         //Find all edges
         System.out.println("All graph edges: ");
         ScNode edgeAttr = performer.findScNodeByName(EDGE_ATTR_NAME);
-        Iterator edgeIterator = performer.createIterator_5_f_a_a_a_f(graphNode, posConstArcTypes,
+        Iterator edgeIterator = performer.createIterator(ScIteratorTypes.F_A_A_A_F, graphNode, posConstArcTypes,
             new ArrayList<String>(), posConstArcTypes, edgeAttr);
 
         while (edgeIterator.hasNext()) {
             ScConstraint constraint = (ScConstraint) edgeIterator.next();
             ScNode edgeNode = (ScNode) constraint.getElement(3);
-            Iterator incidentIterator = performer.createIterator_3_f_a_a(edgeNode, posConstArcTypes, constNodeTypes);
+            Iterator incidentIterator = performer.createIterator(ScIteratorTypes.F_A_A, edgeNode, posConstArcTypes, constNodeTypes);
 
             ScConstraint constraint1 = (ScConstraint) incidentIterator.next();
             ScConstraint constraint2 = (ScConstraint) incidentIterator.next();
@@ -103,7 +104,7 @@ public class GraphManager {
     }
 
     public static void deleteUndirectedGraph(ScPerformer performer, ScNode graphNode) {
-        Iterator iterator = performer.createIterator_3_f_a_a(graphNode, new ArrayList<String>(),
+        Iterator iterator = performer.createIterator(ScIteratorTypes.F_A_A, graphNode, new ArrayList<String>(),
             new ArrayList<String>());
 
         while (iterator.hasNext()) {

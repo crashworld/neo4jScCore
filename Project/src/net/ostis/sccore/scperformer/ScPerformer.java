@@ -2,6 +2,7 @@ package net.ostis.sccore.scperformer;
 
 import java.util.Iterator;
 import java.util.List;
+import net.ostis.sccore.iterators.ScIteratorTypes;
 
 import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScElement;
@@ -61,56 +62,8 @@ public abstract class ScPerformer {
      */
     public abstract void deleteScNode(ScNode scNode);
 
-    /**
-     * Creates f_a_f iterator.
-     *
-     * @param first first element in constraint
-     * @param secondType type of second element in constraint
-     * @param third element in constraint
-     * @return java.util.Iterator for iterate over ScConstraints
-     */
-    public abstract Iterator createIterator_3_f_a_f(ScElement first, List<String> arcTypes, ScElement third);
+    //============================================================
+    public abstract Iterator createIterator(String type, Object... args);
+    //============================================================
 
-    /**
-     * Creates f_a_a iterator.
-     *
-     * @param first first element in constraint
-     * @param secondType type of second element in constraint
-     * @param thirdType type of third element in constraint
-     * @return java.util.Iterator for iterate over ScConstraints
-     */
-    public abstract Iterator createIterator_3_f_a_a(ScElement first, List<String> secondTypes,
-        List<String> thirdTypes);
-
-    /**
-     * Creates a_a_f iterator.
-     *
-     * @param firstType type of first element in constraint
-     * @param secondType type of second element in constraint
-     * @param third element in constraint
-     * @return java.util.Iterator for iterate over ScConstraints
-     */
-    public abstract Iterator createIterator_3_a_a_f(List<String> nodeTypes,
-        List<String> arcTypes, ScElement third);
-
-    public abstract Iterator createIterator_5_a_a_a_a_f(List<String> firstTypes, List<String> secondTypes,
-        List<String> thirdTypes, List<String> fourthTypes, ScElement fifthElement);
-
-    public abstract Iterator createIterator_5_a_a_f_a_a(List<String> firstTypes, List<String> secondTypes,
-        ScElement thirdElement, List<String> fourthTypes, List<String> fifthTypes);
-
-    public abstract Iterator createIterator_5_a_a_f_a_f(List<String> firstTypes, List<String> secondTypes,
-        ScElement thirdElement, List<String> fourthTypes, ScElement fifthElement);
-
-    public abstract Iterator createIterator_5_f_a_a_a_a(ScElement firstElement, List<String> secondTypes,
-        List<String> thirdTypes, List<String> fourthTypes, List<String> fifthTypes);
-
-    public abstract Iterator createIterator_5_f_a_a_a_f(ScElement firstElement, List<String> secondTypes,
-        List<String> thirdTypes, List<String> fourthTypes, ScElement fifthElement);
-
-    public abstract Iterator createIterator_5_f_a_f_a_a(ScElement firstElement, List<String> secondTypes,
-        ScElement thirdElement, List<String> fourthTypes, List<String> fifthTypes);
-
-    public abstract Iterator createIterator_5_f_a_f_a_f(ScElement firstElement, List<String> secondTypes,
-        ScElement thirdElement, List<String> fourthTypes, ScElement fifthElement);
 }

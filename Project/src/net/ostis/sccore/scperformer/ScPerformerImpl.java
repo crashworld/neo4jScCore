@@ -3,6 +3,7 @@ package net.ostis.sccore.scperformer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import net.ostis.sccore.iterators.ScIteratorTypes;
 
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
@@ -170,6 +171,50 @@ public class ScPerformerImpl extends ScPerformer {
         scNode = null;
     }
 
+    //=========================================================
+    @Override
+    public Iterator createIterator(String type, Object... args) {
+        if (type.equals(ScIteratorTypes.A_A_F)) {
+            return createIterator_3_a_a_f((List<String>) args[0], (List<String>) args[1], (ScElement) args[2]);
+        }
+        if (type.equals(ScIteratorTypes.F_A_A)) {
+            return createIterator_3_f_a_a((ScElement) args[0], (List<String>) args[1], (List<String>) args[2]);
+        }
+        if (type.equals(ScIteratorTypes.F_A_F)) {
+            return createIterator_3_f_a_f((ScElement) args[0], (List<String>) args[1], (ScElement) args[2]);
+        }
+        if (type.equals(ScIteratorTypes.A_A_A_A_F)) {
+            return createIterator_5_a_a_a_a_f((List<String>) args[0], (List<String>) args[1], (List<String>) args[2],
+                (List<String>) args[3], (ScElement) args[4]);
+        }
+        if (type.equals(ScIteratorTypes.A_A_F_A_A)) {
+            return createIterator_5_a_a_f_a_a((List<String>) args[0], (List<String>) args[1], (ScElement) args[2],
+                (List<String>) args[3], (List<String>) args[4]);
+        }
+        if (type.equals(ScIteratorTypes.A_A_F_A_F)) {
+            return createIterator_5_a_a_f_a_f((List<String>) args[0], (List<String>) args[1], (ScElement) args[2],
+                (List<String>) args[3], (ScElement) args[4]);
+        }
+        if (type.equals(ScIteratorTypes.F_A_A_A_A)) {
+            return createIterator_5_f_a_a_a_a((ScElement) args[0], (List<String>) args[1], (List<String>) args[2],
+                (List<String>) args[3], (List<String>) args[4]);
+        }
+        if (type.equals(ScIteratorTypes.F_A_A_A_F)) {
+            return createIterator_5_f_a_a_a_f((ScElement) args[0], (List<String>) args[1], (List<String>) args[2],
+                (List<String>) args[3], (ScElement) args[4]);
+        }
+        if (type.equals(ScIteratorTypes.F_A_F_A_A)) {
+            return createIterator_5_f_a_f_a_a((ScElement) args[0], (List<String>) args[1], (ScElement) args[2],
+                (List<String>) args[3], (List<String>) args[4]);
+        }
+        if (type.equals(ScIteratorTypes.F_A_F_A_F)) {
+            return createIterator_5_f_a_f_a_f((ScElement) args[0], (List<String>) args[1], (ScElement) args[2],
+                (List<String>) args[3], (ScElement) args[4]);
+        }
+        throw new NoSuchMethodError("Method for creating iterator \"" + type + "\" not found");
+    }
+    //=========================================================
+
     /**
      * Creates f_a_f iterator.
      *
@@ -178,8 +223,7 @@ public class ScPerformerImpl extends ScPerformer {
      * @param third element in constraint
      * @return java.util.Iterator for iterate over ScConstraints
      */
-    @Override
-    public Iterator createIterator_3_f_a_f(ScElement first, List<String> secondTypes, ScElement third) {
+    private Iterator createIterator_3_f_a_f(ScElement first, List<String> secondTypes, ScElement third) {
 
         List<Long> secondAddresses = getAddresses(secondTypes);
 
@@ -194,8 +238,7 @@ public class ScPerformerImpl extends ScPerformer {
      * @param thirdType type of third element in constraint
      * @return java.util.Iterator for iterate over ScConstraints
      */
-    @Override
-    public Iterator createIterator_3_f_a_a(ScElement first, List<String> secondTypes,
+    private Iterator createIterator_3_f_a_a(ScElement first, List<String> secondTypes,
         List<String> thirdTypes) {
 
         List<Long> secondAddresses = getAddresses(secondTypes);
@@ -212,8 +255,7 @@ public class ScPerformerImpl extends ScPerformer {
      * @param third element in constraint
      * @return java.util.Iterator for iterate over ScConstraints
      */
-    @Override
-    public Iterator createIterator_3_a_a_f(List<String> firstTypes, List<String> secondTypes,
+    private Iterator createIterator_3_a_a_f(List<String> firstTypes, List<String> secondTypes,
         ScElement third) {
 
         List<Long> firstAddresses = getAddresses(firstTypes);
@@ -222,8 +264,7 @@ public class ScPerformerImpl extends ScPerformer {
         return new ScIterator_3_a_a_f(dataBase, firstAddresses, secondAddresses, third);
     }
 
-    @Override
-    public Iterator createIterator_5_f_a_a_a_a(ScElement firstElement, List<String> secondTypes,
+    private Iterator createIterator_5_f_a_a_a_a(ScElement firstElement, List<String> secondTypes,
         List<String> thirdTypes, List<String> fourthTypes, List<String> fifthTypes) {
 
         List<Long> secondAddresses = getAddresses(secondTypes);
@@ -235,8 +276,7 @@ public class ScPerformerImpl extends ScPerformer {
             fifthAddresses);
     }
 
-    @Override
-    public Iterator createIterator_5_f_a_a_a_f(ScElement firstElement, List<String> secondTypes,
+    private Iterator createIterator_5_f_a_a_a_f(ScElement firstElement, List<String> secondTypes,
         List<String> thirdTypes, List<String> fourthTypes, ScElement fifthElement) {
 
         List<Long> secondAddresses = getAddresses(secondTypes);
@@ -247,8 +287,7 @@ public class ScPerformerImpl extends ScPerformer {
             fifthElement);
     }
 
-    @Override
-    public Iterator createIterator_5_f_a_f_a_a(ScElement firstElement, List<String> secondTypes,
+    private Iterator createIterator_5_f_a_f_a_a(ScElement firstElement, List<String> secondTypes,
         ScElement thirdElement, List<String> fourthTypes, List<String> fifthTypes) {
 
         List<Long> secondAddresses = getAddresses(secondTypes);
@@ -259,8 +298,7 @@ public class ScPerformerImpl extends ScPerformer {
             fifthAddresses);
     }
 
-    @Override
-    public Iterator createIterator_5_a_a_a_a_f(List<String> firstTypes, List<String> secondTypes,
+    private Iterator createIterator_5_a_a_a_a_f(List<String> firstTypes, List<String> secondTypes,
         List<String> thirdTypes, List<String> fourthTypes, ScElement fifthElement) {
 
         List<Long> firstAddresses = getAddresses(firstTypes);
@@ -272,8 +310,7 @@ public class ScPerformerImpl extends ScPerformer {
             fifthElement);
     }
 
-    @Override
-    public Iterator createIterator_5_a_a_f_a_a(List<String> firstTypes, List<String> secondTypes,
+    private Iterator createIterator_5_a_a_f_a_a(List<String> firstTypes, List<String> secondTypes,
         ScElement thirdElement, List<String> fourthTypes, List<String> fifthTypes) {
 
         List<Long> firstAddresses = getAddresses(firstTypes);
@@ -285,8 +322,7 @@ public class ScPerformerImpl extends ScPerformer {
             fifthAddresses);
     }
 
-    @Override
-    public Iterator createIterator_5_a_a_f_a_f(List<String> firstTypes, List<String> secondTypes,
+    private Iterator createIterator_5_a_a_f_a_f(List<String> firstTypes, List<String> secondTypes,
         ScElement thirdElement, List<String> fourthTypes, ScElement fifthElement) {
 
         List<Long> firstAddresses = getAddresses(firstTypes);
@@ -297,8 +333,7 @@ public class ScPerformerImpl extends ScPerformer {
             fifthElement);
     }
 
-    @Override
-    public Iterator createIterator_5_f_a_f_a_f(ScElement firstElement, List<String> secondTypes,
+    private Iterator createIterator_5_f_a_f_a_f(ScElement firstElement, List<String> secondTypes,
         ScElement thirdElement, List<String> fourthTypes, ScElement fifthElement) {
 
         List<Long> secondAddresses = getAddresses(secondTypes);

@@ -2,12 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.ostis.sccore.unittests;
+package net.ostis.sccore.unittests.iterators;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import net.ostis.sccore.iterators.ScConstraint;
 import net.ostis.sccore.iterators.ScIteratorTypes;
+import net.ostis.sccore.scelements.ScArc;
 import net.ostis.sccore.scelements.ScNode;
 import net.ostis.sccore.scfactory.ScFactory;
 import net.ostis.sccore.scperformer.ScPerformer;
@@ -21,7 +23,7 @@ import org.junit.Test;
  *
  * @author Q-ANS
  */
-public class TypeTest {
+public class a_a_f {
 
     private static ScPerformer performer;
 
@@ -38,7 +40,7 @@ public class TypeTest {
     }
 
     @Test
-    public void testYazzzzb() {
+    public void test_a_a_f() {
         List<String> nodeConstType = new ArrayList<String>();
         nodeConstType.add(ScElementTypes.CONST);
         nodeConstType.add(ScElementTypes.NODE);
@@ -50,14 +52,23 @@ public class TypeTest {
 
         ScFactory factory = performer.getScFactory();
         ScNode node = factory.createScNode("first", nodeConstType);
-
+        ScNode node2 = factory.createScNode("second", nodeConstType);
+        ScArc arc = factory.createScArc(node, node2, arcPosConstType);
         ScNode attr = factory.createScNode("attr", nodeConstType);
 
-        for (int i = 0; i < 150; i++) {
+        for (int i = 0; i < 2; i++) {
             ScNode tmp = factory.createScNode("", nodeConstType);
-            factory.generate_5_f_a_f_a_f(node, arcPosConstType, tmp, arcPosConstType, attr);
+            factory.generate_3_f_a_f(tmp, arcPosConstType, node);
         }
 
-        Iterator iterator = performer.createIterator(ScIteratorTypes.F_A_A_A_F, node, arcPosConstType, nodeConstType, arcPosConstType, attr);
+        Iterator iterator = performer.createIterator(ScIteratorTypes.A_A_F, nodeConstType, arcPosConstType, node);
+
+        while (iterator.hasNext()) {
+            ScConstraint constr = (ScConstraint) iterator.next();
+            System.out.println(constr.getElement(1).getAddress() + "->" + constr.getElement(2).getAddress() + "->" + constr.getElement(3).getAddress());
+
+            System.out.println(constr.getElement(1).getTypes().toString());
+        }
+
     }
 }

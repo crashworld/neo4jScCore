@@ -32,7 +32,7 @@ public class ScIterator_3_a_a_f implements ScIterator {
         int n = 0;
         for (long nodeType : firstTypes) {
             typesStartExpr.append(", type" + n + "=node(" + nodeType + ") ");
-            typesWhereExpr.append(", node1<-[:typelink]-type" + n);
+            typesWhereExpr.append(" AND node1<-[:typeLink]-type" + n);
             n++;
         }
         for (long nodeType : secondTypes) {
