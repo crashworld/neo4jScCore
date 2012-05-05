@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Документ без названия</title>
+<link href="viewCode.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<h3><a href="../index.html">The neo4jScCore Manual</a> > <a href="../AppendixA/AppendixA.html">Приложение А</a> > CreateSCGraphSample
+</h3>
+<hr />
+<h2>&nbsp;Пример создания простого графа</h2>
+<p>&nbsp; &nbsp; &nbsp;Данный пример  создаёт граф представленный на рисунке ниже. В данном примере используется класс <a href="GraphManager.html">GraphManager</a>.</p>
+<img name="image" src="" width="400" height="300" alt="" style="background-color: #66CCFF" />
+<p>&nbsp;</p>
+<pre class="pre0"><div id="LC3"><br />import java.util.ArrayList;</div><div id="LC4">import java.util.List;</div><div id="LC5"><br /></div><div id="LC6">import net.ostis.sccore.scelements.ScNode;</div><div id="LC7">import net.ostis.sccore.scperformer.ScPerformer;</div><div id="LC8">import net.ostis.sccore.scperformer.ScPerformerImpl;</div><div id="LC9"><br /></div><div id="LC10">/**</div><div id="LC11"> * @author yaskoam</div><div id="LC12"> */</div><div id="LC13">public class CreateSCGraphSample {</div><div id="LC14">    public static void main(String[] args) {</div><div id="LC15"><br /></div><div id="LC16">        ScPerformer performer = new ScPerformerImpl(&quot;data\\sc_core.db&quot;);</div><div id="LC17">        String graphName = &quot;firstGraph&quot;;</div><div id="LC18"><br /></div><div id="LC19">        //Vertexes</div><div id="LC20">        List&lt;String&gt; vertexList = new ArrayList&lt;String&gt;();</div><div id="LC21">        vertexList.add(&quot;A&quot;);</div><div id="LC22">        vertexList.add(&quot;B&quot;);</div><div id="LC23">        vertexList.add(&quot;C&quot;);</div><div id="LC24">        vertexList.add(&quot;D&quot;);</div><div id="LC25">        vertexList.add(&quot;G&quot;);</div><div id="LC26">        vertexList.add(&quot;E&quot;);</div><div id="LC27">        vertexList.add(&quot;F&quot;);</div><div id="LC28"><br /></div><div id="LC29">        //Edges</div><div id="LC30">        List&lt;String&gt; edgeList = new ArrayList&lt;String&gt;();</div><div id="LC31">        edgeList.add(&quot;A-B&quot;);</div><div id="LC32">        edgeList.add(&quot;B-C&quot;);</div><div id="LC33">        edgeList.add(&quot;B-D&quot;);</div><div id="LC34">        edgeList.add(&quot;C-E&quot;);</div><div id="LC35">        edgeList.add(&quot;D-G&quot;);</div><div id="LC36">        edgeList.add(&quot;G-E&quot;);</div><div id="LC37">        edgeList.add(&quot;E-A&quot;);</div><div id="LC38">        edgeList.add(&quot;F-E&quot;);</div><div id="LC39">        edgeList.add(&quot;F-B&quot;);</div><div id="LC40"><br /></div><div id="LC41">        try {</div><div id="LC42">            performer.startExecution();</div><div id="LC43"><br /></div><div id="LC44">            ScNode graphNode = performer.findScNodeByName(graphName);</div><div id="LC45">            if (graphNode == null) {</div><div id="LC46">                graphNode = GraphManager.createUndirectedGraph(performer, graphName, vertexList, edgeList);</div><div id="LC47">            }</div><div id="LC48"><br /></div><div id="LC49">            GraphManager.printUndirectedGraph(performer, graphNode);</div><div id="LC50">        }</div><div id="LC51">        finally {</div><div id="LC52">            performer.finishExecution();</div><div id="LC53">        }</div><div id="LC54">    }</div><div id="LC55">}</div>
+</pre>
+<p>&nbsp;</p>
+</body>
+</html>
