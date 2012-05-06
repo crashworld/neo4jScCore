@@ -9,7 +9,53 @@
 <body>
 <h3><a href="../index.html">The neo4jScCore Manual</a> > <a href="BaseClasses.html">основные классы для работы с памятью </a> > генерация элементов в памяти &nbsp;</h3>
 <hr />
-
+<p>
+Для генерации элементов в памяти существует абстрактрый класс <a href="">ScFactory</a>, его реализация находится в классе <a href="">ScPerformerImpl</a>.
+Объект даннного класса можно получить используя объект класса <a href="">ScPerformer</a>:
+</p>
+<p class="code0">
+ScPerformer performer = new ScPerformer("d:\database"); <br />
+ScFactory factory = performer.getScFactory(); <br />
+</p>
+<p>
+Важно помнить, что перед началом работы с моделью памяти, необходимо открыть транзакцию. Методы для манипуляции транзакциями находятся в классе <a href="">ScPerformer</a>. 
+</p>
+<p>
+Класс фабрики прредоставляет возможность создания узлов и дуг, а так же возможность генерации трёх и пяти элементных конструкций.
+</p>
+<p><strong>
+Приведём пример создания узла и дуги:
+</strong></p>
+</p>
+<p class="code0">
+performer.startExecution();<br />
+try { <br />
+	ScNode firstNode = factory.createScNode("first", ScElementTypes.NODE); <br />
+	ScNode secondNode = factory.createScNode("second", ScElementTypes.NODE); <br />
+	ScArc arc = factory.createScArc("arc", ScElementTypes.ARC);<br />
+} finally { <br />
+	performer.finishExecution(); <br />
+} <br />
+</p>
+<p><strong>
+Генерация трёх и пяти элементных конструкций происходит аналогичным способом:
+</strong></p>
+<p class="code0">
+performer.startExecution(); <br />
+try { <br />
+	ScNode firstNode = factory.createScNode("first", ScElementTypes.NODE); <br />
+    ScNode secondNode = factory.createScNode("second", ScElementTypes.NODE); <br />
+    //Генерация конструкции вида 0 -> 0 <br />
+    factory.generate_3_f_a_f(firstNode, ScElementTypes.ARC, secondNode); <br />
+    ScNode thirdNode = factory.createScNode("third", ScElementTypes.NODE); <br />
+    //Генерация конструкции вида 
+    //             0
+    //             |
+    //           0--->0  
+    factory.generate_5_f_a_f_a_f(firstNode, ScElementTypes.ARC, secondNode, 	  			    ScElementTypes.ARC, thirdNode); <br />
+} finally { <br />
+	performer.finishExecution(); <br />
+}
 </p>
 <hr />
 <body>
