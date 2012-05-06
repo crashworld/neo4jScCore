@@ -1,0 +1,9 @@
+net.ostis.sccore.contents
+net.ostis.sccore.iterators
+net.ostis.sccore.samples.graph
+net.ostis.sccore.scelements
+net.ostis.sccore.scevents
+net.ostis.sccore.scfactory
+net.ostis.sccore.scperformer
+net.ostis.sccore.types
+test

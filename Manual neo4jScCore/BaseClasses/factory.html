@@ -3,22 +3,22 @@
 <head>
 <link href="../style/viewCode.css" rel="stylesheet" type="text/css" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Основные классы для работы с памятью </title>
+<title>Генерация элементов в памяти</title>
 </head>
 
 <body>
-<h3><a href="../index.html">The neo4jScCore Manual</a> > <a href="BaseClasses.html">основные классы для работы с памятью </a> > генерация элементов в памяти &nbsp;</h3>
+<h3><a href="../index.html">The neo4jScCore Manual</a> > <a href="BaseClasses.html">основные классы для работы с памятью </a> > Генерация элементов в памяти &nbsp;</h3>
 <hr />
 <p>
-Для генерации элементов в памяти существует абстрактрый класс <a href="">ScFactory</a>, его реализация находится в классе <a href="">ScPerformerImpl</a>.
-Объект даннного класса можно получить используя объект класса <a href="">ScPerformer</a>:
+Для генерации элементов в памяти существует абстрактрый класс <a href="../API/net/ostis/sccore/scfactory/ScFactory.html">ScFactory</a>, его реализация находится в классе <a href="../API/net/ostis/sccore/scfactory/ScFactoryImpl.html">ScFactoryImpl</a>.
+Объект даннного класса можно получить используя объект класса <a href="../API/net/ostis/sccore/scperformer/ScPerformer.html">ScPerformer</a>:
 </p>
 <p class="code0">
 ScPerformer performer = new ScPerformer("d:\database"); <br />
 ScFactory factory = performer.getScFactory(); <br />
 </p>
 <p>
-Важно помнить, что перед началом работы с моделью памяти, необходимо открыть транзакцию. Методы для манипуляции транзакциями находятся в классе <a href="">ScPerformer</a>. 
+Важно помнить, что перед началом работы с моделью памяти, необходимо открыть транзакцию. Методы для манипуляции транзакциями находятся в классе <a href="../API/net/ostis/sccore/scperformer/ScPerformer.html">ScPerformer</a>. 
 </p>
 <p>
 Класс фабрики прредоставляет возможность создания узлов и дуг, а так же возможность генерации трёх и пяти элементных конструкций.

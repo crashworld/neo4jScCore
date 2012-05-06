@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link href="../style/viewCode.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Механизм обработки событий </title>
+</head>
+
+<body>
+<h3>
+<a href="../index.html">The neo4jScCore Manual</a> > Механизм обработки событий &nbsp;
+</h3>
+<hr />
+С помощью данной библиотеки есть возможность обрабатывать различного рода события происходящие в модели памяти, как то проведение дуги из узла, проведение дуги к узлу, удаление дуги и т.д.
+Полный список возможных типов событий можно найти в перечислении 
+<a href="../API/net/ostis/sccore/scevents/ScEventTypes.html">ScEventTypes</a>.
+<p>
+CREATE_SC_NODE - событие создания узла <br />
+DELETE_SC_NODE - событие удаления узла <br />
+ATTACH_INPUT_TO_NODE - событие проведения дуги к узлу <br />
+ATTACH_OUTPUT_TO_NODE - событие проведения дуги из узла <br />
+ATTACH_INPUT_TO_ARC - событие проведения дуги к дуге <br />
+DETACH_INPUT_FROM_NODE - событие удаления входящей дуги из узла <br />
+DETACH_OUTPUT_FROM_NODE - событие удаления выходищей дуги из узла <br />
+DETACH_INPUT_FROM_ARC - событие удаления входящей дуги из дуги <br />
+</p>
+<p>
+Объектом события является объект класса ScEvent. Для создания объекта события необходимо передать в конструктор два параметра: тип возникшего события и объект-источник события.
+</p>
+<p>
+Для того что бы подписаться на обработку каго-то события, нужно вызвать метод subscribeOnEvent класса <a href="../API/net/ostis/sccore/scevents/ScEventHandler.html"> ScEventHandler <a> в который нужно передать соответствующий обработчик класса 
+<a href="../API/net/ostis/sccore/scevents/ScEventTypes.html"> ScEventListner <a>.
+</p>
+Обработчик для события можно получить используя метод createScListener (или метод createScListenerForNodeCreation при необходимости обработать создание узла) класса 
+<a href="../API/net/ostis/sccore/scevents/ScEventFactory.html">ScEventFactory</a>, для этого туда необходимо передать тип события, объект класса 
+реализующего интерфейс <a href="../API/net/ostis/sccore/scevents/ScActionListener.html">ScActionListner </a> у которого будет вызываться метод perform для обработки события, SC элемент который является источником произошедщего события.
+</p>
+<p>
+<strong> Приведём пример подписки на событие добавления входящей дуги к узлу: </strong>
+</p>
+<p>
+Для начала реализуем интерфейс <a href="../API/net/ostis/sccore/scevents/ScActionListener.html"> ScActionListner <a>:
+</p>
+<p class="code0">
+public class FirstNodeInputArc implements ScActionListner { <br />
+	private ScFactory factory; <br />
+
+    public WhenAttachToArc(ScFactory factory) { <br />
+        this.factory = factory; <br />
+    } <br />
+
+	//пометим входящую дугу атрибутом
+    public void perform(ScEvent event) { <br />
+        ScArc arc = (ScArc) event.getSource(); <br />
+        ScNode node = factory.createScNode("attr", ScElementTypes.NODE); <br />
+        List&lt;String&gt; typeList = new ArrayList&lt;String&gt;(); <br />
+        typeList.add(ScElementTypes.ARC); <br />
+        factory.generate_3_f_a_f(node, typeList, arc); <br />
+    } <br />
+} <br />
+</p>
+<p>
+Теперь подпишемся на событие:
+</p>
+<p class="code0">
+ScNode node1 = factory.createScNode("first", ScElementTypes.NODE); <br />
+ScNode node2 = factory.createScNode("second", ScElementTypes.NODE); <br />
+ScEventHandler eventHandler = ScEventHandler.getInstance(); <br />
+ScEventListener eventListener = <br /> 			        ScEventFactory.createScListner(ScEventTypes.ATTACH_INPUT_TO_NODE, 
+new FirstNodeInputArc(factory), node1); <br />
+List&lt;String&gt; typeList = new ArrayList&lt;String&gt;(); <br />
+        typeList.add(ScElementTypes.ARC); <br />
+factory.generate_3_f_a_f(node2, typeList, node1);
+</p>
+<p>
+После проведения дуги будет выполнен метод perform и у проведённой дуги установится атрибут.
+</p>
+<hr />
+<body>
+</body>
+</html>
+
