@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Дуги</title>
-<link href="viewCode.css" rel="stylesheet" type="text/css" />
+<link href="../style/viewCode.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -11,25 +11,26 @@
 <h3><a href="../index.html">The neo4jScCore Manual</a> > <a href="Elements.html">Основные элементы </a>&nbsp;>Дуги</h3>
 <hr />
 <h2> Дуги</h2>
-<p>В библиотеке neo4jScCore  все дуги являются  объектами класса <a href=""><u>ScArc</u></a><u>. </u>Для  дуги мы можем:</p>
+<p>В библиотеке neo4jScCore  все дуги являются  объектами абстрактного класса <a href="">ScArc</a>. Их реализация же, находится в классе <a href="">ScArcImpl</a>. 
+<p>При моделирование SC дуги, возникла одна проблема: в нашей интерпретации, возможно проведения дуги к дуге (например при задании атрибута), в реализации же отношений в <u>neo4j</u> такой возможности не предусмотрено. В связи с этим было решено прдставлять дугу в памяти, как совокупность узла и двух отношении. Таким образом для проведения дуги в дугу, достаточно провести отношении в центральный узел, который имеет свойство _connectorNode и не имееет имени. Входящее в рассмотренный центральный узел, который фактически и является представлением SC дуги, отношение (объект neo4j Relationship) при этом помечается типом beginLink, а выходящее endLink. </p>
+<p></u>Для  дуги мы можем:</p>
 <ul>
-  <li>просмотреть, изменить и удалить  тип дуги(<a href="">addType(type)</a>; <a href="">addTypes(types); <a href="">removeType(type)</a>) </li>
-  <li>узнать входящие, дуги для данной дуги. (<a href="">getAllOutputScArcs()</a>) </li>
-  <li>просмотреть узлы которые соединяет дуга(<a href="">getEndScNode()</a>; <a href="">getStartScNode()</a>)</li>
+  <li>просмотреть, изменить и удалить  тип дуги</li>
+  <li>узнать входящие, дуги для данной дуги</li>
+  <li>получить начальный и конечный узлы дуги</li>
 </ul>
 <p>Более детальную информацию о методах можно найти в <a href="">javadoc.</a></p>
 
 <hr />
-<p class="pre0"><strong>Пример (Изменение  и удаление типа дуги):</strong><br />
+<p><strong>Пример (добавление и удаление типа дуги):</strong><br />
 </p>
 <p class="code0">
   List&lt;String&gt; arcPosConstType = new ArrayList&lt;String&gt;(); <br />
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arcPosConstType.add(ScElementTypes.ARC); <br />
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arcPosConstType.add(ScElementTypes.CONST); <br />
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arcPosConstType.add(ScElementTypes.CONST); <br /><br />
-  //addTypes<br />
+  arcPosConstType.add(ScElementTypes.ARC); <br />
+  arcPosConstType.add(ScElementTypes.CONST); <br />
+  arcPosConstType.add(ScElementTypes.CONST); <br /><br />
   scArc.addTypes(arcPosConstType);<br /><br />
   //remove CONST Type<br />
-scNode.removeType(ScElementTypes.CONST);</p>
+  scNode.removeType(ScElementTypes.CONST);</p>
 </body>
 </html>
