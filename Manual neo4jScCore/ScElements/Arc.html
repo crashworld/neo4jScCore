@@ -8,7 +8,7 @@
 
 <body>
 
-<h3><a href="../index.html">The neo4jScCore Manual</a> > <a href="Elements.html">Основные элементы </a>&nbsp;>Дуги</h3>
+<h3><a href="../index.html">The neo4jScCore Manual</a> > <a href="../ScElemets/Elements.html">Основные элементы </a>&nbsp;> Дуги</h3>
 <hr />
 <h2> Дуги</h2>
 <p>В библиотеке neo4jScCore  все дуги являются  объектами абстрактного класса <a href="../API/net/ostis/sccore/scelements/ScArc.html">ScArc</a>. Их реализация же, находится в классе <a href="../API/net/ostis/sccore/scelements/ScArcImpl.html">ScArcImpl</a>. 
@@ -20,15 +20,13 @@
   <li>получить начальный и конечный узлы дуги</li>
 </ul>
 <p>Более детальную информацию о методах можно найти в <a href="../API/net/ostis/sccore/scelements/ScArc.html">javadoc.</a></p>
-
-<hr />
-<p><strong>Пример (добавление и удаление типа дуги):</strong><br />
+<p><strong>К примеру установим и удалим тип дуги:</strong><br />
 </p>
 <p class="code0">
   List&lt;String&gt; arcPosConstType = new ArrayList&lt;String&gt;(); <br />
   arcPosConstType.add(ScElementTypes.ARC); <br />
-  arcPosConstType.add(ScElementTypes.CONST); <br />
-  arcPosConstType.add(ScElementTypes.CONST); <br /><br />
+  arcPosConstType.add(ScElementTypes.CONST); 
+  <br /><br />
   scArc.addTypes(arcPosConstType);<br /><br />
   //remove CONST Type<br />
   scNode.removeType(ScElementTypes.CONST);</p>
