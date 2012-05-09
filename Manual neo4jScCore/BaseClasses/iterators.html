@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<link href="../style/viewCode.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Итерация по элементам</title>
+</head>
+
+<body>
+<h3><a href="../index.html">The neo4jScCore Manual</a> > <a href="BaseClasses.html">Основные классы для работы с памятью </a> > Итерация по элементам &nbsp;</h3>
+<hr />
+<h3>Итерация по элементам &nbsp;
+</h3>
+<p>Основные классы итерации по элементам: 
+	</br> - интерфейс итератора <a href="../API/net/ostis/sccore/iterators/ScIterator.html">ScIterator</a> 
+	</br> - класс, содержащий типы всех возможных итераторов <a href="../API/net/ostis/sccore/iterators/ScIteratorTypes.html">ScIteratorTypes</a>
+	</br> - класс, представляющий 3-х или 5-и элементную SC-конструкции <a href="../API/net/ostis/sccore/iterators/ScConstraint.html">ScConstraint</a>
+	</br> - классы различных типов итераторов, реализующие интерфейс ScIterator
+</p>
+<p>
+	Чтобы создать итератор, необходимо вызвать метод <a href="../API/net/ostis/sccore/scperformer/ScPerformerImpl.html#createIterator(java.lang.String, java.lang.Object...)">createIterator</a> 
+класса <a href="../API/net/ostis/sccore/scperformer/ScPerformerImpl.html">ScPerformerImpl</a> и передать в него первым параметром тип необходимого 
+итератора и остальные параметры, соответствующие заданному типу. <br/>
+Например:
+</p>
+<p class="code0">
+ScPerformer performer; <br />
+... <br />
+Iterator iterator_3_f_a_a = performer.createIterator(ScIteratorTypes.F_A_A, ScElement[Sc-елемент], List&lt;String&gt; [список типов], List&lt;String&gt; [список типов]); <br />
+</p>
+<p>
+Если необходимо найти все конструкции, не важно какого типа, параметрами [список типов] должны быть пустые списки. 
+</p>
+<p>
+Результат работы метода <a href="../API/net/ostis/sccore/scperformer/ScPerformerImpl.html#createIterator(java.lang.String, java.lang.Object...)">createIterator</a> 
+ - Sc-конструкция. Если итератором ничего найдено не было - будет возвращена пустая Sc-конструкция.</p>
+<hr />
+<body>
+</body>
+</html>
