@@ -25,6 +25,11 @@ public class ScElementTypes {
 
     public static final String ELEMENT_TYPE_PROPERTY = "_scElementType";
 
+    /**
+     * Method that return all existing types in list.
+     *
+     * @return list of types 
+     */
     public static List<String> getTypesList() {
 
         List<String> typesList = new ArrayList<String>();

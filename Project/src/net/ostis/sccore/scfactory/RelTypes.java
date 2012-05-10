@@ -3,7 +3,7 @@ package net.ostis.sccore.scfactory;
 import org.neo4j.graphdb.RelationshipType;
 
 /**
- * Enum for relationship types.
+ * Enum for neo4j relationship types.
  *
  * @author yaskoam
  */

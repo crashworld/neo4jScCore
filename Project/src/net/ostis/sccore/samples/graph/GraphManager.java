@@ -70,6 +70,12 @@ public class GraphManager {
         return graphNode;
     }
 
+    /**
+     * Method that print undirected graph in console.
+     *
+     * @param performer performer object
+     * @param graphNode sc node that presented undirected graph
+     */
     public static void printUndirectedGraph(ScPerformer performer, ScNode graphNode) {
         //Find all vertexes
         ScNode vertexAttr = performer.findScNodeByName(VERTEX_ATTR_NAME);

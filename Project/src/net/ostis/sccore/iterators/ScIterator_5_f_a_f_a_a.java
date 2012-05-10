@@ -17,6 +17,15 @@ public class ScIterator_5_f_a_f_a_a implements ScIterator {
 
     private Iterator<Map<String, Object>> resultIterator;
 
+    /**
+     * Construct sc iterator object
+     * @param db data base object
+     * @param firstElement sc element to search
+     * @param secondTypes list of type nodes addresses for the second element
+     * @param thirdElement sc element to search
+     * @param fourthTypes list of type nodes addresses for the forth element
+     * @param fifthTypes list of type nodes addresses for the fifth element
+     */
     public ScIterator_5_f_a_f_a_a(AbstractGraphDatabase db, ScElement firstElement, List<Long> secondTypes,
         ScElement thirdElement, List<Long> fourthTypes, List<Long> fifthTypes) {
 

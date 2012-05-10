@@ -68,8 +68,12 @@ public abstract class ScPerformer {
      */
     public abstract void deleteScNode(ScNode scNode);
 
-    //============================================================
+    /**
+     * Method that create sc iterator.
+     * 
+     * @param type type of sc iterator
+     * @param args search args for sc iterator
+     * @return sc iterator object
+     */
     public abstract Iterator createIterator(String type, Object... args);
-    //============================================================
-
 }

@@ -48,8 +48,8 @@ public class ScConstraint {
     /**
      * Creates constraint from Map gotten by iterator from database.
      *
-     * @param resultRow
-     * @return ScConstraint
+     * @param resultRow search result from data base
+     * @return ScConstraint object that present search result
      */
     public static ScConstraint createThreeElementConstraint(Map resultRow) {
         List<ScElement> elements = new ArrayList<ScElement>();
@@ -77,8 +77,8 @@ public class ScConstraint {
 
     /**
      * Method that create five element constraint.
-     * @param resultRow 
-     * @return sc constraint object
+     * @param resultRow search result from data base
+     * @return ScConstraint object that present search result
      */
     public static ScConstraint createFiveElementConstraint(Map resultRow) {
 

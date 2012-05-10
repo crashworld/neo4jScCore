@@ -22,10 +22,20 @@ public class ScEvent {
         this.source = source;
     }
 
+    /**
+     * Method return sc element that connected with the event.
+     *
+     * @return sc element object
+     */
     public ScElement getSource() {
         return source;
     }
 
+    /**
+     * Method that return type of event.
+     *
+     * @return type of event
+     */
     public ScEventTypes getEventType() {
         return eventType;
     }

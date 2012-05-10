@@ -203,18 +203,38 @@ public class Content {
         return (byte[]) content;
     }
 
+    /**
+     * Method that return content.
+     * 
+     * @return content presented by Object instance
+     */
     public Object getContent() {
         return this.content;
     }
 
+    /**
+     * Method that return content type.
+     *
+     * @return type of content
+     */
     public ContentTypes getContentType() {
         return this.contentType;
     }
 
+    /**
+     * Method that set content.
+     *
+     * @param content content that presented by Object instance
+     */
     public void setContent(Object content) {
         this.content = content;
     }
 
+    /**
+     * Method that set content type.
+     *
+     * @param type type of content
+     */
     public void setContentType(ContentTypes type) {
         this.contentType = type;
     }
@@ -223,10 +243,25 @@ public class Content {
      * Enum for content types.
      */
     public enum ContentTypes {
+        /**
+         * String type of content
+         */
         STRING_CONTENT("stringContent"),
+        /**
+         * Int type of content
+         */
         INT_CONTENT("intContent"),
+        /**
+         * Float type of content
+         */
         FLOAT_CONTENT("floatContent"),
+        /**
+         * Double type of content
+         */
         DOUBLE_CONTENT("doubleContent"),
+        /**
+         * Byte type of content
+         */
         BYTE_CONTENT("byteContent");
 
         private String typeName = "";

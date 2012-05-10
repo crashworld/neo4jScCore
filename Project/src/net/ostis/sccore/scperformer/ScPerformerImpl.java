@@ -249,7 +249,6 @@ public class ScPerformerImpl extends ScPerformer {
         }
         throw new NoSuchMethodError("Method for creating iterator \"" + type + "\" not found");
     }
-    //=========================================================
 
     /**
      * Creates f_a_f iterator.

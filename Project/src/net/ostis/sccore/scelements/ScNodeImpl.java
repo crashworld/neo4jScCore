@@ -265,6 +265,11 @@ public class ScNodeImpl extends ScNode {
         neo4jNode.setProperty(ScNodeImpl.CONTENT_TYPE, content.getContentType().toString());
     }
 
+    /**
+     * Method that return neo4j node, that presented sc node.
+     *
+     * @return neo4j Node object
+     */
     public Node getNeo4jNode() {
         return this.neo4jNode;
     }
